@@ -49,3 +49,55 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+/* Primary Color: Deep Navy Blue */
+.primary-text {
+    color: #2C3E50;
+}
+
+.primary-bg {
+    background-color: #2C3E50;
+}
+
+.primary-border {
+    border-color: #2C3E50;
+}
+
+/* Secondary Color: Gold */
+.secondary-text {
+    color: #D4AF37;
+}
+
+.secondary-bg {
+    background-color: #D4AF37;
+}
+
+.secondary-border {
+    border-color: #D4AF37;
+}
+
+/* Accent Color: White */
+.accent-text {
+    color: #FFFFFF;
+}
+
+.accent-bg {
+    background-color: #FFFFFF;
+}
+
+.accent-border {
+    border-color: #FFFFFF;
+}
+
+/* Background Color: Light Gray */
+.light-bg {
+    background-color: #ECF0F1;
+}
+
+.light-text {
+    color: #ECF0F1;
+}
+
+.light-border {
+    border-color: #ECF0F1;
+}

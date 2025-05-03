@@ -103,3 +103,15 @@
         overflow-y: auto;
     }
 }
+
+
+.nav-link {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.nav-link:hover {
+    background-color: #D4AF37;
+    color: #2C3E50;
+}    
