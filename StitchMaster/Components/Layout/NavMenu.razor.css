@@ -114,4 +114,23 @@
 .nav-link:hover {
     background-color: #D4AF37;
     color: #2C3E50;
-}    
+}
+
+.logBtn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+.logBtn:hover {
+    background-color: #ECF0F1 !important;
+    color: #ECF0F1 !important;
+}
+.logoBox{
+    width:70px;
+    height:70px;
+    overflow:hidden;
+}
+img{
+    object-fit:cover;
+    filter:invert(100%)
+}
