@@ -7,7 +7,7 @@ namespace StitchMaster.BusinessLogic
 {
     public class User
     {
-        private int _userID;
+        private readonly int _userID;
         private string _username;
         private string _name;    // This is the Comman Attrib of Child Classes
         private string _email;
@@ -19,7 +19,6 @@ namespace StitchMaster.BusinessLogic
         public int UserID
         {
             get { return _userID; }
-            set { _userID = value; }
         }
         public string Username
         {
@@ -68,7 +67,14 @@ namespace StitchMaster.BusinessLogic
 
         public User(int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole)
         {
-            UserID = userID;
+            if (IsValid.DBID(userID))
+            {
+                _userID = userID;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid User ID");
+            }
             Username = username;
             Name = name;
             Email = email;

@@ -2,15 +2,13 @@
 {
     public class UserRole
     {
-        private int _userRoleID;
+        private readonly int _userRoleID;
         private string _userRoleValue;
 
         public int UserRoleID
         {
-            get {
-                Console.WriteLine("UserRoleValidator Called");
-                return _userRoleID; }
-            set { _userRoleID = value; }
+            get { return _userRoleID; }
+            
         }
         public string UserRoleValue
         {
@@ -19,7 +17,14 @@
         }
         public UserRole(int userRoleID, string userRoleValue)
         {
-            this.UserRoleID = userRoleID;
+            if (IsValid.DBID(userRoleID))
+            {
+            this._userRoleID = userRoleID;
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid User Role ID");
+            }
             this.UserRoleValue = userRoleValue;
         }
     }

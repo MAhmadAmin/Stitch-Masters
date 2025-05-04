@@ -2,7 +2,7 @@
 {
     public class Address
     {
-        private int _addressID;
+        private readonly int _addressID;
         private string _addressName;
         private string _houseNumber;
         private string _streetNumber;
@@ -13,7 +13,6 @@
         public int AddressID
         {
             get { return _addressID; }
-            set { _addressID = value; }
         }
         public string AddressName
         {
@@ -48,7 +47,14 @@
 
         public Address(int addressID, string addressName, string houseNumber, string streetNumber, string city, string country, int zipCode)
         {
-            AddressID = addressID;
+            if (IsValid.DBID(addressID))
+            {
+            _addressID = addressID;
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid Address ID");
+            }
             AddressName = addressName;
             HouseNumber = houseNumber;
             StreetNumber = streetNumber;

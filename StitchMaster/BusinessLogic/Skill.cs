@@ -2,7 +2,7 @@
 {
     public class Skill
     {
-        private int SkillID { get; set; }
+        private  int SkillID { get; init; }   // make it readonly later
         private int SkillValue { get; set; }
     }
 }
