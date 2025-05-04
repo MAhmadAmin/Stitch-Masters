@@ -93,7 +93,7 @@ namespace StitchMaster.BusinessLogic
             PricePerMeter = pricePerMeter;
             StockQuantity = stockQuantity;
             MinStockQuantity = minStockQuantity;
-            ImageURls = imageURls;   #region A New Copy is Automatically made inside Setter of This ImageURLs List to Encapsulate
+            ImageURls = imageURls;   // A New Copy of imageURL List is Automatically made inside the Setter of This ImageURLs List to Encapsulate
         }
         #endregion Constructors End ----------------------------------------------
     }
