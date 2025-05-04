@@ -3,21 +3,17 @@
 <div class="container-fluid p-0 m-0">
     <NavMenu />
 
-    <div class="main-layout">
-        <div class="sidebar-wrapper d-flex">
-            <button class="hamburger-btn accent-bg" @onclick="ToggleSidebar">
-                ☰
-            </button>
+    <div class="d-flex "
+    >
+        <div class="sidebar-wrapper" onmouseover="this.classList.add('expanded')" onmouseout="this.classList.remove('expanded')">
+           
 
-            @if (isSidebarOpen)
-            {
-                <div class="sidebar-content primary-bg">
-                    @RenderSidebar()
-                </div>
-            }
+            <div class="sidebar">
+                @RenderSidebar()
+            </div>
         </div>
 
-        <div class="content-area p-3" style="margin-left: 240px;">
+        <div class="content-area p-4 transition-all">
             @Body
         </div>
     </div>
@@ -37,7 +33,8 @@
 
     protected override void OnInitialized()
     {
-        userRole = UserRoleService.GetCurrentUserRole(); // "Admin", "Tailor", "Customer"
+        // userRole = UserRoleService.GetCurrentUserRole();
+        userRole = "Customer";
     }
 
     private void ToggleSidebar()

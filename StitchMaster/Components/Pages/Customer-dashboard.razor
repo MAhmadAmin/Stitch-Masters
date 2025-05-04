@@ -1,0 +1,63 @@
+﻿@using  StitchMaster;
+@using StitchMaster.Components.RazorComponents
+
+@page "/customer-dashboard"
+<div class="container-fluid py-4">
+    <h3 class="mb-4">Welcome to Customer Dashboard</h3>
+
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Our Famous Tailors</h5>
+            <a href="tailors" class="text-decoration-none text-secondary fw-semibold">See More</a>
+        </div>
+
+        <div class="d-flex flex-wrap gap-5">
+            <GigCard
+                Name="Sarah Tailor"
+                Description="I will professionally stitch bridal and formal dresses with custom measurements."
+                AvatarUrl="./gigPhoto.jpg"
+                GigImageUrl="./gigPhoto.jpg"
+                Rating="4.0"
+                Icon="bi bi-scissors" />
+            <GigCard Name="Sarah Tailor"
+                     Description="I will professionally stitch bridal and formal dresses with custom measurements."
+                     AvatarUrl="./gigPhoto2.jpg"
+                     GigImageUrl="./gigPhoto2.jpg"
+                     Rating="4.0"
+                     Icon="bi bi-scissors" />
+            <GigCard Name="Sarah Tailor"
+                     Description="I will professionally stitch bridal and formal dresses with custom measurements."
+                     AvatarUrl="./gigPhoto3.jpg"
+                     GigImageUrl="./gigPhoto3.jpg"
+                     Rating="4.0"
+                     Icon="bi bi-scissors" />
+
+        </div>
+    </section>
+
+        <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Featured Products</h5>
+            <a href="fabric" class="text-decoration-none text-secondary fw-semibold">See More</a>
+        </div>
+
+        <div class="d-flex flex-wrap gap-4">
+            <ProductCard ProductImageUrl="./product1.jpg"
+                         ProductName="Embroidered Lawn Suit"
+                         Description="High-quality lawn with intricate embroidery. 3-piece."
+                         Price="49"
+                         Category="Women"
+                         SellerName="Sarah Tailor"
+                         SellerAvatarUrl="./product1.jpg" />
+
+            <ProductCard ProductImageUrl="./product2.jpg"
+                         ProductName="Men's Cotton Kurta"
+                         Description="Premium stitched kurta for summer."
+                         Price="29"
+                         Category="Men"
+                         SellerName="Ali Stitchers"
+                         SellerAvatarUrl="./product2.jpg" />
+        </div>
+
+    </section>
+</div>

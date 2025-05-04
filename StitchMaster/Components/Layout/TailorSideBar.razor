@@ -1,47 +1,38 @@
-﻿<nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link bg-secondary accent-text" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill"></span> Dashboard
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link accent-text" href="customers">
-                <span class="bi bi-person-fill"></span> Customers
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link accent-text" href="tailors">
-                <span class="bi bi-scissors"></span> Tailors
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link accent-text" href="orders">
-                <span class="bi bi-receipt"></span> Orders
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link accent-text" href="inventory">
-                <span class="bi bi-box"></span> Inventory
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link accent-text" href="reports">
-                <span class="bi bi-bar-chart-fill"></span> Reports
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link accent-text" href="settings">
-                <span class="bi bi-gear-fill"></span> Settings
-            </NavLink>
-        </div>
-    </nav>
-
-@code {
-
+﻿<nav class="flex-column ">
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="" Match="NavLinkMatch.All">
+            <span class="bi bi-house-door-fill me-2"></span> <span class="nav-label">Dashboard</span>
+        </NavLink>
+    </div>
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="customers">
+            <span class="bi bi-person-fill me-2 text-primary"></span> <span class="nav-label">Customers</span>
+        </NavLink>
+    </div>
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="tailors">
+            <span class="bi bi-scissors me-2"></span> <span class="nav-label">Tailors</span>
+        </NavLink>
+    </div>
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="orders">
+            <span class="bi bi-receipt me-2"></span> <span class="nav-label">Orders</span>
+        </NavLink>
+    </div>
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="inventory">
+            <span class="bi bi-box me-2"></span> <span class="nav-label">Inventory</span>
+        </NavLink>
+    </div>
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="reports">
+            <span class="bi bi-bar-chart-fill me-2"></span> <span class="nav-label">Reports</span>
+        </NavLink>
+    </div>
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="settings">
+            <span class="bi bi-gear-fill me-2"></span> <span class="nav-label">Settings</span>
+        </NavLink>
+    </div>
+</nav>;
 }

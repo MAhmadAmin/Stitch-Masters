@@ -1,0 +1,40 @@
+﻿.gig-card {
+    width: 330px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s ease-in-out;
+}
+
+    .gig-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+.gig-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.gig-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #2C3E50;
+}
+
+.gig-title {
+    font-size: 1rem;
+    color: #2C3E50;
+    font-weight: 600;
+}
+
+.gig-description {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+}

@@ -50,6 +50,69 @@ h1:focus {
     border-color: #929292;
 }
 
+.sidebar-wrapper {
+    width: 60px;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    height: 100vh;
+    position: fixed;
+    z-index: 1000;
+}
+
+    .sidebar-wrapper.expanded {
+        width: 220px;
+    }
+
+.sidebar {
+    height: 100vh;
+    background-color: #2C3E50;
+    padding-top: 1rem;
+}
+
+.hamburger-btn {
+    width: 100%;
+    background-color: #D4AF37;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.nav-link {
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+    .nav-link:hover {
+        background-color: #D4AF37;
+        color: #2C3E50;
+        border-radius:10px;
+    }
+
+.nav-label {
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-wrapper.expanded .nav-label {
+    display: inline;
+    margin-left: 0.5rem;
+}
+
+.content-area {
+    margin-left: 60px;
+    transition: margin-left 0.3s ease;
+    width: 100%;
+    background-color: #ECF0F1;
+    min-height: 100vh;
+}
+
+
 /* Primary Color: Deep Navy Blue */
 .primary-text {
     color: #2C3E50;
@@ -73,6 +136,32 @@ h1:focus {
 }
 
 .secondary-border {
+    border-color: #D4AF37;
+}
+
+/* Primary Color: Deep Navy Blue */
+.text-primary {
+    color: #2C3E50;
+}
+
+.bg-primary {
+    background-color: #2C3E50;
+}
+
+.border-primary {
+    border-color: #2C3E50;
+}
+
+/* Secondary Color: Gold */
+.text-secondary {
+    color: #D4AF37;
+}
+
+.bg-secondary {
+    background-color: #D4AF37;
+}
+
+.border-secondary {
     border-color: #D4AF37;
 }
 

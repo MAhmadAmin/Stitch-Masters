@@ -1,46 +1,38 @@
 ﻿<nav class="flex-column">
-    <div class="nav-item px-3">
-        <NavLink class="nav-link bg-secondary accent-text" href="" Match="NavLinkMatch.All">
-            <span class="bi bi-house-door-fill"></span> Dashboard
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="customer-dashboard" Match="NavLinkMatch.All">
+            <span class="bi bi-house-door-fill me-2"></span> <span class="nav-label">Dashboard</span>
         </NavLink>
     </div>
-
-    <div class="nav-item px-3">
-        <NavLink class="nav-link accent-text" href="customers">
-            <span class="bi bi-person-fill"></span> Tailors
-        </NavLink>
-    </div>
-
-    <div class="nav-item px-3">
+    <div class="nav-item px-2 py-2">
         <NavLink class="nav-link accent-text" href="tailors">
-            <span class="bi bi-scissors"></span> Fabric
+            <span class="bi bi-person-fill me-2"></span> <span class="nav-label">Tailors</span>
         </NavLink>
     </div>
-
-    <div class="nav-item px-3">
-        <NavLink class="nav-link accent-text" href="orders">
-            <span class="bi bi-receipt"></span> My Orders
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="fabrics">
+            <span class="bi bi-scissors me-2"></span> <span class="nav-label">Fabric</span>
         </NavLink>
     </div>
-
-    <div class="nav-item px-3">
-        <NavLink class="nav-link accent-text" href="inventory">
-            <span class="bi bi-box"></span> Measurement
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="customer-orders">
+            <span class="bi bi-receipt me-2"></span> <span class="nav-label">My Orders</span>
         </NavLink>
     </div>
-    <div class="nav-item px-3">
-        <NavLink class="nav-link accent-text" href="reports">
-            <span class="bi bi-bar-chart-fill"></span> Purchases
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="measurement">
+            <span class="bi bi-box me-2"></span> <span class="nav-label">Measurement</span>
         </NavLink>
     </div>
-
-    <div class="nav-item px-3">
-        <NavLink class="nav-link accent-text" href="settings">
-            <span class="bi bi-gear-fill"></span> Profile
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="customer-purchases">
+            <span class="bi bi-bar-chart-fill me-2"></span> <span class="nav-label">Purchases</span>
         </NavLink>
     </div>
-</nav>
-
-@code {
-
+    <div class="nav-item px-2 py-2">
+        <NavLink class="nav-link accent-text" href="customer-profile">
+            <span class="bi bi-gear-fill me-2"></span> <span class="nav-label">Profile</span>
+        </NavLink>
+    </div>
+</nav>;
 }
