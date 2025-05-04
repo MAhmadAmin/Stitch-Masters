@@ -7,6 +7,7 @@ namespace StitchMaster.BusinessLogic
 {
     public class User
     {
+        // Backing Fields
         private readonly int _userID;
         private string _username;
         private string _name;    // This is the Comman Attrib of Child Classes

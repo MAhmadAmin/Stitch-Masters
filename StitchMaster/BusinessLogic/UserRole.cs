@@ -2,6 +2,7 @@
 {
     public class UserRole
     {
+        // Backing Fields
         private readonly int _userRoleID;
         private string _userRoleValue;
 

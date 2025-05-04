@@ -2,6 +2,7 @@
 {
     public class Address
     {
+        // Backing Fields
         private readonly int _addressID;
         private string _addressName;
         private string _houseNumber;
@@ -10,6 +11,7 @@
         private string _country;
         private int _zipCode;
 
+        #region Getter Setter Start --------------------------------------------
         public int AddressID
         {
             get { return _addressID; }
@@ -44,9 +46,11 @@
             get { return _zipCode; }
             set {_zipCode = value; }
         }
+        #endregion Getter Setter End --------------------------------------------
 
+        #region Constructors Start ----------------------------------------------
         public Address(int addressID, string addressName, string houseNumber, string streetNumber, string city, string country, int zipCode)
-        {
+        {   // Full Oaram Constructor
             if (IsValid.DBID(addressID))
             {
             _addressID = addressID;
@@ -62,5 +66,29 @@
             Country = country;
             ZipCode = zipCode;
         }
+        public Address(Address other)
+        {  // Copy Constructor
+            if (other is null)
+            {
+                throw new ArgumentNullException("Invalid Address");
+                //throw new ArgumentNullException(nameof(other));
+            }
+
+            if (IsValid.DBID(other.AddressID))
+            {
+                _addressID = other.AddressID; // must use backing field as it's readonly
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid Address ID in source object");
+            }
+            AddressName = other.AddressName;
+            HouseNumber = other.HouseNumber;
+            StreetNumber = other.StreetNumber;
+            City = other.City;
+            Country = other.Country;
+            ZipCode = other.ZipCode;
+        }
+        #endregion Constructors End ----------------------------------------------
     }
 }

@@ -4,6 +4,7 @@ namespace StitchMaster.BusinessLogic
 {
     public class Tailor : User
     {
+        // Backing Fields
         private readonly int _tailorID;   // ID is unchangable/ Immutable/ Readonly After the Object is Created
         private string _tailorDescription;
         private Address _tailorAddress;
