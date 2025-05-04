@@ -86,5 +86,21 @@ namespace StitchMaster.BusinessLogic
             AccountCreationDate = accountCreationDate;
             UserRole = userRole;
         }
+
+        public User(int userID, string username, string email, string hashed_Password, UserRole userRole)
+        {
+            if (IsValid.DBID(userID))
+            {
+                _userID = userID;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid User ID");
+            }
+            Username = username;
+            Email = email;
+            Hashed_Password = hashed_Password;
+            UserRole = userRole;
+        }
     }
 }
