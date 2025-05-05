@@ -4,17 +4,17 @@ using StitchMaster.BusinessLogic;
 
 namespace StitchMaster.DataLayer
 {
-    public class UserDL
+    static public class UserDL
     {
-        public User GetUser(string username, string password)
+        static public User GetUser(string username, string password)
         {
-            string query = $"SELECT * FROM USERS INNER JOIN Roles WHERE username = {username} AND passwrod = {password}";
+            string query = $"SELECT * FROM USERS INNER JOIN Roles WHERE username = '{username}' AND password_hash = '{password}'";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             User user = FillUser(dt);
             return user;
         }
 
-        private User FillUser(DataTable dt)
+        static private User FillUser(DataTable dt)
         {
             if (dt.Rows.Count == 1)
             {
