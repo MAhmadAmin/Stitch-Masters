@@ -1,3 +1,4 @@
+using StitchMaster;
 using StitchMaster.Components;
 
 var builder = WebApplication.CreateBuilder(args);
