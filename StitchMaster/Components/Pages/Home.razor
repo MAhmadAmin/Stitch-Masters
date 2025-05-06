@@ -5,22 +5,8 @@
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
-Welcome to your new app. @user
-<button class="btn btn-primary" style="width: 100%;" @onclick = "Login">Login</button>
+Welcome to your new app.
 
 @code
 {
-    string user = "None";
-    public void Login()
-    {
-        bool doesUser = UserDL.DoesUserExist("ahmad@gmail.com", "ahmad");
-        if (doesUser)
-        {
-            user = "Successful";
-        }
-        else
-        {
-            user = "Fail";
-        }
-    }
 }
