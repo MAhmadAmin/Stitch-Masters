@@ -1,0 +1,8 @@
+﻿@page "/gig-details/{GigId:int}"
+
+<div>
+	<h1>This is Gig Detailed Page For Gig @GigId</h1>
+</div>
+@code {
+	[Parameter] public int GigId { get; set; }
+}

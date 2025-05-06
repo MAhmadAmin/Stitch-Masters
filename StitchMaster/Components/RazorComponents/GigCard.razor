@@ -1,5 +1,5 @@
 ﻿@using StitchMaster;
-<div class="gig-card shadow-sm">
+<a class="gig-card shadow-sm" href="/gig-details/@GigId" style="text-decoration:none;">
     <img src="@GigImageUrl" alt="Gig Image" class="gig-image" />
 
     <div class="p-3 d-flex">
@@ -20,9 +20,10 @@
     <div class="px-3 pb-3">
         <p class="gig-description mb-0">@Description</p>
     </div>
-</div>
+</a>
 
 @code {
+    [Parameter] public int GigId { get; set; }
     [Parameter] public string Name { get; set; }
     [Parameter] public string Description { get; set; }
     [Parameter] public string Icon { get; set; }

@@ -1,5 +1,5 @@
 ﻿
-<div class="product-card card p-3 mb-4 shadow-sm rounded-4" style="width: 320px;">
+<a class="product-card card p-3 mb-4 shadow-sm rounded-4" href="/product-details/@ProductId" style="width: 320px; text-decoration:none;">
     <img src="@ProductImageUrl" alt="Product Image" class="product-img mb-3 rounded-2" />
 
     <div class="product-info mb-3">
@@ -16,10 +16,11 @@
         <img src="@SellerAvatarUrl" alt="Seller Avatar" class="rounded-circle me-2" style="width: 35px; height: 35px;" />
         <span class="text-dark">@SellerName</span>
     </div>
-</div>
+</a>
 
 @code {
     [Parameter] public string ProductImageUrl { get; set; }
+    [Parameter] public int ProductId { get; set; }
     [Parameter] public string ProductName { get; set; }
     [Parameter] public string Description { get; set; }
     [Parameter] public decimal Price { get; set; }

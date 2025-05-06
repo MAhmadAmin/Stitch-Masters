@@ -1,0 +1,24 @@
+﻿@page "/product-details/{ProductId:int}"
+
+<div class="p-2 d-flex gap-3">
+	<div class="w-50 h-50 overflow-hidden">
+		<img src="/product1.jpg" alt="Alternate Text" class="container-fluid" />
+	</div>
+	<div class="d-flex flex-column gap-2">
+	<h1 class="h1">Product Name</h1>
+	<p class="text-wrap">This is Product description</p>
+		<h6 class="fw-bold">Color: <span class="badge bg-primary">Red</span></h6>
+		<h6 class="fw-bold">Material: <span class="fw-light">Cotton</span></h6>
+		<h6 class="fw-bold">Gender: <span class="fw-light">Male</span></h6>
+		<h6 class="fw-bold">Price Per Meter: <span class="fw-light">49.00</span></h6>
+		<h6 class="fw-bold">In Stock: <span class="fw-light">100</span></h6>
+		<button class="btn btn-primary">Buy Now</button>
+	</div>
+</div>
+<div class="p-2 d-flex align-items-center">
+	<img src="/product2.jpg" alt="Seller Avatar" class="rounded-circle me-2" style="width: 35px; height: 35px;" />
+	<span class="text-dark">Seller Name</span>
+</div>
+@code {
+	[Parameter] public int ProductId { get; set; }
+}
