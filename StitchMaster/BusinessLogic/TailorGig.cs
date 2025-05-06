@@ -5,7 +5,7 @@ namespace StitchMaster.BusinessLogic
 {
     public class TailorGig
     {
-        private int _gigID;
+        private readonly int _gigID;
         private string _gigTitle;
         private string _gigDescription;
         private Category _gigCategory;
@@ -14,16 +14,11 @@ namespace StitchMaster.BusinessLogic
         private string _imageURLs;
 
         #region Getter Setter Start --------------------------------------------
-        public string ImageURLs
-        {
-            get { return _imageURLs; }
-            set { _imageURLs = value; }
-        }
+       
 
         public int GigID
         {
             get { return _gigID; }
-            set { _gigID = value; }
         }
         public string GigTitle
         {
@@ -50,7 +45,11 @@ namespace StitchMaster.BusinessLogic
             get { return _gigPrice; }
             set { _gigPrice = value; }
         }
-
+        public string ImageURLs
+        {
+            get { return _imageURLs; }
+            set { _imageURLs = value; }
+        }
         #endregion Getter Setter Start --------------------------------------------
 
         #region Constructors Start ----------------------------------------------

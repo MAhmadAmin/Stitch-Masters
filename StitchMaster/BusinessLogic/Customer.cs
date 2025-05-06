@@ -13,7 +13,7 @@ namespace StitchMaster.BusinessLogic
         private List<Address> _myAddresses = new List<Address>();
         //private List<Measurement> myMeasurements = new Lis
 
-        List<FabricPurchased> _myPurchasedFabrics = new List<FabricPurchased>();
+        private List<FabricPurchased> _myPurchasedFabrics = new List<FabricPurchased>();
 
         #region Lists Getter Setter & Methods Start ----------------------------
         List<FabricPurchased> MyPurchaseFabrics
