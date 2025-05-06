@@ -28,4 +28,3 @@ app.MapRazorComponents<App>()
 app.Run();
 
 // Umar is here
-UserData.Instance.GetAllUsers();
