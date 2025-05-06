@@ -1,3 +1,4 @@
+using StitchMaster;
 using StitchMaster.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,3 +28,4 @@ app.MapRazorComponents<App>()
 app.Run();
 
 // Umar is here
+UserData.Instance.GetAllUsers();

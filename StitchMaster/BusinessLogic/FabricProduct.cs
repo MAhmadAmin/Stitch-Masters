@@ -7,7 +7,7 @@ namespace StitchMaster.BusinessLogic
     public class FabricProduct
     {
         // Backing Fields
-        private int _fabricProductID;
+        private readonly int _fabricProductID;
         private string _fabricProductTitle;
         private string _fabricProductDescription;
         private FabricColor _fabricColor;
@@ -24,7 +24,6 @@ namespace StitchMaster.BusinessLogic
         public int FabricProductID
         {
             get { return _fabricProductID; }
-            set { _fabricProductID = value; }
         }
         public string FabricProductTitle
         {
@@ -84,7 +83,14 @@ namespace StitchMaster.BusinessLogic
         #region Constructors Start ----------------------------------------------
         public FabricProduct(int fabricProductID,string fabricProductTitle,string fabricProductDescription,FabricColor fabricColor,string fabricMaterial,string gender,int pricePerMeter,int stockQuantity,int minStockQuantity,List<string> imageURls)
         {
-            FabricProductID = fabricProductID;
+            if(IsValid.DBID(fabricProductID))
+            {
+                _fabricProductID=fabricProductID;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Fabric Product ID");
+            }
             FabricProductTitle = fabricProductTitle;
             FabricProductDescription = fabricProductDescription;
             FabricColor = fabricColor;
@@ -94,6 +100,26 @@ namespace StitchMaster.BusinessLogic
             StockQuantity = stockQuantity;
             MinStockQuantity = minStockQuantity;
             ImageURls = imageURls;   // A New Copy of imageURL List is Automatically made inside the Setter of This ImageURLs List to Encapsulate
+        }
+        public FabricProduct(FabricProduct fP)
+        {
+            if (IsValid.DBID(fP.FabricProductID))
+            {
+                _fabricProductID = fP.FabricProductID;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Fabric Product ID");
+            }
+            FabricProductTitle = fP.FabricProductTitle;
+            FabricProductDescription = fP.FabricProductDescription;
+            FabricColor = fP.FabricColor;
+            FabricMaterial = fP.FabricMaterial;
+            Gender = fP.Gender;
+            PricePerMeter = fP.PricePerMeter;
+            StockQuantity = fP.StockQuantity;
+            MinStockQuantity = fP.MinStockQuantity;
+            ImageURls = fP.ImageURls;   // A New Copy of imageURL List is Automatically made inside the Setter of This ImageURLs List to Encapsulate
         }
         #endregion Constructors End ----------------------------------------------
     }

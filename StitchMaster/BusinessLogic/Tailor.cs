@@ -1,4 +1,5 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using System.Xml.Linq;
+using Google.Protobuf.WellKnownTypes;
 
 namespace StitchMaster.BusinessLogic
 {
@@ -10,8 +11,10 @@ namespace StitchMaster.BusinessLogic
         private Address _tailorAddress;
         private string _tailorRank;
 
-
         private List<Skill> _mySkills = new List<Skill>();
+        private List<TailorGig> _myGigs  = new List<TailorGig>();
+        
+        #region Lists Getter/Setter + Methods
 
         public List<Skill> MySkills
         {
@@ -22,7 +25,19 @@ namespace StitchMaster.BusinessLogic
         {
             _mySkills.Add(skill);
         }
+        
+        public List<TailorGig> MyGigs
+        {
+            get { return _myGigs; }
+            set { _myGigs = value; }
+        }
+        public void AddGig(TailorGig tailorGig)
+        {
+            MyGigs.Add(tailorGig);
+        }
+        #endregion
 
+        #region Getter / Setter
         public int TailorID
         {
             get { return _tailorID; }
@@ -42,6 +57,9 @@ namespace StitchMaster.BusinessLogic
             get { return this._tailorRank; }
             set { this._tailorRank = value; }
         }
+        #endregion 
+
+        #region
         public Tailor(int tailorID, string tailorDescription, Address tailorAddress, string tailorRank, List<Skill> mySkills,int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base (userID, username, name,email, hashed_Password,profile_Img_URL,accountCreationDate,userRole)
         {
             // Backing Fields are Never Assigned the Values Directly (except Readonly Backing Fields) .. Always use the Properties to Assign the Values so that Setter Function is Automatically Called
@@ -58,5 +76,22 @@ namespace StitchMaster.BusinessLogic
             this.TailorRank = tailorRank;
             this.MySkills = mySkills;
         }
+        public Tailor(Tailor t):base(t)
+        { // Copy Constructor
+            // Backing Fields are Never Assigned the Values Directly (except Readonly Backing Fields) .. Always use the Properties to Assign the Values so that Setter Function is Automatically Called
+            if (IsValid.DBID(t.TailorID))
+            {
+                _tailorID = t.TailorID;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Tailor ID");
+            }
+            this.TailorDescription = t.TailorDescription;
+            this.TailorAddress = t.TailorAddress;
+            this.TailorRank = t.TailorRank;
+            this.MySkills = t.MySkills;
+        }
+        #endregion
     }
 }
