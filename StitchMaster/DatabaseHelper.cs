@@ -39,7 +39,7 @@ namespace StitchMaster
         {
             using (var connection = getConnection())
             {
-                using (var command = new MySqlCommand(query, connection))
+                using (var command = new MySqlCommand(query, getConnection()))
                 {
                     return command.ExecuteReader();
                 }

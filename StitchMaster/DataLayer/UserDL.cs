@@ -1,11 +1,24 @@
 ﻿using MySqlX.XDevAPI.Relational;
 using System.Data;
 using StitchMaster.BusinessLogic;
+using MySql.Data.MySqlClient;
 
 namespace StitchMaster.DataLayer
 {
-    static public class UserDL
+     static public class UserDL
     {
+        static public bool DoesUserExist(string email, string password)
+        {
+            DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE email='{email}' AND password_hash='{password}'");
+            if(dt.Rows.Count == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         static public User GetUser(string username, string password)
         {
             string query = $"SELECT * FROM USERS INNER JOIN Roles WHERE username = '{username}' AND password_hash = '{password}'";
