@@ -1,4 +1,6 @@
-﻿namespace StitchMaster.BusinessLogic
+﻿using StitchMaster.HelperClasses;
+
+namespace StitchMaster.BusinessLogic
 {
     public class Status
     {

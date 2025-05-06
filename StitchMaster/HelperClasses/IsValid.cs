@@ -1,4 +1,4 @@
-﻿namespace StitchMaster.BusinessLogic
+﻿namespace StitchMaster.HelperClasses
 {
     public class IsValid
     {

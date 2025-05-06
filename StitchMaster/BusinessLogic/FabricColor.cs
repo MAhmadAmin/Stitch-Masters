@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.BusinessLogic
 {

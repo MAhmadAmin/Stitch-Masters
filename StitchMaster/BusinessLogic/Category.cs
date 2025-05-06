@@ -1,4 +1,6 @@
-﻿namespace StitchMaster.BusinessLogic
+﻿using StitchMaster.HelperClasses;
+
+namespace StitchMaster.BusinessLogic
 {
     public class Category
     {
@@ -6,9 +8,9 @@
         private string _categoryName;
         private string _gender;
 
-        public int CategoryID 
-        { 
-            get { return _categoryID; } 
+        public int CategoryID
+        {
+            get { return _categoryID; }
         }
         public string CategoryName
         {
@@ -23,7 +25,7 @@
 
         public Category(int categoryID, string categoryName, string gender)
         {
-            if(IsValid.DBID(categoryID))
+            if (IsValid.DBID(categoryID))
             {
                 _categoryID = categoryID;
             }

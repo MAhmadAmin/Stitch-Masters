@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
+using StitchMaster.HelperClasses;
 using ZstdSharp.Unsafe;
 
 namespace StitchMaster.BusinessLogic

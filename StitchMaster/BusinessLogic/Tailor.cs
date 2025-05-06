@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using Google.Protobuf.WellKnownTypes;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.BusinessLogic
 {

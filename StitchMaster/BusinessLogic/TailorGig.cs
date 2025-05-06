@@ -1,4 +1,5 @@
-﻿using ZstdSharp.Unsafe;
+﻿using StitchMaster.HelperClasses;
+using ZstdSharp.Unsafe;
 
 namespace StitchMaster.BusinessLogic
 {

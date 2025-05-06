@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using Org.BouncyCastle.Bcpg;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.BusinessLogic
 {
