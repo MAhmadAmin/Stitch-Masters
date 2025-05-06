@@ -72,8 +72,18 @@ namespace StitchMaster.BusinessLogic
         }
         public string ImageURls
         {
-            get { return new List<string>(_imageURls); }
-            set { _imageURls = new List<string>(value); }
+            get { return _imageURls; }
+            set
+            {
+                if (value == null)
+                {
+                    _imageURls = null;
+                }
+                else
+                {
+                    _imageURls = string.Join(",", value.Split(','));
+                }
+            }
         }
 
         #endregion Getter Setter End --------------------------------------------
