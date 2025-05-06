@@ -18,6 +18,7 @@ namespace StitchMaster.BusinessLogic
         private DateTime _accountCreationDate;
         private UserRole _userRole;
 
+        #region Getter Setter Start --------------------------------------------
         public int UserID
         {
             get { return _userID; }
@@ -65,8 +66,9 @@ namespace StitchMaster.BusinessLogic
             get { return _userRole;}
             set { _userRole = value; }
         }
+        #endregion Getter Setter Start --------------------------------------------
 
-
+        #region Constructors Start ----------------------------------------------
         public User(int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole)
         {
             if (IsValid.DBID(userID))
@@ -103,6 +105,6 @@ namespace StitchMaster.BusinessLogic
             AccountCreationDate = u.AccountCreationDate;
             UserRole = u.UserRole;
         }
-
+        #endregion Constructors Start ----------------------------------------------
     }
 }

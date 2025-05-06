@@ -8,6 +8,7 @@
         private int _totalPrice;
         private bool _inHold;
 
+        #region Getter Setter Start --------------------------------------------
         public int FabricPurchasedID 
         {
             get { return _fabricPurchasedID; }
@@ -33,6 +34,9 @@
             get { return _inHold; }
             set { _inHold = value; }
         }
+        #endregion Getter Setter Start --------------------------------------------
+
+        #region Constructors Start ----------------------------------------------
         public FabricPurchased(int fabricPurchasedID, FabricProduct fabricProduct, int length, int totalPrice, bool inHold)
         {
             _fabricPurchasedID = fabricPurchasedID;
@@ -49,5 +53,6 @@
             TotalPrice = fP.TotalPrice;
             InHold = fP.InHold;
         }
+        #endregion Constructors End ----------------------------------------------
     }
 }

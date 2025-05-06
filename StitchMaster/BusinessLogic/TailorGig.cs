@@ -11,13 +11,13 @@ namespace StitchMaster.BusinessLogic
         private Category _gigCategory;
         private int _gigPrice;
         private int _gigDeliveryDays;
+        private string _imageURLs;
 
-        List<string> _imageURLs = new List<string>();
-
-        List<string> ImageURLs
+        #region Getter Setter Start --------------------------------------------
+        public string ImageURLs
         {
-            get { return new List<string>(_imageURLs); }
-            set { _imageURLs = new List<string>( value); }
+            get { return _imageURLs; }
+            set { _imageURLs = value; }
         }
 
         public int GigID
@@ -51,7 +51,10 @@ namespace StitchMaster.BusinessLogic
             set { _gigPrice = value; }
         }
 
-        public TailorGig(int gigID, string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, List<string> imageURLs)
+        #endregion Getter Setter Start --------------------------------------------
+
+        #region Constructors Start ----------------------------------------------
+        public TailorGig(int gigID, string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, string imageURLs)
         {
             if (IsValid.DBID(gigID))
             {
@@ -70,6 +73,7 @@ namespace StitchMaster.BusinessLogic
             
             
         }
+        #endregion Constructors Start ----------------------------------------------
     }
 
 }

@@ -15,7 +15,7 @@ namespace StitchMaster.BusinessLogic
         private List<Skill> _mySkills = new List<Skill>();
         private List<TailorGig> _myGigs  = new List<TailorGig>();
         
-        #region Lists Getter/Setter + Methods
+        #region Lists Getter Setter & Methods Start --------------------------
 
         public List<Skill> MySkills
         {
@@ -36,9 +36,9 @@ namespace StitchMaster.BusinessLogic
         {
             MyGigs.Add(tailorGig);
         }
-        #endregion
+        #endregion Lists Getter Setter & Methods Start --------------------------
 
-        #region Getter / Setter
+        #region Getter Setter Start --------------------------------------------
         public int TailorID
         {
             get { return _tailorID; }
@@ -58,11 +58,11 @@ namespace StitchMaster.BusinessLogic
             get { return this._tailorRank; }
             set { this._tailorRank = value; }
         }
-        #endregion 
+        #endregion Getter Setter Start --------------------------------------------
 
-        #region
+        #region Constructors Start ----------------------------------------------
         public Tailor(int tailorID, string tailorDescription, Address tailorAddress, string tailorRank, List<Skill> mySkills,int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base (userID, username, name,email, hashed_Password,profile_Img_URL,accountCreationDate,userRole)
-        {
+        {   // Full Param Constructor
             // Backing Fields are Never Assigned the Values Directly (except Readonly Backing Fields) .. Always use the Properties to Assign the Values so that Setter Function is Automatically Called
             if(IsValid.DBID(tailorID))
             {

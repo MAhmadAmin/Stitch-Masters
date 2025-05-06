@@ -17,11 +17,9 @@ namespace StitchMaster.BusinessLogic
         private int _pricePerMeter;
         private int _stockQuantity;
         private int _minStockQuantity;
-        private List<string> _imageURls = new List<string>();
+        private string _imageURls;
 
         #region Getter Setter Start --------------------------------------------
-        
-        
         public int FabricProductID
         {
             get { return _fabricProductID; }
@@ -31,7 +29,6 @@ namespace StitchMaster.BusinessLogic
             get { return _fabricProductTitle; }
             set { _fabricProductTitle = value; }
         }
-
         public string FabricProductDescription
         {
             get { return _fabricProductDescription; }
@@ -73,7 +70,7 @@ namespace StitchMaster.BusinessLogic
             get { return _minStockQuantity; }
             set { _minStockQuantity = value; }
         }
-        public List<string> ImageURls
+        public string ImageURls
         {
             get { return new List<string>(_imageURls); }
             set { _imageURls = new List<string>(value); }
@@ -82,7 +79,7 @@ namespace StitchMaster.BusinessLogic
         #endregion Getter Setter End --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
-        public FabricProduct(int fabricProductID,string fabricProductTitle,string fabricProductDescription,FabricColor fabricColor,string fabricMaterial,string gender,int pricePerMeter,int stockQuantity,int minStockQuantity,List<string> imageURls)
+        public FabricProduct(int fabricProductID,string fabricProductTitle,string fabricProductDescription,FabricColor fabricColor,string fabricMaterial,string gender,int pricePerMeter,int stockQuantity,int minStockQuantity,string imageURls)
         {
             if(IsValid.DBID(fabricProductID))
             {

@@ -7,6 +7,7 @@ namespace StitchMaster.BusinessLogic
         private readonly int _statusID;
         private string _statusValue;
 
+        #region Getter Setter Start --------------------------------------------
         public int StatusID
         {
             get { return _statusID; }
@@ -17,6 +18,9 @@ namespace StitchMaster.BusinessLogic
             get { return _statusValue; }
             set { _statusValue = value; }
         }
+        #endregion Getter Setter Start --------------------------------------------
+
+        #region Constructors Start ----------------------------------------------
         public Status(int statusID, string statusValue)
         {
             if (IsValid.DBID(statusID))
@@ -41,5 +45,6 @@ namespace StitchMaster.BusinessLogic
             }
             this.StatusValue = s.StatusValue;
         }
+        #endregion Constructors Start ----------------------------------------------
     }
 }

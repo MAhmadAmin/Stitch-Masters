@@ -15,6 +15,7 @@ namespace StitchMaster.BusinessLogic
 
         List<FabricPurchased> _myPurchasedFabrics = new List<FabricPurchased>();
 
+        #region Lists Getter Setter & Methods Start ----------------------------
         List<FabricPurchased> MyPurchaseFabrics
         {
             get { return new List<FabricPurchased>(_myPurchasedFabrics); }
@@ -25,8 +26,9 @@ namespace StitchMaster.BusinessLogic
             get { return new List<Address>(_myAddresses); }
             set { _myAddresses = new List<Address>(value); }
         }
+        #endregion Lists Getter Setter & Methods End ----------------------------
 
-        #region
+        #region Getter Setter Start --------------------------------------------
         public int CustomerID
         {
             get { return _customerID; }
@@ -41,10 +43,9 @@ namespace StitchMaster.BusinessLogic
             get { return new DateOnly(_dOB.Year,_dOB.Month,_dOB.Day); }
             set { _dOB = new DateOnly(value.Year, value.Month, value.Day); }
             }
-        #endregion
+        #endregion 
 
-
-        #region
+        #region Constructors Start ----------------------------------------------
         public Customer(int customerID, string gender, DateOnly dOB, List<Address> myAddresses, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base( userID,  username,  name,  email,  hashed_Password,  profile_Img_URL,  accountCreationDate,  userRole)
         {  // Full Param Constructor
             if(IsValid.DBID(customerID))
@@ -75,7 +76,7 @@ namespace StitchMaster.BusinessLogic
             this.MyAddresses = c.MyAddresses;
 
         }
-        #endregion
+        #endregion 
 
     }
 }

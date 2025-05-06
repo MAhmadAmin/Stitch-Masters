@@ -7,6 +7,7 @@ namespace StitchMaster.BusinessLogic
         private readonly int _accountID;
         private float _balance;
 
+        #region Getter Setter Start --------------------------------------------
         public int AccountID 
         {
             get { return _accountID; } 
@@ -16,7 +17,9 @@ namespace StitchMaster.BusinessLogic
             get { return _balance; }
             set { _balance = value; }
         }
+        #endregion Getter Setter Start --------------------------------------------
 
+        #region Constructors Start ----------------------------------------------
         public Account(int accountID, float balance)
         {
             if(IsValid.DBID(accountID))
@@ -29,5 +32,6 @@ namespace StitchMaster.BusinessLogic
             }
             Balance = balance;
         }
+        #endregion Constructors End ----------------------------------------------
     }
 }

@@ -1,10 +1,11 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.BusinessLogic
 {
     public class TailorOrder
     {
-        private readonly int _orderID;
+        private readonly int _tailorOrderID;
         private Tailor _tailor;
         private Customer _customer;
         private FabricPurchased _fabricPurchased;
@@ -14,9 +15,10 @@ namespace StitchMaster.BusinessLogic
         private Status _orderStatus;
         private Rating _orderRating;
 
-        public int OrderID
+        #region Getter Setter Start --------------------------------------------
+        public int TailorOrderID
         {
-            get { return _orderID; }
+            get { return _tailorOrderID; }
         }
         public Tailor Tailor
         {
@@ -57,5 +59,28 @@ namespace StitchMaster.BusinessLogic
             get { return new Rating(_orderRating); }
             set { _orderRating = new Rating(value); }
         }
+        #endregion Getter Setter Start --------------------------------------------
+
+        #region Constructors Start ----------------------------------------------
+        public TailorOrder(int tailorOrderID, Tailor tailor, Customer customer, FabricPurchased fabricPurchased, string description  , DateTime orderDateTime, Status orderStatus, Rating orderRating)
+        {
+            if(IsValid.DBID(tailorOrderID))
+            {
+                _tailorOrderID = tailorOrderID;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Tailor Order ID");
+            }
+            this.Tailor = tailor;
+            this.Customer = customer;
+            this.FabricPurchased = fabricPurchased;
+            this.Description = description;
+            this.OrderDateTime = orderDateTime;
+            this.OrderStatus = orderStatus;
+            this.OrderRating = orderRating;
+        }
+
+        #endregion Constructors End ----------------------------------------------
     }
 }

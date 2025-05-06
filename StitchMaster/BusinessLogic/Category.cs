@@ -8,6 +8,7 @@ namespace StitchMaster.BusinessLogic
         private string _categoryName;
         private string _gender;
 
+        #region Getter Setter Start --------------------------------------------
         public int CategoryID
         {
             get { return _categoryID; }
@@ -22,7 +23,9 @@ namespace StitchMaster.BusinessLogic
             get { return _gender; }
             set { _gender = value; }
         }
+        #endregion Getter Setter Start --------------------------------------------
 
+        #region Constructors Start ----------------------------------------------
         public Category(int categoryID, string categoryName, string gender)
         {
             if (IsValid.DBID(categoryID))
@@ -49,6 +52,7 @@ namespace StitchMaster.BusinessLogic
             this.CategoryName = c.CategoryName;
             this.Gender = c.Gender;
         }
+        #endregion Constructors End ----------------------------------------------
 
 
     }

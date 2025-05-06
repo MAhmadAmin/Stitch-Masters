@@ -8,6 +8,7 @@ namespace StitchMaster.BusinessLogic
         private readonly int _userRoleID;
         private string _userRoleValue;
 
+        #region Getter Setter Start --------------------------------------------
         public int UserRoleID
         {
             get { return _userRoleID; }
@@ -18,6 +19,10 @@ namespace StitchMaster.BusinessLogic
             get { return _userRoleValue; }
             set { _userRoleValue = value; }
         }
+
+        #endregion Getter Setter Start --------------------------------------------
+
+        #region Constructors Start ----------------------------------------------
         public UserRole(int userRoleID, string userRoleValue)
         {
             if (IsValid.DBID(userRoleID))
@@ -30,5 +35,6 @@ namespace StitchMaster.BusinessLogic
             }
             this.UserRoleValue = userRoleValue;
         }
+        #endregion Constructors Start ----------------------------------------------
     }
 }

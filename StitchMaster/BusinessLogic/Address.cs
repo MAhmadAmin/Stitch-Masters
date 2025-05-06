@@ -72,7 +72,7 @@ namespace StitchMaster.BusinessLogic
         {  // Copy Constructor
             if (other is null)
             {
-                throw new ArgumentNullException("Invalid Address");
+                throw new ArgumentNullException("Invalid Request");
                 //throw new ArgumentNullException(nameof(other));
             }
 
@@ -82,7 +82,7 @@ namespace StitchMaster.BusinessLogic
             }
             else
             {
-                throw new InvalidOperationException("Invalid Address ID in source object");
+                throw new InvalidOperationException("Invalid Address ID");
             }
             AddressName = other.AddressName;
             HouseNumber = other.HouseNumber;

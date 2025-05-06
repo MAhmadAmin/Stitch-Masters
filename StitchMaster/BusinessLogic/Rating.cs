@@ -8,6 +8,7 @@ namespace StitchMaster.BusinessLogic
         private int _ratingValue;
         private string _rewiew;
 
+        #region Getter Setter Start --------------------------------------------
         public int RatingID
         {
             get { return _ratingID; }
@@ -22,6 +23,9 @@ namespace StitchMaster.BusinessLogic
             get { return _rewiew; }
             set { _rewiew = value; }
         }
+        #endregion Getter Setter Start --------------------------------------------
+
+        #region Constructors Start ----------------------------------------------
         public Rating(int ratingID, int ratingValue, string review)
         {
             if(IsValid.DBID(ratingID))
@@ -48,6 +52,6 @@ namespace StitchMaster.BusinessLogic
             RatingValue = r.RatingValue;
             Review = r.Review;
         }
-
+        #endregion Constructors Start ----------------------------------------------
     }
 }
