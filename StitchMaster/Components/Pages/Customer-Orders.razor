@@ -1,8 +1,86 @@
-﻿@page "/customer-orders"
-<div class="container-lg m-auto">
-	<h1>This is My Orders Page</h1>
-</div>
+﻿@* @page "/customer-orders" *@
+@* <div class="container-lg m-auto"> *@
+@* 	<h1>This is My Orders Page</h1> *@
+@* </div> *@
+
+@* @code { *@
+
+@* } *@
+
+@page "/customer-orders"
+@* @inject IOrderService OrderService *@
+@inject NavigationManager NavManager
+
+<h3 class="mb-4">My Orders</h3>
+
+@* @if (isLoading) *@
+@* { *@
+@*     <p>Loading your orders...</p> *@
+@* } *@
+@* else *@
+@* { *@
+@*     @if (!InProgressOrders.Any() && !CompletedOrders.Any()) *@
+@*     { *@
+@*         <p>No orders found.</p> *@
+@*     } *@
+
+@*     @if (InProgressOrders.Any()) *@
+@*     { *@
+@*         <h5 class="mt-3 mb-2">In Progress</h5> *@
+@*         <div class="row"> *@
+@*             @foreach (var order in InProgressOrders) *@
+@*             { *@
+@*                 <div class="col-md-6 col-lg-4 mb-4"> *@
+@*                     @OrderCard(order) *@
+@*                 </div> *@
+@*             } *@
+@*         </div> *@
+@*     } *@
+
+@*     @if (CompletedOrders.Any()) *@
+@*     { *@
+@*         <h5 class="mt-4 mb-2">Completed</h5> *@
+@*         <div class="row"> *@
+@*             @foreach (var order in CompletedOrders) *@
+@*             { *@
+@*                 <div class="col-md-6 col-lg-4 mb-4"> *@
+@*                     @OrderCard(order) *@
+@*                 </div> *@
+@*             } *@
+@*         </div> *@
+@*     } *@
+}
 
 @code {
+    // private List<OrderDto> InProgressOrders = new();
+    // private List<OrderDto> CompletedOrders = new();
+    private bool isLoading = true;
 
+    protected override async Task OnInitializedAsync()
+    {
+        // var customerId = GetCustomerIdFromSessionOrClaims();
+        // var allOrders = await OrderService.GetOrdersByCustomerIdAsync(customerId);
+
+        // InProgressOrders = allOrders.Where(o => o.Status == "InProgress").ToList();
+        // CompletedOrders = allOrders.Where(o => o.Status == "Completed").ToList();
+
+        isLoading = false;
+    }
+
+    // RenderFragment OrderCard(OrderDto order) => @<div class="card shadow-sm h-100" style="width:350px;">
+    //     <img class="card-img-top" src="@order.DesignImageUrl" alt="Design Image" style="height: 200px; object-fit: cover;" />
+    //     <div class="card-body">
+    //         <h5 class="card-title">@order.TailorName</h5>
+    //         <p class="card-text mb-1"><strong>Fabric:</strong> @order.FabricName</p>
+    //         <p class="card-text mb-1"><strong>Measurement:</strong> @order.MeasurementName</p>
+    //         <p class="card-text mb-1"><strong>Price:</strong> $@order.Price</p>
+    //         <p class="card-text mb-2"><strong>Description:</strong> @order.Description</p>
+    //     </div>
+    //     <div class="card-footer text-end bg-white border-0">
+    //         <span class="badge bg-secondary">@order.Status</span>
+    //     </div>
+    // </div>;
+
+    
 }
+
