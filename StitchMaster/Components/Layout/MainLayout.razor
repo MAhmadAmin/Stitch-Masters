@@ -1,14 +1,52 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="container-fluid p-0 m-0">
-     <NavMenu />
-     <div class="container-fluid">
-     @Body
-     </div>
+    <NavMenu />
+
+    <div class="d-flex "
+    >
+        <div class="sidebar-wrapper" onmouseover="this.classList.add('expanded')" onmouseout="this.classList.remove('expanded')">
+           
+
+            <div class="sidebar">
+                @RenderSidebar()
+            </div>
+        </div>
+
+        <div class="content-area p-4 transition-all">
+            @Body
+        </div>
+    </div>
 </div>
+
+
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    private bool isSidebarOpen = false;
+    private string userRole;
+
+    protected override void OnInitialized()
+    {
+        // userRole = UserRoleService.GetCurrentUserRole();
+        userRole = "Customer";
+    }
+
+    private void ToggleSidebar()
+    {
+        isSidebarOpen = !isSidebarOpen;
+    }
+
+    RenderFragment RenderSidebar() => userRole switch
+    {
+        "Customer" => @<CustomerSideBar />,
+        "Tailor" => @<TailorSideBar />,
+        "Store" => @<StoreSideBar />,
+        _ => @<p class="accent-text">No access</p>
+    };
+  }

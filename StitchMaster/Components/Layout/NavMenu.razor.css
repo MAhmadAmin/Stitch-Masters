@@ -117,14 +117,19 @@
 }
 
 .logBtn {
+    background-color: #D4AF37 ;
+    color:white;
+    border:2px;
     padding: 10px 15px;
     border-radius: 5px;
     margin: 5px 0;
+    transition:all;
+    transition-duration:200ms;
 }
-.logBtn:hover {
-    background-color: #ECF0F1 !important;
-    color: #ECF0F1 !important;
-}
+    .logBtn:hover {
+        background-color:white;
+        color: #D4AF37;
+    }
 .logoBox{
     width:70px;
     height:70px;
