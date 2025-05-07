@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using StitchMaster.BusinessLogic;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.DataLayer
 {
@@ -29,7 +30,7 @@ namespace StitchMaster.DataLayer
 
         public UserRole GetUserRoleByEmail(string email)
         {
-            string query = $"SELECT R.role_id, R.role_name FROM Users U INNER JOIN Roles R ON U.role_id = R.role_id WHERE email = '{email}';";
+            string query = $"SELECT L.lookup_id, L.value FROM Users U INNER JOIN Lookup L ON U.role_id = L.lookup_id WHERE email = '{email}';";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             if (dt.Rows.Count == 1)
             {
@@ -43,11 +44,11 @@ namespace StitchMaster.DataLayer
 
         public string GetRoleNameByID(int roleId)
         {
-            string query = $"SELECT role_name FROM Roles WHERE role_id = {roleId};";
+            string query = $"SELECT value FROM Lookup WHERE lookup_id = {roleId};";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             if (dt.Rows.Count == 1)
             {
-                return dt.Rows[0]["role_name"].ToString();
+                return dt.Rows[0]["value"].ToString();
             }
             else
             {
@@ -56,11 +57,11 @@ namespace StitchMaster.DataLayer
         }
         public int GetRoleIDByName(string roleName)
         {
-            string query = $"SELECT role_id FROM Roles WHERE role_name = '{roleName}';";
+            string query = $"SELECT lookup_id FROM Lookup WHERE value = '{roleName}';";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             if (dt.Rows.Count == 1)
             {
-                return Convert.ToInt32(dt.Rows[0]["role_id"]);
+                return Convert.ToInt32(dt.Rows[0]["lookup_id"]);
             }
             else
             {
@@ -69,7 +70,7 @@ namespace StitchMaster.DataLayer
         }
         public UserRole GetRoleByName(string roleName)
         {
-            string query = $"SELECT role_id, role_name FROM Roles WHERE role_name = '{roleName}';";
+            string query = $"SELECT lookup_id, value FROM Lookup WHERE value = '{roleName}';";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             if (dt.Rows.Count == 1)
             {
@@ -85,8 +86,8 @@ namespace StitchMaster.DataLayer
         {
             if (dt.Rows.Count == 1)
             {
-                int roleId = Convert.ToInt32(dt.Rows[0]["role_id"]);
-                string roleName = dt.Rows[0]["role_name"].ToString();
+                int roleId = Convert.ToInt32(dt.Rows[0]["lookup_id"]);
+                string roleName = dt.Rows[0]["value"].ToString();
                 return new UserRole(roleId, roleName);
             }
             else
