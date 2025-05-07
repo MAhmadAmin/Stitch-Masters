@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using StitchMaster.BusinessLogic;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.DataLayer
 {

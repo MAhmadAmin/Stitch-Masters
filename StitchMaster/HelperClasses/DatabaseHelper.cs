@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using MySql.Data.MySqlClient;
 
-namespace StitchMaster
+namespace StitchMaster.HelperClasses
 {
     public class DatabaseHelper
     {
