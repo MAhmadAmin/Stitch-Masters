@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data;
+using MySql.Data.MySqlClient;
 
 namespace StitchMaster
 {
@@ -34,7 +35,7 @@ namespace StitchMaster
 
             return connection;
         }
-        public MySqlDataReader getData(string query)
+        public MySqlDataReader getDataReader(string query)
         {
             using (var connection = getConnection())
             {
@@ -44,6 +45,22 @@ namespace StitchMaster
                 }
             }
 
+        }
+
+        public DataTable GetDataTable(string query)
+        {
+            using (var connection = getConnection())
+            {
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    using (var adapter = new MySqlDataAdapter(command))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+                        return dataTable;
+                    }
+                }
+            }
         }
         public int ExecuteQuery(string query)
         {

@@ -1,0 +1,99 @@
+﻿@page "/signup"
+<PageTitle>Sign Up</PageTitle>
+
+<body class="light-bg" style="min-height: 100vh; margin: 0;">
+<div style="display: flex; justify-content: center; align-items: center; height: 90vh;">
+
+    <div class="accent-bg light-border" style="padding: 2rem; margin-top: 5rem; border-radius: 12px; max-width: 500px; width: 100%; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
+        <form @onsubmit="CreateAccount">
+            <h2 class="primary-text" style="text-align: center; margin-bottom: 1rem; color: #1b6ec2; font-weight: bold">Sign Up</h2>
+
+            <div class="form-group">
+                <label class="primary-text">Username</label>
+                <input @bind="Username" @bind:event="oninput" class="form-control" placeholder="Choose username" required />
+                @if (!string.IsNullOrEmpty(UsernameError))
+                {
+                    <p class="error-message">@UsernameError</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label class="primary-text">Full Name</label>
+                <input @bind="FullName" @bind:event="oninput" class="form-control" placeholder="Enter full name" required />
+            </div>
+
+            <div class="form-group">
+                <label class="primary-text">Email</label>
+                <input @bind="Email" @bind:event="oninput" type="email" class="form-control" placeholder="Enter email" required />
+                @if (!string.IsNullOrEmpty(EmailError))
+                {
+                    <p class="error-message">@EmailError</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label class="primary-text">Password</label>
+                <input @bind="Password" @bind:event="oninput" type="password" id="password" class="form-control" placeholder="Enter password" required />
+                @if (!string.IsNullOrEmpty(PasswordError))
+                {
+                    <p class="error-message">@PasswordError</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label class="primary-text">Confirm Password</label>
+                <input @bind="ConfirmPassword" @bind:event="oninput" type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" required />
+                @if (!string.IsNullOrEmpty(ConfirmPasswordError))
+                {
+                    <p class="error-message">@ConfirmPasswordError</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" onclick="togglePassword()" /> Show Password
+            </div>
+
+            <div class="form-group">
+                <label class="primary-text">Gender</label>
+                <select @bind="Gender" class="form-control" required>
+                    <option value="">-- Select --</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="primary-text">Date of Birth</label>
+                <input @bind="DOB" type="date" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label class="primary-text">Role</label>
+                <select @bind="Role" class="form-control" required>
+                    <option value="">-- Select --</option>
+                    <option>Admin</option>
+                    <option>Faculty</option>
+                    <option>Student</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 3rem">Sign Up</button>
+
+            @if (SignUpSuccess)
+            {
+                <p class="success-message" style="text-align: center; margin-top: 1rem;">Account created successfully!</p>
+            }
+        </form>
+    </div>
+</div>
+</body>
+
+<script>
+    function togglePassword() {
+        const pw = document.getElementById("password");
+        const cpw = document.getElementById("confirmPassword");
+        pw.type = pw.type === "password" ? "text" : "password";
+        cpw.type = cpw.type === "password" ? "text" : "password";
+    }
+</script>
