@@ -1,20 +1,24 @@
 ﻿using StitchMaster.BusinessLogic;
 using StitchMaster.DataLayer;
+using Microsoft.AspNetCore.Components;
 
 namespace StitchMaster.Components.Pages
 {
     public partial class Signup
     {
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
         private string Username, FullName, Email, Password, ConfirmPassword, Gender, Role;
         private DateTime DOB;
 
-        // Error messages
+        // Error messages  
         private string UsernameError, EmailError, PasswordError, ConfirmPasswordError;
 
-        // Success state
+        // Success state  
         private bool SignUpSuccess = false;
 
-        private void CreateAccount()
+        private async void CreateAccount()
         {
             ClearErrors();
             bool hasError = false;
@@ -48,9 +52,15 @@ namespace StitchMaster.Components.Pages
                 SignUpSuccess = false;
                 return;
             }
+
             User u = new User(Username, FullName, Email, Password, UserRoleData.Instance.GetRoleByName(Role));
+            UserData.StoreUser(u);
+
             SignUpSuccess = true;
             ClearFields();
+
+            await Task.Delay(1500);
+            NavigationManager.NavigateTo("/signin");
         }
 
         private bool IsStrongPassword(string pwd)
@@ -68,6 +78,5 @@ namespace StitchMaster.Components.Pages
             Username = FullName = Email = Password = ConfirmPassword = Gender = Role = string.Empty;
             DOB = DateTime.MinValue;
         }
-
     }
 }
