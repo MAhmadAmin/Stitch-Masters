@@ -1,5 +1,7 @@
 ﻿using StitchMaster.BusinessLogic;
 using StitchMaster.DataLayer;
+using StitchMaster;
+using Microsoft.AspNetCore.Components;
 
 namespace StitchMaster.Components.Pages
 {
@@ -9,7 +11,8 @@ namespace StitchMaster.Components.Pages
         private string password;
         private LoginStatus loginStatus = LoginStatus.None;
         private string userRoleName = null;
-
+        [Inject] public UserStateService UserState { get; set; }
+        [Inject] public NavigationManager Navigation { get; set; }
         private void Login()
         {
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
@@ -19,8 +22,8 @@ namespace StitchMaster.Components.Pages
                 {
                     userRoleName = UserRoleData.Instance.GetUserRoleByEmail(email).RoleName;
                     loginStatus = LoginStatus.Success;
-
-                    //Next Functionality
+                    UserState.Email = email;
+                    Navigation.NavigateTo("/");
                 }
                 else
                 {
@@ -28,8 +31,12 @@ namespace StitchMaster.Components.Pages
                 }
             }
             else
+            {
                 loginStatus = LoginStatus.MissingFields;
+            }
         }
+
+
         private enum LoginStatus
         {
             None,
