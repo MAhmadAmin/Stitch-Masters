@@ -1,0 +1,58 @@
+﻿@using StitchMaster;
+<a class="gig-card shadow-sm" href="/gig-details/@GigId" style="text-decoration:none;">
+    <img src="@GigImageUrl" alt="Gig Image" class="gig-image" />
+
+    <div class="p-3 d-flex">
+        <img src="@AvatarUrl" alt="Avatar" class="gig-avatar me-2" />
+        <div class="gig-user-info">
+            <h6 class="gig-title mb-1">@Name</h6>
+            <div class="gig-rating text-warning d-flex align-items-center">
+                @RenderStars()
+                <span class="text-muted ms-1">(@Rating.ToString("0.0"))</span>
+            </div>
+        </div>
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <i class="@Icon ms-auto text-secondary fs-4"></i>
+        }
+    </div>
+
+    <div class="px-3 pb-3">
+        <p class="gig-description mb-0">@Description</p>
+    </div>
+</a>
+
+@code {
+    [Parameter] public int GigId { get; set; }
+    [Parameter] public string Name { get; set; }
+    [Parameter] public string Description { get; set; }
+    [Parameter] public string Icon { get; set; }
+    [Parameter] public string AvatarUrl { get; set; } = "https://via.placeholder.com/50";
+    [Parameter] public string GigImageUrl { get; set; } = "https://via.placeholder.com/330x200";
+    [Parameter] public double Rating { get; set; } = 4.5;
+
+    private RenderFragment RenderStars() => builder =>
+    {
+        int fullStars = (int)Math.Floor(Rating);
+        for (int i = 0; i < fullStars; i++)
+        {
+            builder.OpenElement(0, "i");
+            builder.AddAttribute(1, "class", "bi bi-star-fill");
+            builder.CloseElement();
+        }
+
+        if (Rating - fullStars >= 0.5)
+        {
+            builder.OpenElement(2, "i");
+            builder.AddAttribute(3, "class", "bi bi-star-half");
+            builder.CloseElement();
+        }
+
+        for (int i = fullStars + 1; i < 5; i++)
+        {
+            builder.OpenElement(4, "i");
+            builder.AddAttribute(5, "class", "bi bi-star");
+            builder.CloseElement();
+        }
+    };
+}
