@@ -22,8 +22,23 @@ namespace StitchMaster.Components.Pages
                 {
                     userRoleName = UserRoleData.Instance.GetUserRoleByEmail(email).RoleName;
                     loginStatus = LoginStatus.Success;
-                    UserState.Email = email;
-                    Navigation.NavigateTo("/");
+                    UserState.SetEmail(email, userRoleName);
+                    if(userRoleName == "Customer")
+                    {
+                    Navigation.NavigateTo("/customer-dashboard");
+                    }else if(userRoleName == "Tailor")
+                    {
+                        Navigation.NavigateTo("/tailor-dashboard");
+
+                    }else if(userRoleName == "FabricStore")
+                    {
+                        Navigation.NavigateTo("/fabric-dashboard");
+
+                    }else if(userRoleName == "Admin")
+                    {
+                        Navigation.NavigateTo("/admin-dashboard");
+
+                    }
                 }
                 else
                 {

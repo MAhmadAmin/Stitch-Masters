@@ -1,4 +1,8 @@
 ﻿@inherits LayoutComponentBase
+@using StitchMaster.BusinessLogic
+
+@inject UserStateService UserState
+@inject NavigationManager Navigation
 
 <div class="container-fluid p-0 m-0">
     <NavMenu />
@@ -31,8 +35,14 @@
 
     protected override void OnInitialized()
     {
-        // userRole = UserRoleService.GetCurrentUserRole();
-        userRole = "Customer";
+        UserState.OnChange += OnUserStateChanged;
+        userRole = UserState.Role;
+    }
+
+    private void OnUserStateChanged()
+    {
+        userRole = UserState.Role; // refresh the local copy
+        InvokeAsync(StateHasChanged); // ensure UI re-renders
     }
 
     private void ToggleSidebar()
@@ -44,7 +54,12 @@
     {
         "Customer" => @<CustomerSideBar />,
         "Tailor" => @<TailorSideBar />,
-        "Store" => @<StoreSideBar />,
+        "FabricStore" => @<StoreSideBar />,
         _ => @<p class="accent-text">No access</p>
     };
-  }
+
+    public void Dispose()
+    {
+        UserState.OnChange -= OnUserStateChanged;
+    }
+}
