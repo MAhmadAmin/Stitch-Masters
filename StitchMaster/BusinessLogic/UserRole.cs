@@ -5,19 +5,19 @@ namespace StitchMaster.BusinessLogic
     public class UserRole
     {
         // Backing Fields
-        private readonly int _userRoleID;
-        private string _userRoleValue;
+        private readonly int _roleID;
+        private string _roleName;
 
         #region Getter Setter Start --------------------------------------------
-        public int UserRoleID
+        public int RoleID
         {
-            get { return _userRoleID; }
+            get { return _roleID; }
             
         }
-        public string UserRoleValue
+        public string RoleName
         {
-            get { return _userRoleValue; }
-            set { _userRoleValue = value; }
+            get { return _roleName; }
+            set { _roleName = value; }
         }
 
         #endregion Getter Setter Start --------------------------------------------
@@ -27,13 +27,13 @@ namespace StitchMaster.BusinessLogic
         {
             if (IsValid.DBID(userRoleID))
             {
-            this._userRoleID = userRoleID;
+            this._roleID = userRoleID;
             }
             else
             {
                 throw new InvalidOperationException("Invalid User Role ID");
             }
-            this.UserRoleValue = userRoleValue;
+            this._roleName = userRoleValue;
         }
         #endregion Constructors Start ----------------------------------------------
     }

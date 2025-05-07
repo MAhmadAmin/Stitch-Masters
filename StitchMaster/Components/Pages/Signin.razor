@@ -1,5 +1,61 @@
-﻿<h3>Signin</h3>
+﻿@page "/signin";
+<PageTitle>Sign in</PageTitle>
 
-@code {
+<body class="light-bg" style="min-height: 100vh; margin: 0;">
 
-}
+    <!-- Main content wrapper (after sidebar) -->
+    <div style="display: flex; justify-content: center; align-items: center; height: 75vh;">
+
+        <!-- Login Form Box -->
+        <div class="accent-bg light-border" style="padding: 2rem; border-radius: 12px; max-width: 400px; width: 100%; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
+            <form @onsubmit="Login" class="content">
+                <h2 class="primary-text" style="text-align: center; margin-bottom: 1rem;">Login</h2>
+
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="email" class="primary-text">Email</label>
+                    <input @bind="email" type="text" id="email" class="form-control" placeholder="Enter email" required />
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="password" class="primary-text">Password</label>
+                    <input @bind="password" type="password" id="password" class="form-control" placeholder="Enter password" required />
+                </div>
+
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <label class="form-check-label primary-text">
+                        <input type="checkbox" id="showPassword" class="form-check-input darker-border-checkbox" onclick="togglePassword()" />
+                        Show Password
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                <div>
+                    @if (loginStatus == LoginStatus.InvalidCredentials)
+                    {
+                        <p class="error-message">Invalid email or password.</p>
+                    }
+                    else if (loginStatus == LoginStatus.MissingFields)
+                    {
+                        <p class="error-message">Please enter both email and password.</p>
+                    }
+                    else if (loginStatus == LoginStatus.Success)
+                    {
+                        <p class="success-message">Success - @userRoleName</p>
+                    }
+                </div>
+
+                <p class="primary-text" style="text-align: center; margin-top: 1rem;">
+                    Don't have an account?                     
+                    <a href="signup" class="btn-link">Sign up</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+        const passwordField = document.getElementById("password");
+        passwordField.type = passwordField.type === "password" ? "text" : "password";
+        }
+    </script>
+</body>
