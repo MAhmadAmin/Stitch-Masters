@@ -7,7 +7,7 @@ namespace StitchMaster.DataLayer
     {
         static public int StoreUser(User user)
         {
-            string query = $"INSERT INTO Users (username, email, hashed_password, role_id) Values ('{user.Username}', '{user.Email}', '{user.Password}', '{user.UserRole.RoleID}')";
+            string query = $"INSERT INTO Users (username, name, email, hashed_password, profile_img_url, created_at, role_id) Values ('{user.Username}', '{user.FullName}', '{user.Email}', '{user.Password}', null, Now(), '{user.UserRole.RoleID}')";
             return DatabaseHelper.Instance.ExecuteQuery(query);
         }
         static public bool IsValidUser(string email, string password)
