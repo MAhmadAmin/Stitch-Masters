@@ -41,6 +41,46 @@ namespace StitchMaster.DataLayer
             }
         }
 
+        public string GetRoleNameByID(int roleId)
+        {
+            string query = $"SELECT role_name FROM Roles WHERE role_id = {roleId};";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            if (dt.Rows.Count == 1)
+            {
+                return dt.Rows[0]["role_name"].ToString();
+            }
+            else
+            {
+                throw new Exception("Role not found for the provided ID.");
+            }
+        }
+        public int GetRoleIDByName(string roleName)
+        {
+            string query = $"SELECT role_id FROM Roles WHERE role_name = '{roleName}';";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            if (dt.Rows.Count == 1)
+            {
+                return Convert.ToInt32(dt.Rows[0]["role_id"]);
+            }
+            else
+            {
+                throw new Exception("Role not found for the provided name.");
+            }
+        }
+        public UserRole GetRoleByName(string roleName)
+        {
+            string query = $"SELECT role_id, role_name FROM Roles WHERE role_name = '{roleName}';";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            if (dt.Rows.Count == 1)
+            {
+                return FillData(dt);
+            }
+            else
+            {
+                throw new Exception("Role not found for the provided name.");
+            }
+        }
+
         private UserRole FillData(DataTable dt)
         {
             if (dt.Rows.Count == 1)

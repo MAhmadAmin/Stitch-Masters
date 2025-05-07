@@ -11,9 +11,9 @@ namespace StitchMaster.BusinessLogic
         // Backing Fields
         private readonly int _userID;
         private string _username;
-        private string _name;    // This is the Comman Attrib of Child Classes
+        private string _fullName;    // This is the Comman Attrib of Child Classes
         private string _email;
-        private string _hashed_Password;
+        private string _Password;
         private string _profile_Img_URL;
         private DateTime _accountCreationDate;
         private UserRole _userRole;
@@ -34,10 +34,10 @@ namespace StitchMaster.BusinessLogic
                 }
                 _username = value; }
         }
-        public string Name
+        public string FullName
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return _fullName; }
+            set { _fullName = value; }
         }
         
         public string Email
@@ -45,10 +45,10 @@ namespace StitchMaster.BusinessLogic
             get { return _email; }
             set { _email = value; }
         }
-        public string Hashed_Password
+        public string Password
         {
-            get { return _hashed_Password; }
-            set { _hashed_Password = value; }
+            get { return _Password; }
+            set { _Password = value; }
         }
         public string Profile_Img_URL
         {
@@ -69,7 +69,7 @@ namespace StitchMaster.BusinessLogic
         #endregion Getter Setter Start --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
-        public User(int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole)
+        public User(int userID, string username, string name, string email, string password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole)
         {
             if (IsValid.DBID(userID))
             {
@@ -80,11 +80,20 @@ namespace StitchMaster.BusinessLogic
                 throw new ArgumentException("Invalid User ID");
             }
             Username = username;
-            Name = name;
+            FullName = name;
             Email = email;
-            Hashed_Password = hashed_Password;
+            Password = password;
             Profile_Img_URL = profile_Img_URL;
             AccountCreationDate = accountCreationDate;
+            UserRole = userRole;
+        }
+
+        public User(string username, string name, string email, string password, UserRole userRole)
+        {
+            Username = username;
+            FullName = name;
+            Email = email;
+            Password = password;
             UserRole = userRole;
         }
         public User(User u)
@@ -98,9 +107,9 @@ namespace StitchMaster.BusinessLogic
                 throw new ArgumentException("Invalid User ID");
             }
             Username = u.Username;
-            Name = u.Name;
+            FullName = u.FullName;
             Email = u.Email;
-            Hashed_Password = u.Hashed_Password;
+            Password = u.Password;
             Profile_Img_URL = u.Profile_Img_URL;
             AccountCreationDate = u.AccountCreationDate;
             UserRole = u.UserRole;
