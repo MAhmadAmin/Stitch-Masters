@@ -1,13 +1,13 @@
 ﻿@page "/signup"
 <PageTitle>Sign Up</PageTitle>
 
+<body class="light-bg" style="min-height: 100vh; margin: 0;">
 <div style="display: flex; justify-content: center; align-items: center; height: 90vh;">
 
     <div class="accent-bg light-border" style="padding: 2rem; margin-top: 5rem; border-radius: 12px; max-width: 500px; width: 100%; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
         <form @onsubmit="CreateAccount">
             <h2 class="primary-text" style="text-align: center; margin-bottom: 1rem; color: #1b6ec2; font-weight: bold">Sign Up</h2>
 
-            @* Username *@
             <div class="form-group">
                 <label class="primary-text">Username</label>
                 <input @bind="Username" @bind:event="oninput" class="form-control" placeholder="Choose username" required />
@@ -17,13 +17,11 @@
                 }
             </div>
 
-            @* Full Name *@
             <div class="form-group">
                 <label class="primary-text">Full Name</label>
                 <input @bind="FullName" @bind:event="oninput" class="form-control" placeholder="Enter full name" required />
             </div>
 
-            @* Email *@
             <div class="form-group">
                 <label class="primary-text">Email</label>
                 <input @bind="Email" @bind:event="oninput" type="email" class="form-control" placeholder="Enter email" required />
@@ -33,7 +31,6 @@
                 }
             </div>
 
-            @* Password *@
             <div class="form-group">
                 <label class="primary-text">Password</label>
                 <input @bind="Password" @bind:event="oninput" type="password" id="password" class="form-control" placeholder="Enter password" required />
@@ -43,7 +40,6 @@
                 }
             </div>
 
-            @* Confirm Password *@
             <div class="form-group">
                 <label class="primary-text">Confirm Password</label>
                 <input @bind="ConfirmPassword" @bind:event="oninput" type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" required />
@@ -53,12 +49,10 @@
                 }
             </div>
 
-            @* Show Password Toggle *@
             <div class="form-group">
                 <input type="checkbox" onclick="togglePassword()" /> Show Password
             </div>
 
-            @* Gender *@
             <div class="form-group">
                 <label class="primary-text">Gender</label>
                 <select @bind="Gender" class="form-control" required>
@@ -69,13 +63,11 @@
                 </select>
             </div>
 
-            @* DOB *@
             <div class="form-group">
                 <label class="primary-text">Date of Birth</label>
                 <input @bind="DOB" type="date" class="form-control" required />
             </div>
 
-            @* Role *@
             <div class="form-group">
                 <label class="primary-text">Role</label>
                 <select @bind="Role" class="form-control" required>
@@ -95,6 +87,7 @@
         </form>
     </div>
 </div>
+</body>
 
 <script>
     function togglePassword() {
