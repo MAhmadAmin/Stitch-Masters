@@ -13,5 +13,21 @@ namespace StitchMaster.DataLayer
             else
                 return false;
         }
+        static public bool UsernameExists(string username)
+        {
+            DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE username='{username}'");
+            if (dt.Rows.Count == 1)
+                return true;
+            else
+                return false;
+        }
+        static public bool EmailExists(string email)
+        {
+            DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE email='{email}'");
+            if (dt.Rows.Count == 1)
+                return true;
+            else
+                return false;
+        }
     }
 }
