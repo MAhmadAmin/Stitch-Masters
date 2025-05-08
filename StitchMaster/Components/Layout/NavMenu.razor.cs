@@ -1,4 +1,7 @@
 ﻿
+using StitchMaster.BusinessLogic;
+using StitchMaster.DataLayer;
+
 namespace StitchMaster.Components.Layout
 {
     public partial class NavMenu

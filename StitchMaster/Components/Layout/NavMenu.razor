@@ -1,4 +1,5 @@
 ﻿@using StitchMaster.BusinessLogic
+@using StitchMaster.DataLayer
 
 @inject UserStateService UserState
 @inject NavigationManager Navigation
@@ -14,8 +15,9 @@
 
         @if (UserState.IsLoggedIn)
         {
+
             <button class="logBtn accent-text btn bg-secondary link-opacity-70" @onclick="Logout">
-                Logout (@UserState.Email)
+            Logout (@UserData.GetUserByEmail(UserState.Email).FullName)
             </button>
         }
         else
