@@ -62,8 +62,6 @@ namespace StitchMaster.Components.Pages
             else if (GenderString == "Other")
                 Gender = Customer.GenderType.O;
 
-            //User u = new User(Username, FullName, Email, Password, UserRoleData.Instance.GetRoleByName(Role));
-            //UserData.StoreUser(u);
             UserRole ur = UserRoleData.Instance.GetRoleByName("Customer"); 
             Customer c = new Customer(Gender, DOB, Username, FullName, Email, Password, ur);
             int result = CustomerData.Instance.StoreCustomer(c);

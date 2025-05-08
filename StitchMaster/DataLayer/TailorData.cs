@@ -29,7 +29,7 @@ namespace StitchMaster.DataLayer
 
         public int StoreTailor(Tailor tailor)
         {
-            int userTuple, customerTuple;
+            int userTuple, tailorTuple;
 
             string query = $"INSERT INTO Users (username, name, email, hashed_password, profile_img_url, created_at, role_id) Values ('{tailor.Username}', '{tailor.FullName}', '{tailor.Email}', '{tailor.Password}', null, Now(), '{tailor.UserRole.RoleID}')";
             userTuple = DatabaseHelper.Instance.ExecuteQuery(query);
@@ -37,9 +37,9 @@ namespace StitchMaster.DataLayer
             User u = UserData.GetUserByEmail(tailor.Email); //Getting user to get the user id from Database;
 
             query = $"INSERT INTO Tailor (description, user_id) VALUES (null, {u.UserID})";
-            customerTuple = DatabaseHelper.Instance.ExecuteQuery(query);
+            tailorTuple = DatabaseHelper.Instance.ExecuteQuery(query);
 
-            if (userTuple == 1 && customerTuple == 1)
+            if (userTuple == 1 && tailorTuple == 1)
                 return 1;
             else
                 return 0;
