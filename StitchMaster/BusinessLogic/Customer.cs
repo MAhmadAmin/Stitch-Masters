@@ -8,7 +8,8 @@ namespace StitchMaster.BusinessLogic
     public class Customer : User
     {
         private readonly int _customerID;
-        private string _gender;
+        
+        private Gender.GenderType _gender;
         private DateOnly _dOB;
         private List<Address> _myAddresses = new List<Address>();
         //private List<Measurement> myMeasurements = new Lis
@@ -33,7 +34,7 @@ namespace StitchMaster.BusinessLogic
         {
             get { return _customerID; }
         }
-        public string Gender
+        public Gender.GenderType Gender
         {
             get { return _gender; }
             set { _gender = value; }
@@ -46,7 +47,7 @@ namespace StitchMaster.BusinessLogic
         #endregion 
 
         #region Constructors Start ----------------------------------------------
-        public Customer(int customerID, string gender, DateOnly dOB, List<Address> myAddresses, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base( userID,  username,  name,  email,  hashed_Password,  profile_Img_URL,  accountCreationDate,  userRole)
+        public Customer(int customerID, Gender.GenderType gender, DateOnly dOB, List<Address> myAddresses, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base( userID,  username,  name,  email,  hashed_Password,  profile_Img_URL,  accountCreationDate,  userRole)
         {  // Full Param Constructor
             if(IsValid.DBID(customerID))
             {
