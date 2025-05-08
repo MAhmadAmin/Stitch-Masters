@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace StitchMaster.Components.Pages
 {
-    public partial class Signup
+    public partial class Signup_Tailor
     {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
@@ -64,7 +64,7 @@ namespace StitchMaster.Components.Pages
 
             //User u = new User(Username, FullName, Email, Password, UserRoleData.Instance.GetRoleByName(Role));
             //UserData.StoreUser(u);
-            UserRole ur = UserRoleData.Instance.GetRoleByName("Customer"); 
+            UserRole ur = UserRoleData.Instance.GetRoleByName("Customer");
             Customer c = new Customer(Gender, DOB, Username, FullName, Email, Password, null, DateTime.Now, ur);
             int result = CustomerData.Instance.StoreCustomer(c);
 

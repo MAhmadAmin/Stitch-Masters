@@ -33,7 +33,6 @@ namespace StitchMaster.DataLayer
 
             string query = $"INSERT INTO Users (username, name, email, hashed_password, profile_img_url, created_at, role_id) Values ('{customer.Username}', '{customer.FullName}', '{customer.Email}', '{customer.Password}', null, Now(), '{customer.UserRole.RoleID}')";
             userTuple = DatabaseHelper.Instance.ExecuteQuery(query);
-            userTuple = 1;
 
             User u = UserData.GetUserByEmail(customer.Email); //Getting user to get the user id from Database;
 
