@@ -9,9 +9,7 @@ namespace StitchMaster.Components.Pages
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        private string Username, FullName, Email, Password, ConfirmPassword, GenderString;
-        Customer.GenderType Gender;
-        private DateOnly DOB = new DateOnly(2000, 1, 1);
+        private string Username, FullName, Email, Password, ConfirmPassword, Description;
 
         // Error messages  
         private string UsernameError, EmailError, PasswordError, ConfirmPasswordError;
@@ -55,18 +53,13 @@ namespace StitchMaster.Components.Pages
                 return;
             }
 
-            if (GenderString == "Male")
-                Gender = Customer.GenderType.M;
-            else if (GenderString == "Female")
-                Gender = Customer.GenderType.F;
-            else if (GenderString == "Other")
-                Gender = Customer.GenderType.O;
-
             //User u = new User(Username, FullName, Email, Password, UserRoleData.Instance.GetRoleByName(Role));
             //UserData.StoreUser(u);
-            UserRole ur = UserRoleData.Instance.GetRoleByName("Customer");
-            Customer c = new Customer(Gender, DOB, Username, FullName, Email, Password, null, DateTime.Now, ur);
-            int result = CustomerData.Instance.StoreCustomer(c);
+            //UserRole ur = UserRoleData.Instance.GetRoleByName("Customer");
+            //Customer c = new Customer(Gender, DOB, Username, FullName, Email, Password, null, DateTime.Now, ur);
+            //int result = CustomerData.Instance.StoreCustomer(c);
+
+            int result = 1;
 
             if (result == 1)
             {
@@ -92,8 +85,7 @@ namespace StitchMaster.Components.Pages
 
         private void ClearFields()
         {
-            Username = FullName = Email = Password = ConfirmPassword = string.Empty;
-            DOB = new DateOnly(2000, 1, 1);
+            Username = FullName = Email = Password = ConfirmPassword = Description = string.Empty;
         }
     }
 }
