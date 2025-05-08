@@ -1,4 +1,5 @@
 ﻿using StitchMaster.BusinessLogic;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.DataLayer
 {
@@ -26,9 +27,23 @@ namespace StitchMaster.DataLayer
             }
         }
 
-        //public int StoreCustomer(Customer customer)
-        //{
-        //    string query = $"";
-        //}
+        public int StoreCustomer(Customer customer)
+        {
+            int userTuple, customerTuple;
+
+            string query = $"INSERT INTO Users (username, name, email, hashed_password, profile_img_url, created_at, role_id) Values ('{customer.Username}', '{customer.FullName}', '{customer.Email}', '{customer.Password}', null, Now(), '{customer.UserRole.RoleID}')";
+            userTuple = DatabaseHelper.Instance.ExecuteQuery(query);
+            userTuple = 1;
+
+            User u = UserData.GetUserByEmail(customer.Email); //Getting user to get the user id from Database;
+
+            query = $"INSERT INTO Buyer (gender, date_of_birth, user_id) VALUES ('{customer.Gender.ToString()}', '{customer.DOB.ToString("yyyy-MM-dd")}', {u.UserID})";
+            customerTuple = DatabaseHelper.Instance.ExecuteQuery(query);
+
+            if (userTuple == 1 && customerTuple == 1)
+                return 1;
+            else
+                return 0;
+        }
     }
 }

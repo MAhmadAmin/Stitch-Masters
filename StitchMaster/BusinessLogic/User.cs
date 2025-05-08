@@ -52,8 +52,8 @@ namespace StitchMaster.BusinessLogic
         }
         public string Profile_Img_URL
         {
-            get { return Profile_Img_URL; }
-            set { Profile_Img_URL = value; }
+            get { return _profile_Img_URL; }
+            set { _profile_Img_URL = value; }
                 
         }
         public DateTime AccountCreationDate
@@ -88,14 +88,17 @@ namespace StitchMaster.BusinessLogic
             UserRole = userRole;
         }
 
-        public User(string username, string name, string email, string password, UserRole userRole)
+        public User(string username, string name, string email, string password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole)
         {
             Username = username;
             FullName = name;
             Email = email;
             Password = password;
+            Profile_Img_URL = profile_Img_URL;
+            AccountCreationDate = accountCreationDate;
             UserRole = userRole;
         }
+
         public User(User u)
         {
             if (IsValid.DBID(u.UserID))

@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using Org.BouncyCastle.Security;
 using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
 
@@ -34,6 +35,34 @@ namespace StitchMaster.DataLayer
                 return true;
             else
                 return false;
+        }
+        static public User GetUserByEmail(string email)
+        {
+            DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE email='{email}'");
+            if (dt.Rows.Count == 1)
+            {
+                return FillUser(dt);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        static private User FillUser(DataTable dt)
+        {
+            if (dt.Rows.Count == 1)
+            {
+
+                DataRow dr = dt.Rows[0];
+                UserRole ur = UserRoleData.Instance.GetRoleByID(Convert.ToInt32(dr["role_id"]));
+                int a = 5;
+                return new User(Convert.ToInt32(dr["user_id"]), dr["username"].ToString(), dr["name"].ToString(), dr["email"].ToString(), dr["hashed_password"].ToString(), dr["profile_img_url"].ToString(), Convert.ToDateTime(dr["created_at"]), ur);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.Metrics;
 using System.Net;
+using System.Reflection;
 using Org.BouncyCastle.Tls.Crypto;
+using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
 
 namespace StitchMaster.BusinessLogic
@@ -96,6 +98,13 @@ namespace StitchMaster.BusinessLogic
             this.Gender = gender;
             this.DOB = dOB;
             this.MyAddresses = myAddresses;
+
+        }
+
+        public Customer(GenderType gender, DateOnly dOB, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole) : base(username, name, email, hashed_Password, profile_Img_URL, accountCreationDate, userRole)
+        {   
+            this.Gender = gender;
+            this.DOB = dOB;
 
         }
         public Customer(Customer c):base (c)
