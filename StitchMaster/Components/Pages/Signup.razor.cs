@@ -10,7 +10,7 @@ namespace StitchMaster.Components.Pages
         private NavigationManager NavigationManager { get; set; }
 
         private string Username, FullName, Email, Password, ConfirmPassword, Gender, Role;
-        private DateTime DOB;
+        private DateTime DOB = new DateTime(2000, 1, 1);
 
         // Error messages  
         private string UsernameError, EmailError, PasswordError, ConfirmPasswordError;

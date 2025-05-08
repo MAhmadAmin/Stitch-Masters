@@ -1,4 +1,6 @@
-﻿namespace StitchMaster.DataLayer
+﻿using StitchMaster.BusinessLogic;
+
+namespace StitchMaster.DataLayer
 {
     public class CustomerData
     {
@@ -23,5 +25,10 @@
                 return _customerData;
             }
         }
+
+        //public int StoreCustomer(Customer customer)
+        //{
+        //    string query = $"";
+        //}
     }
 }
