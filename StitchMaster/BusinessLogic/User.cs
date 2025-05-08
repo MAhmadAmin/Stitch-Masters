@@ -88,14 +88,12 @@ namespace StitchMaster.BusinessLogic
             UserRole = userRole;
         }
 
-        public User(string username, string name, string email, string password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole)
+        public User(string username, string name, string email, string password, UserRole userRole)
         {
             Username = username;
             FullName = name;
             Email = email;
             Password = password;
-            Profile_Img_URL = profile_Img_URL;
-            AccountCreationDate = accountCreationDate;
             UserRole = userRole;
         }
 

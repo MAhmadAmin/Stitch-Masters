@@ -101,7 +101,7 @@ namespace StitchMaster.BusinessLogic
 
         }
 
-        public Customer(GenderType gender, DateOnly dOB, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole) : base(username, name, email, hashed_Password, profile_Img_URL, accountCreationDate, userRole)
+        public Customer(GenderType gender, DateOnly dOB, string username, string name, string email, string hashed_Password, UserRole userRole) : base(username, name, email, hashed_Password, userRole)
         {   
             this.Gender = gender;
             this.DOB = dOB;

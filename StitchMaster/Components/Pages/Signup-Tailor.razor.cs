@@ -9,7 +9,7 @@ namespace StitchMaster.Components.Pages
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        private string Username, FullName, Email, Password, ConfirmPassword, Description;
+        private string Username, FullName, Email, Password, ConfirmPassword;
 
         // Error messages  
         private string UsernameError, EmailError, PasswordError, ConfirmPasswordError;
@@ -55,11 +55,11 @@ namespace StitchMaster.Components.Pages
 
             //User u = new User(Username, FullName, Email, Password, UserRoleData.Instance.GetRoleByName(Role));
             //UserData.StoreUser(u);
-            //UserRole ur = UserRoleData.Instance.GetRoleByName("Customer");
             //Customer c = new Customer(Gender, DOB, Username, FullName, Email, Password, null, DateTime.Now, ur);
-            //int result = CustomerData.Instance.StoreCustomer(c);
 
-            int result = 1;
+            UserRole ur = UserRoleData.Instance.GetRoleByName("Tailor");
+            Tailor t = new Tailor(Username, FullName, Email, Password, ur);
+            int result = TailorData.Instance.StoreTailor(t);
 
             if (result == 1)
             {
@@ -85,7 +85,7 @@ namespace StitchMaster.Components.Pages
 
         private void ClearFields()
         {
-            Username = FullName = Email = Password = ConfirmPassword = Description = string.Empty;
+            Username = FullName = Email = Password = ConfirmPassword = string.Empty;
         }
     }
 }
