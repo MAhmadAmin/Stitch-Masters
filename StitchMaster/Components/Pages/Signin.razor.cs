@@ -32,7 +32,7 @@ namespace StitchMaster.Components.Pages
 
                     }else if(userRoleName == "FabricStore")
                     {
-                        Navigation.NavigateTo("/fabric-dashboard");
+                        Navigation.NavigateTo("/store-dashboard");
 
                     }else if(userRoleName == "Admin")
                     {
