@@ -77,6 +77,12 @@ namespace StitchMaster.BusinessLogic
             this.TailorRank = tailorRank;
             this.MySkills = mySkills;
         }
+
+        public Tailor(string username, string name, string email, string hashed_Password, UserRole userRole) : base(username, name, email, hashed_Password, userRole)
+        {
+            TailorDescription = null;
+        }
+
         public Tailor(Tailor t):base(t)
         { // Copy Constructor
             // Backing Fields are Never Assigned the Values Directly (except Readonly Backing Fields) .. Always use the Properties to Assign the Values so that Setter Function is Automatically Called

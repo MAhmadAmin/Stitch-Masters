@@ -48,6 +48,11 @@ namespace StitchMaster.BusinessLogic
             FabricStoreAddress = fabricStoreAddress;
             // Here we have not Set  (Laoded) the ProductList
         }
+
+        public FabricStore(string username, string name, string email, string hashed_Password, UserRole userRole) : base(username, name, email, hashed_Password, userRole)
+        {
+            FabricStoreDescription = null;
+        }
         #endregion Constructors Start ----------------------------------------------
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace StitchMaster.DataLayer
+﻿using StitchMaster.BusinessLogic;
+using StitchMaster.HelperClasses;
+
+namespace StitchMaster.DataLayer
 {
     public class TailorData
     {
@@ -22,6 +25,24 @@
                 }
                 return _tailorData;
             }
+        }
+
+        public int StoreTailor(Tailor tailor)
+        {
+            int userTuple, tailorTuple;
+
+            string query = $"INSERT INTO Users (username, name, email, hashed_password, profile_img_url, created_at, role_id) Values ('{tailor.Username}', '{tailor.FullName}', '{tailor.Email}', '{tailor.Password}', null, Now(), '{tailor.UserRole.RoleID}')";
+            userTuple = DatabaseHelper.Instance.ExecuteQuery(query);
+
+            User u = UserData.GetUserByEmail(tailor.Email); //Getting user to get the user id from Database;
+
+            query = $"INSERT INTO Tailor (description, user_id) VALUES (null, {u.UserID})";
+            tailorTuple = DatabaseHelper.Instance.ExecuteQuery(query);
+
+            if (userTuple == 1 && tailorTuple == 1)
+                return 1;
+            else
+                return 0;
         }
     }
 }

@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Components;
 
 namespace StitchMaster.Components.Pages
 {
-    public partial class Signup
+    public partial class Signup_Tailor
     {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        private string Username, FullName, Email, Password, ConfirmPassword, GenderString;
-        Customer.GenderType Gender;
-        private DateOnly DOB = new DateOnly(2000, 1, 1);
+        private string Username, FullName, Email, Password, ConfirmPassword;
 
         // Error messages  
         private string UsernameError, EmailError, PasswordError, ConfirmPasswordError;
@@ -55,16 +53,9 @@ namespace StitchMaster.Components.Pages
                 return;
             }
 
-            if (GenderString == "Male")
-                Gender = Customer.GenderType.M;
-            else if (GenderString == "Female")
-                Gender = Customer.GenderType.F;
-            else if (GenderString == "Other")
-                Gender = Customer.GenderType.O;
-
-            UserRole ur = UserRoleData.Instance.GetRoleByName("Customer"); 
-            Customer c = new Customer(Gender, DOB, Username, FullName, Email, Password, ur);
-            int result = CustomerData.Instance.StoreCustomer(c);
+            UserRole ur = UserRoleData.Instance.GetRoleByName("Tailor");
+            Tailor t = new Tailor(Username, FullName, Email, Password, ur);
+            int result = TailorData.Instance.StoreTailor(t);
 
             if (result == 1)
             {
@@ -91,7 +82,6 @@ namespace StitchMaster.Components.Pages
         private void ClearFields()
         {
             Username = FullName = Email = Password = ConfirmPassword = string.Empty;
-            DOB = new DateOnly(2000, 1, 1);
         }
     }
 }

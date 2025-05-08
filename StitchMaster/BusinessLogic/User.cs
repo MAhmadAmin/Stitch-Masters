@@ -52,8 +52,8 @@ namespace StitchMaster.BusinessLogic
         }
         public string Profile_Img_URL
         {
-            get { return Profile_Img_URL; }
-            set { Profile_Img_URL = value; }
+            get { return _profile_Img_URL; }
+            set { _profile_Img_URL = value; }
                 
         }
         public DateTime AccountCreationDate
@@ -96,6 +96,7 @@ namespace StitchMaster.BusinessLogic
             Password = password;
             UserRole = userRole;
         }
+
         public User(User u)
         {
             if (IsValid.DBID(u.UserID))

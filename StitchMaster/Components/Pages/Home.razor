@@ -5,8 +5,14 @@
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
-Welcome to your new app.
+Welcome to your new app. @message
 
 @code
 {
+	private string message = "Welcome to the StitchMaster application!";
+	protected override async Task OnInitializedAsync()
+	{
+			User u = UserData.GetUserByEmail("ahmad@gmail.com");
+
+	}
 }

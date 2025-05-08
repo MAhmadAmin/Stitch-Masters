@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.Metrics;
 using System.Net;
+using System.Reflection;
 using Org.BouncyCastle.Tls.Crypto;
+using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
 
 namespace StitchMaster.BusinessLogic
@@ -8,8 +10,15 @@ namespace StitchMaster.BusinessLogic
     public class Customer : User
     {
         private readonly int _customerID;
-        private string _gender;
+        public enum GenderType
+        {
+            M,
+            F,
+            O
+        }
+        private GenderType _gender;
         private DateOnly _dOB;
+        private int _userID;
         private List<Address> _myAddresses = new List<Address>();
         //private List<Measurement> myMeasurements = new Lis
 
@@ -33,7 +42,7 @@ namespace StitchMaster.BusinessLogic
         {
             get { return _customerID; }
         }
-        public string Gender
+        public GenderType Gender
         {
             get { return _gender; }
             set { _gender = value; }
@@ -43,10 +52,40 @@ namespace StitchMaster.BusinessLogic
             get { return new DateOnly(_dOB.Year,_dOB.Month,_dOB.Day); }
             set { _dOB = new DateOnly(value.Year, value.Month, value.Day); }
             }
-        #endregion 
+        public int UserID
+        {
+            get { return _userID; }
+            set
+            {
+                if (IsValid.DBID(value))
+                {
+                    _userID = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Invalid User ID");
+                }
+            }
+        }
+        #endregion
 
         #region Constructors Start ----------------------------------------------
-        public Customer(int customerID, string gender, DateOnly dOB, List<Address> myAddresses, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base( userID,  username,  name,  email,  hashed_Password,  profile_Img_URL,  accountCreationDate,  userRole)
+
+        //public Customer(int customerID, GenderType gender, DateOnly dOB, int userID)
+        //{
+        //    if (IsValid.DBID(customerID))
+        //    {
+        //        this._customerID = customerID;
+        //        Gender = gender;
+        //        DOB = dOB;
+        //        UserID = userID;
+
+        //    }
+        //    else
+
+        //        throw new InvalidOperationException("Invalid Customer ID");
+        //}
+        public Customer(int customerID, GenderType gender, DateOnly dOB, List<Address> myAddresses, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base( userID,  username,  name,  email,  hashed_Password,  profile_Img_URL,  accountCreationDate,  userRole)
         {  // Full Param Constructor
             if(IsValid.DBID(customerID))
             {
@@ -59,6 +98,13 @@ namespace StitchMaster.BusinessLogic
             this.Gender = gender;
             this.DOB = dOB;
             this.MyAddresses = myAddresses;
+
+        }
+
+        public Customer(GenderType gender, DateOnly dOB, string username, string name, string email, string hashed_Password, UserRole userRole) : base(username, name, email, hashed_Password, userRole)
+        {   
+            this.Gender = gender;
+            this.DOB = dOB;
 
         }
         public Customer(Customer c):base (c)

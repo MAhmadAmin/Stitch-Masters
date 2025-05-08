@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Components;
 
 namespace StitchMaster.Components.Pages
 {
-    public partial class Signup
+    public partial class Signup_Store
     {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        private string Username, FullName, Email, Password, ConfirmPassword, GenderString;
-        Customer.GenderType Gender;
-        private DateOnly DOB = new DateOnly(2000, 1, 1);
+        private string Username, FullName, Email, Password, ConfirmPassword;
 
         // Error messages  
         private string UsernameError, EmailError, PasswordError, ConfirmPasswordError;
@@ -55,16 +53,13 @@ namespace StitchMaster.Components.Pages
                 return;
             }
 
-            if (GenderString == "Male")
-                Gender = Customer.GenderType.M;
-            else if (GenderString == "Female")
-                Gender = Customer.GenderType.F;
-            else if (GenderString == "Other")
-                Gender = Customer.GenderType.O;
+            //User u = new User(Username, FullName, Email, Password, UserRoleData.Instance.GetRoleByName(Role));
+            //UserData.StoreUser(u);
+            //Customer c = new Customer(Gender, DOB, Username, FullName, Email, Password, null, DateTime.Now, ur);
 
-            UserRole ur = UserRoleData.Instance.GetRoleByName("Customer"); 
-            Customer c = new Customer(Gender, DOB, Username, FullName, Email, Password, ur);
-            int result = CustomerData.Instance.StoreCustomer(c);
+            UserRole ur = UserRoleData.Instance.GetRoleByName("FabricStore");
+            FabricStore s = new FabricStore(Username, FullName, Email, Password, ur);
+            int result = FabricStoreData.Instance.StoreFabricStore(s);
 
             if (result == 1)
             {
@@ -91,7 +86,6 @@ namespace StitchMaster.Components.Pages
         private void ClearFields()
         {
             Username = FullName = Email = Password = ConfirmPassword = string.Empty;
-            DOB = new DateOnly(2000, 1, 1);
         }
     }
 }

@@ -41,36 +41,23 @@ namespace StitchMaster.DataLayer
                 throw new Exception("User role not found for the provided email.");
             }
         }
-
-        public string GetRoleNameByID(int roleId)
+        public UserRole GetRoleByName(string roleName)
         {
-            string query = $"SELECT value FROM Lookup WHERE lookup_id = {roleId};";
+            string query = $"SELECT lookup_id, value FROM Lookup WHERE value = '{roleName}';";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             if (dt.Rows.Count == 1)
             {
-                return dt.Rows[0]["value"].ToString();
-            }
-            else
-            {
-                throw new Exception("Role not found for the provided ID.");
-            }
-        }
-        public int GetRoleIDByName(string roleName)
-        {
-            string query = $"SELECT lookup_id FROM Lookup WHERE value = '{roleName}';";
-            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
-            if (dt.Rows.Count == 1)
-            {
-                return Convert.ToInt32(dt.Rows[0]["lookup_id"]);
+                return FillData(dt);
             }
             else
             {
                 throw new Exception("Role not found for the provided name.");
             }
         }
-        public UserRole GetRoleByName(string roleName)
+
+        public UserRole GetRoleByID(int ID)
         {
-            string query = $"SELECT lookup_id, value FROM Lookup WHERE value = '{roleName}';";
+            string query = $"SELECT lookup_id, value FROM Lookup WHERE lookup_id = '{ID}';";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             if (dt.Rows.Count == 1)
             {
