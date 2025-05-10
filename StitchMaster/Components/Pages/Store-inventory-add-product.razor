@@ -1,7 +1,11 @@
 ﻿@page "/store-inventory-add-product"
 @using StitchMaster
+@using StitchMaster.DataLayer
 @* @inject FabricProduct _productService *@
 @inject NavigationManager Navigation 
+@using Microsoft.AspNetCore.Components.Forms
+@using System.IO
+@inject IWebHostEnvironment env
 
 <h3 class="mb-4">Add New Product</h3>
 
@@ -21,6 +25,29 @@
                 <label class="form-label">Description</label>
                 <InputTextArea class="form-control" @bind-Value="Product.FabricProductDescription" />
             </div>
+            <div class="row mb-3">
+                <!-- Gender Dropdown -->
+                <div class="col-md-6">
+                    <label class="form-label">Gender</label>
+                    <InputSelect class="form-select" @bind-Value="Product.Gender">
+                        <option value="">-- Select Gender --</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </InputSelect>
+                </div>
+
+                <!-- Color Dropdown -->
+                <div class="col-md-6">
+                    <label class="form-label">Color</label>
+                    <InputSelect class="form-select" @bind-Value="SelectedColorId">
+                        <option value="">-- Select Color --</option>
+                        @foreach (var color in AvailableColors)
+                        {
+                            <option value="@color.ColorID">@color.ColorName</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -34,10 +61,10 @@
             </div>
 
             @* <div class="row mb-3"> *@
-                @* <div class="col-md-6"> *@
-                @*     <label class="form-label">Rating</label> *@
-                @*     <InputNumber class="form-control" @bind-Value="" /> *@
-                @* </div> *@
+            @* <div class="col-md-6"> *@
+            @*     <label class="form-label">Rating</label> *@
+            @*     <InputNumber class="form-control" @bind-Value="" /> *@
+            @* </div> *@
             @* </div> *@
 
             <div class="d-flex gap-2">
@@ -60,19 +87,53 @@
                 <span class="text-muted">Image will appear here</span>
             }
         </div>
+
+        <div class="mt-3">
+            <label class="form-label">Upload Image</label>
+            <InputFile OnChange="HandleImageUpload" accept="image/*" />
+        </div>
     </div>
+
 </div>
 
 @code {
-    private FabricProduct Product = new FabricProduct(1, "", "", new FabricColor(1, ""), "", "", 2, 20, 1, "/product2.jpg");
-
+    int SelectedColorId;
+    private List<FabricColor> AvailableColors = new List<FabricColor>()
+    {
+        new FabricColor(1,"Red"),
+        new FabricColor(2,"Green")
+    };
+    private FabricProduct Product = new FabricProduct("", "", new FabricColor(1, ""), "", "", 2, 20, 1, "");
+    private FabricStore Store = FabricStoreData.Instance.GetAllObjects().Find(f => f.FabricStoreID == 1);
     private void Cancel()
     {
         Navigation.NavigateTo("/store-inventory");
     }
     private async Task HandleSubmit()
     {
+        FabricProductData.Instance.AddObject(Store, Product);
         // await _productService.AddProductAsync(Product);
-        Navigation.NavigateTo("/inventory");
+        // Navigation.NavigateTo("/inventory");
     }
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        if (file != null)
+        {
+            var fileName = $"{Guid.NewGuid()}_{file.Name}";
+
+            var uploadFolder = Path.Combine(env.WebRootPath, "uploads");
+            Directory.CreateDirectory(uploadFolder);
+
+            var filePath = Path.Combine(uploadFolder, fileName);
+
+            await using var fs = new FileStream(filePath, FileMode.Create);
+            await file.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024).CopyToAsync(fs);
+
+            Product.ImageURl = "/uploads/" + fileName;
+            StateHasChanged(); // force re-render
+        }
+    }
+
 }
