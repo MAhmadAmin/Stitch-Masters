@@ -104,14 +104,14 @@
         new FabricColor(2,"Green")
     };
     private FabricProduct Product = new FabricProduct("", "", new FabricColor(1, ""), "", "", 2, 20, 1, "");
-    private FabricStore Store = FabricStoreData.Instance.GetAllObjects().Find(f => f.FabricStoreID == 1);
+    // private FabricStore Store = FabricStoreData.Instance.GetAllObjects().Find(f => f.FabricStoreID == 1);
     private void Cancel()
     {
         Navigation.NavigateTo("/store-inventory");
     }
     private async Task HandleSubmit()
     {
-        FabricProductData.Instance.AddObject(Store, Product);
+        // FabricProductData.Instance.AddObject(Store, Product);
         // await _productService.AddProductAsync(Product);
         // Navigation.NavigateTo("/inventory");
     }
