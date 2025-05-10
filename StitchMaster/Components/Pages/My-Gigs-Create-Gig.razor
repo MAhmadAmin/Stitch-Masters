@@ -1,26 +1,28 @@
 ﻿@page "/my-gigs/create-gig"
 <PageTitle>Create New Gig</PageTitle>
-@using StitchMaster
+@using StitchMaster.BusinessLogic;
+@using StitchMaster.DataLayer;
 @inject NavigationManager Navigation
 
 <h3 class="mb-4" style="text-align: center">Create New Gig</h3>
+<h3 class="mb-4" style="text-align: center">Selected @SelectedCategoryId</h3>
 
 <div class="container" style="max-width: 1200;">
     <div class="d-flex flex-row gap-4">
         <!-- Left Panel - Form -->
         <div class="flex-fill">
-            <EditForm Model="Gig" OnValidSubmit="HandleSubmit">
+            <EditForm Model="gig" OnValidSubmit="HandleSubmit">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
                 <div class="mb-3">
                     <label class="form-label">Title</label>
-                    <InputText class="form-control" @bind-Value="Gig.GigTitle" />
+                    <InputText class="form-control" @bind-Value="gig.GigTitle" placeholder = "Men's Shalwar Kameez"/>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <InputTextArea class="form-control" @bind-Value="Gig.GigDescription" />
+                    <InputTextArea class="form-control" @bind-Value="description" placeholder="Top-notch Pakistani cultures Gent's Shalwar kameez.....'" />
                 </div>
 
                 <div class="row mb-3">
@@ -29,7 +31,7 @@
                         <label class="form-label">Price</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <InputNumber class="form-control" @bind-Value="Gig.GigPrice" />
+                            <InputNumber class="form-control" @bind-Value="price"/>
                         </div>
                         <small class="text-muted">Enter price in USD</small>
                     </div>
@@ -39,7 +41,7 @@
                         <label class="form-label">Delivery Time (in Days)</label>
                         <div class="input-group">
                             <button type="button" class="btn btn-outline-secondary" @onclick="DecrementDeliveryDays">-</button>
-                            <InputNumber class="form-control text-center" @bind-Value="Gig.GigDeliveryDays" />
+                            <InputNumber class="form-control text-center" @bind-Value="deliveryDays" />
                             <button type="button" class="btn btn-outline-secondary" @onclick="IncrementDeliveryDays">+</button>
                         </div>
                         <small class="text-muted">Minimum 1 day</small>
@@ -50,19 +52,19 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label class="form-label">Gig Category</label>
-                        <select class="form-select"> <!--here-->
+                        <select class="form-select" @bind="SelectedCategoryId">
                             <option disabled selected value="">Select a category</option>
-                            <option value="Design">Design</option>
-                            <option value="Development">Development</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Writing">Writing</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryID">@category.CategoryName</option>
+                            }
                         </select>
                     </div>
                 </div>
 
                 <!-- Buttons -->
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-success">Create</button>
                     <button type="button" class="btn btn-secondary">Cancel</button>
                 </div>
             </EditForm>
@@ -87,68 +89,3 @@
         </div>
     </div>
 </div>
-
-@code {
-    private TailorGig Gig = new TailorGig("Men's Modern Dress", "Get new modern-styled dressed stitched to enhance your personality", new Category(1, "a", "male"), 10, 3, "/gigPhoto.jpg");
-
-    private IBrowserFile selectedFile;
-    private string imagePreviewUrl =null;
-    private string savedImagePath = null;
-
-    private async Task OnImageSelected(InputFileChangeEventArgs e)
-    {
-        if (e is null)
-        {
-            throw new ArgumentNullException(nameof(e));
-        }
-
-        selectedFile = e.File;
-
-        if (selectedFile != null)
-        {
-            // Define a folder inside wwwroot (e.g., "uploads")
-            var uploadsFolder = Path.Combine(Environment.CurrentDirectory, "wwwroot", "uploads");
-
-            // Create the folder if it doesn't exist
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            // Generate a unique file name to avoid conflicts
-            var uniqueFileName = $"{Guid.NewGuid()}_{selectedFile.Name}";
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            // Save the file to wwwroot/uploads/
-            using var stream = selectedFile.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024); // 5MB max
-            using var fileStream = File.Create(filePath);
-            await stream.CopyToAsync(fileStream);
-
-            // Generate relative URL for image display
-            savedImagePath = $"/uploads/{uniqueFileName}";
-            imagePreviewUrl = savedImagePath;
-        }
-    }
-
-    private void Cancel()
-    {
-        Navigation.NavigateTo("/my-gigs");
-    }
-    private async Task HandleSubmit()
-    {
-        // await _productService.AddProductAsync(Product);
-        Navigation.NavigateTo("/my-gigs");
-    }
-    void IncrementDeliveryDays()
-    {
-        Gig.GigDeliveryDays++;
-    }
-
-    void DecrementDeliveryDays()
-    {
-        if (Gig.GigDeliveryDays > 1)
-        {
-            Gig.GigDeliveryDays--;
-        }
-    }
-}
