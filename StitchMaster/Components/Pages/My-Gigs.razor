@@ -1,6 +1,69 @@
-﻿@page "/my-gigs";
+﻿@page "/my-gigs"
+@using StitchMaster.Components.RazorComponents
 <PageTitle>My Gigs</PageTitle>
 
-@code {
+@* <div> *@
+    
+@* <div class="btn secondary-bg"  >+ *@
+    
+@* </div> *@
+@* </div> *@
 
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Search Input -->
+    <div class="input-group" style="max-width: 400px; margin-left:20px;">
+        <input  type="text" class="form-control" placeholder="Search Gigs..." />
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+    </div>
+
+    <!-- Add Product Button -->
+    <a class="btn btn-primary" href="/tailor-add-gig">
+        <i class="bi bi-plus-lg me-1"></i> Add New Gig
+    </a>
+</div>
+<div class="row fw-bold text-uppercase py-2 border-bottom mb-2" style="font-size: 0.9rem;">
+    <!-- Product (Image + Title + Description block) -->
+    <div class="col-md-6 ps-4">
+        Gig
+    </div>
+
+    <!-- Stock -->
+    <div class="col-md-1 text-center">
+        Rating
+    </div>
+
+    <!-- Price -->
+    <div class="col-md-2 text-center">
+        Price
+    </div>
+
+    <!-- Rating -->
+    <div class="col-md-2 text-center">
+        Delivery Time
+    </div>
+    <div class="col-md-1 text-center">
+        Actions
+        </div>
+</div>
+
+<div>
+    <MyGigCard Gig=Gig OnDelete="DeleteGig" OnEdit="EditGig"></MyGigCard>
+    <MyGigCard Gig=Gig OnDelete="DeleteGig" OnEdit="EditGig"></MyGigCard>
+    <MyGigCard Gig=Gig OnDelete="DeleteGig" OnEdit="EditGig"></MyGigCard>
+    <InventoryProductCard Product=FP OnDelete="DeleteProduct" OnEdit="EditProduct"></InventoryProductCard>
+    <InventoryProductCard Product=FP OnDelete="DeleteProduct" OnEdit="EditProduct"></InventoryProductCard>
+    <InventoryProductCard Product=FP OnDelete="DeleteProduct" OnEdit="EditProduct"></InventoryProductCard>
+</div>
+
+@code {
+	private TailorGig Gig = new TailorGig(1, "Men's Modern Dress", "Get new modern-styled dressed stitched to enhance your personality", new Category(1, "a", "male"), 10, 3, 4.5, "/gigPhoto.jpg");
+    private void EditGig(int id)
+    {
+        // Navigate or open edit modal
+    }
+
+    private void DeleteGig(int id)
+    {
+        // Confirm and delete
+    }
 }

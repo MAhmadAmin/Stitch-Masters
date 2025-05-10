@@ -5,31 +5,55 @@
     <div class="row g-0 align-items-center p-2" style="margin-right:10px;">
         <!-- Image Section -->
         <div class="col-md-2 text-center">
-            <img src="" class="img-fluid rounded-start" style="max-height: 100px;" alt="@Product.FabricProductTitle" />
+            <img src="@Gig.ImageURL" class="img-fluid rounded-start" style="max-height: 100px;" alt="@Gig.GigTitle" />
         </div>
 
         <!-- Title and Description -->
         <div class="col-md-4 d-flex flex-column justify-content-center" style="min-width: 300px;">
-            <h5 class="card-title mb-1">@Product.FabricProductTitle</h5>
-            <p class="card-text text-muted mb-0">@ShortenDescription(Product.FabricProductDescription)</p>
+            <h5 class="card-title mb-1">@Gig.GigTitle</h5>
+            <p class="card-text text-muted mb-0">@ShortenDescription(Gig.GigDescription)</p>
         </div>
 
         <!-- Stock -->
         <div class="col-md-1 text-center">
-            <span class="badge bg-primary">Stock: @Product.StockQuantity</span>
+            <span class="d-inline-flex align-items-center">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (Gig.GigRating >= i)
+                    {
+                        <i class="bi bi-star-fill text-warning"></i>
+                    }
+                    else if (Gig.GigRating >= i - 0.5)
+                    {
+                        <i class="bi bi-star-half text-warning"></i>
+                    }
+                    else
+                    {
+                        <i class="bi bi-star text-warning"></i>
+                    }
+                }
+                <span class="ms-1 text-dark fw-semibold">@Gig.GigRating</span>
+            </span>
         </div>
 
         <!-- Price -->
         <div class="col-md-2 text-center">
-            <h6 class="text-success">$@Product.PricePerMeter</h6>
+            <h6 class="text-success">$@Gig.GigPrice</h6>
+        </div>
+
+        <!-- Price -->
+        <div class="col-md-2 text-center">
+            <span class="badge bg-secondary">
+                <i class="bi bi-truck me-1"></i>@Gig.GigDeliveryDays days
+            </span>
         </div>
 
         <!-- Action Icons -->
-        <div class="col-md-3 text-end">
-            <button class="btn btn-sm btn-outline-secondary me-2" @onclick="() => OnEdit.InvokeAsync(Product.FabricProductID)">
+        <div class="col-md-1 text-end">
+            <button class="btn btn-sm btn-outline-secondary me-2" @onclick="() => OnEdit.InvokeAsync(Gig.GigID)">
                 <i class="bi bi-pencil-square"></i>
             </button>
-            <button class="btn btn-sm btn-outline-danger" @onclick="() => OnDelete.InvokeAsync(Product.FabricProductID)">
+            <button class="btn btn-sm btn-outline-danger" @onclick="() => OnDelete.InvokeAsync(Gig.GigID)">
                 <i class="bi bi-trash-fill"></i>
             </button>
         </div>
@@ -37,7 +61,7 @@
 </div>
 
 @code {
-    [Parameter] public TailorGig Product { get; set; }
+    [Parameter] public TailorGig Gig { get; set; }
     [Parameter] public EventCallback<int> OnEdit { get; set; }
     [Parameter] public EventCallback<int> OnDelete { get; set; }
 
