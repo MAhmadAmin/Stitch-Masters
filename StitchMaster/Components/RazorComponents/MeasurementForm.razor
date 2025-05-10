@@ -1,7 +1,14 @@
 ﻿@using StitchMaster.BusinessLogic
+@using StitchMaster.DataLayer
+@using System.ComponentModel.DataAnnotations
 @inherits LayoutComponentBase
+@inject UserStateService UserState
+
 
 <EditForm Model="measurement" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
     <div class="modal-backdrop fade show"></div>
     <div class="modal d-block" tabindex="-1">
         <div class="modal-dialog">
@@ -11,22 +18,44 @@
                     <button type="button" class="btn-close" @onclick="Close" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <InputText class="form-control mb-2" @bind-Value="measurement.MeasurementName" placeholder="Measurement Name" />
+                    <label>Measurement Name</label>
+                    <InputText class="form-control mb-2" @bind-Value="measurement.MeasurementName" />
+
+                    <label>Gender</label>
                     <InputSelect class="form-select mb-2" @bind-Value="measurement.Gender">
                         <option value="">Select Gender</option>
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </InputSelect>
-                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Chest" placeholder="Chest" />
-                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Waist" placeholder="Waist" />
-                    <InputNumber class="form-control mb-2" @bind-Value="measurement.ShoulderWidth" placeholder="Shoulder Width" />
-                    <InputNumber class="form-control mb-2" @bind-Value="measurement.SleveLength" placeholder="Sleeve Length" />
-                    <InputNumber class="form-control mb-2" @bind-Value="measurement.NeckSize" placeholder="Neck Size" />
-                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Inseam" placeholder="Inseam" />
-                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Outseam" placeholder="Outseam" />
-                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Thigh" placeholder="Thigh" />
-                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Knee" placeholder="Knee" />
+
+                    <label>Chest</label>
+                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Chest" />
+
+                    <label>Waist</label>
+                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Waist" />
+
+                    <label>Shoulder Width</label>
+                    <InputNumber class="form-control mb-2" @bind-Value="measurement.ShoulderWidth" />
+
+                    <label>Sleeve Length</label>
+                    <InputNumber class="form-control mb-2" @bind-Value="measurement.SleveLength" />
+
+                    <label>Neck Size</label>
+                    <InputNumber class="form-control mb-2" @bind-Value="measurement.NeckSize" />
+
+                    <label>Inseam</label>
+                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Inseam" />
+
+                    <label>Outseam</label>
+                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Outseam" />
+
+                    <label>Thigh</label>
+                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Thigh" />
+
+                    <label>Knee</label>
+                    <InputNumber class="form-control mb-2" @bind-Value="measurement.Knee" />
                 </div>
+
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Save</button>
                     <button type="button" class="btn btn-secondary" @onclick="Close">Cancel</button>
@@ -39,8 +68,15 @@
 @code {
     [Parameter] public EventCallback OnClose { get; set; }
     [Parameter] public EventCallback<Measurement> OnSave { get; set; }
+    private int BuyerId { get; set; } // bind this from parent
 
-    private Measurement measurement = new();
+    private Measurement measurement;
+
+    protected override void OnInitialized()
+    {
+        BuyerId = CustomerData.Instance.GetCustomerByUserId(UserData.GetUserByEmail(UserState.Email).UserID).CustomerID;
+        measurement = new Measurement("", BuyerId, "", null, null, null, null, null, null, null, null, null);
+    }
 
     private async Task HandleValidSubmit()
     {
