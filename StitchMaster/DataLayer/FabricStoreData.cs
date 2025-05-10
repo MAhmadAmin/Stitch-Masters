@@ -35,7 +35,7 @@ namespace StitchMaster
             DataTable dt = DatabaseHelper.Instance.GetDataTable(sql);
             foreach(DataRow dr in dt.Rows)
             {
-                FabricStore store = new FabricStore(int.Parse(dr["f.store_id"].ToString()), dr["f.description"].ToString(),null,int.Parse( dr["f.user_id"].ToString()), dr["u.username"].ToString(), dr["u.name"].ToString(), dr["u.email"].ToString(), dr["u.hashed_password"].ToString(), dr["u.profile_img_url"].ToString(),DateTime.Parse(dr["u.created_at"].ToString()), new UserRole(int.Parse(dr["l.lookup_id"].ToString()), dr["l.value"].ToString())  );
+                FabricStore store = new FabricStore(int.Parse(dr["store_id"].ToString()), dr["description"].ToString(),null,int.Parse( dr["user_id"].ToString()), dr["username"].ToString(), dr["name"].ToString(), dr["email"].ToString(), dr["hashed_password"].ToString(), dr["profile_img_url"].ToString(),DateTime.Parse(dr["created_at"].ToString()), new UserRole(int.Parse(dr["lookup_id"].ToString()), dr["value"].ToString())  );
                 allStores.Add(store);
             }
             return allStores;
