@@ -1,4 +1,8 @@
-﻿namespace StitchMaster.DataLayer
+﻿using System.Data;
+using StitchMaster.BusinessLogic;
+using StitchMaster.HelperClasses;
+
+namespace StitchMaster.DataLayer
 {
     public class CategoryData
     {
@@ -21,6 +25,35 @@
                     }
                 }
                 return _categoryData;
+            }
+        }
+
+        public List<Category> GetAllCategories()
+        {
+            string query = "SELECT * FROM Category";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            return GetCategoriesList(dt);
+        }
+
+        private List<Category> GetCategoriesList(DataTable dt)
+        {
+            List<Category> categories = new List<Category>();
+
+            if (dt.Rows.Count != 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    int categoryID = Convert.ToInt32(row["category_id"]);
+                    string categoryName = row["category_name"].ToString();
+                    string gender = row["gender"].ToString();                 
+                    Category category = new Category(categoryID, categoryName, gender);
+                    categories.Add(category);
+                }
+                return categories;
+            }
+            else
+            {
+                return null;
             }
         }
     }

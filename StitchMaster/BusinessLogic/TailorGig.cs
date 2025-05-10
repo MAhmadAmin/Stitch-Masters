@@ -78,6 +78,17 @@ namespace StitchMaster.BusinessLogic
             ImageURL = imageURLs;    
             
         }
+
+        public TailorGig(string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, string imageURL)
+        {
+            GigTitle = gigTitle;
+            GigDescription = gigDescription;
+            GigCategory = gigCategory;
+            GigPrice = gigPrice;
+            GigDeliveryDays = gigDeliveryDays;
+            ImageURL = imageURL;
+
+        }
         #endregion Constructors Start ----------------------------------------------
     }
 
