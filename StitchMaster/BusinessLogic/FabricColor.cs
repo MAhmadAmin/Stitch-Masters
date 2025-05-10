@@ -34,6 +34,10 @@ namespace StitchMaster.BusinessLogic
             }
             ColorName = colorName;
         }
+        public FabricColor( string colorName)
+        {    //Full Param Constructor Except ID
+            ColorName = colorName;
+        }
         public FabricColor(FabricColor fC)
         {    // Copy Constructor
             if(fC is null)

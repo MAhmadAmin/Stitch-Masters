@@ -6,7 +6,7 @@ namespace StitchMaster.BusinessLogic
     {
         private readonly int _categoryID;
         private string _categoryName;
-        private string _gender;
+        private Gender.GenderType _gender;
 
         #region Getter Setter Start --------------------------------------------
         public int CategoryID
@@ -18,7 +18,7 @@ namespace StitchMaster.BusinessLogic
             get { return _categoryName; }
             set { _categoryName = value; }
         }
-        public string Gender
+        public Gender.GenderType Gender
         {
             get { return _gender; }
             set { _gender = value; }
@@ -26,7 +26,7 @@ namespace StitchMaster.BusinessLogic
         #endregion Getter Setter Start --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
-        public Category(int categoryID, string categoryName, string gender)
+        public Category(int categoryID, string categoryName, Gender.GenderType gender)
         {
             if (IsValid.DBID(categoryID))
             {
