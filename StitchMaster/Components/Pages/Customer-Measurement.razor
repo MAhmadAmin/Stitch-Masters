@@ -1,8 +1,33 @@
-﻿@page "/customer-measurement"
-<div class="container-lg">
-	<h1>My Measurements</h1>
+﻿@page "/measurement"
+@using StitchMaster.BusinessLogic
+@using StitchMaster.Components.RazorComponents
 
-</div>
+<h3>Measurements</h3>
+
+<button class="btn btn-primary mb-3" @onclick="ShowForm">Add Measurement</button>
+
+@if (showForm)
+{
+    <MeasurementForm OnClose="HideForm" OnSave="SaveMeasurement" />
+}
+
 @code {
+    private bool showForm = false;
 
+    private void ShowForm()
+    {
+        showForm = true;
+    }
+
+    private void HideForm()
+    {
+        showForm = false;
+    }
+
+    private void SaveMeasurement(Measurement newMeasurement)
+    {
+        // Save to DB or service
+        // Console.WriteLine($"Measurement Saved: {newMeasurement.MeasurementName}");
+        showForm = false;
+    }
 }
