@@ -37,6 +37,8 @@
         #endregion Getter Setter Start --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
+
+        public FabricPurchased() { }
         public FabricPurchased(int fabricPurchasedID, FabricProduct fabricProduct, int length, int totalPrice, bool inHold)
         {
             _fabricPurchasedID = fabricPurchasedID;

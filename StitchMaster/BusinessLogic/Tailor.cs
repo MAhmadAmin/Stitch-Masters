@@ -19,8 +19,8 @@ namespace StitchMaster.BusinessLogic
 
         public List<Skill> MySkills
         {
-            get { return new List<Skill>(MySkills); }   // a New Copy List is Return to Add Encapsulation
-            set { MySkills = new List<Skill>(value); } // A New Copy of List is Set to Add Encapsulation
+            get { return new List<Skill>(_mySkills); }   // a New Copy List is Return to Add Encapsulation
+            set { _mySkills = new List<Skill>(value); } // A New Copy of List is Set to Add Encapsulation
         }
         public void AddSkill(Skill skill)
         {

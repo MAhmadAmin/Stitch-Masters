@@ -69,6 +69,8 @@ namespace StitchMaster.BusinessLogic
         #endregion Getter Setter Start --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
+
+        public User() { }
         public User(int userID, string username, string name, string email, string password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole)
         {
             if (IsValid.DBID(userID))

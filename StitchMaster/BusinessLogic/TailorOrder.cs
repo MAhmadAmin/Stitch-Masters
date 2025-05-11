@@ -14,6 +14,7 @@ namespace StitchMaster.BusinessLogic
         private DateTime _orderDateTime;
         private Status _orderStatus;
         private Rating _orderRating;
+        private int _price;
 
         #region Getter Setter Start --------------------------------------------
         public int TailorOrderID
@@ -34,6 +35,13 @@ namespace StitchMaster.BusinessLogic
         {
             get { return new FabricPurchased(_fabricPurchased); }
             set { _fabricPurchased = new FabricPurchased(value); }
+        }
+
+        public int Price
+        {
+            get { return _price; }
+            set { _price = value; }
+
         }
         //public CustomerMeasurement
         //{

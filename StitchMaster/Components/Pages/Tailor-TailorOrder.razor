@@ -1,0 +1,54 @@
+﻿@page "/tailor/my-orders"
+@using StitchMaster.Components.RazorComponents
+@using StitchMaster.DataLayer;
+@using StitchMaster.BusinessLogic;
+
+
+@inject NavigationManager Navigation
+@inject UserStateService UserState
+
+<PageTitle>My Orders</PageTitle>
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Search Input -->
+    <div class="input-group" style="max-width: 400px; margin-left:20px;">
+        <input type="text" class="form-control" placeholder="Search Gigs..." />
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+    </div>
+
+    <!-- Add Product Button -->
+    <a class="btn btn-primary" href="/my-gigs/create-gig">
+        <i class="bi bi-plus-lg me-1"></i> Create New Gig
+    </a>
+</div>
+
+<div class="row fw-bold text-uppercase py-2 border-bottom mb-2" style="font-size: 0.9rem;">
+    <!-- Product (Image + Title + Description block) -->
+    <div class="col-md-6 ps-4">
+        Gig @UserState.Email.ToLower() and @tailor.Email ;
+    </div>
+
+    <!-- Stock -->
+    <div class="col-md-1 text-center">
+        Rating
+    </div>
+
+    <!-- Price -->
+    <div class="col-md-2 text-center">
+        Price
+    </div>
+
+    <!-- Rating -->
+    <div class="col-md-2 text-center">
+        Delivery Time
+    </div>
+    <div class="col-md-1 text-center">
+        Actions
+    </div>
+</div>
+
+<div>
+    <TailorOrderCard Order=order OnView="ViewOrder"></TailorOrderCard>
+</div>
+

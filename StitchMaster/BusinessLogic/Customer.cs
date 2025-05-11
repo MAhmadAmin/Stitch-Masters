@@ -19,7 +19,7 @@ namespace StitchMaster.BusinessLogic
         private GenderType _gender;
         private DateOnly _dOB;
         private int _userID;
-        private List<Address> _myAddresses = new List<Address>();
+        private List<Address> _myAddresses;
         //private List<Measurement> myMeasurements = new Lis
 
         private List<FabricPurchased> _myPurchasedFabrics = new List<FabricPurchased>();
@@ -85,6 +85,7 @@ namespace StitchMaster.BusinessLogic
 
         //        throw new InvalidOperationException("Invalid Customer ID");
         //}
+        public Customer() : base() { }
         public Customer(int customerID, GenderType gender, DateOnly dOB, List<Address> myAddresses, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base( userID,  username,  name,  email,  hashed_Password,  profile_Img_URL,  accountCreationDate,  userRole)
         {  // Full Param Constructor
             if(IsValid.DBID(customerID))
