@@ -78,7 +78,7 @@ namespace StitchMaster.DataLayer
 
             MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
 
-            if (reader.Read())
+            if (reader.Read()) 
             {
                 FabricColor color = new FabricColor(
                     Convert.ToInt32(reader["color_id"]),
