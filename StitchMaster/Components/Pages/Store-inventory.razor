@@ -1,0 +1,75 @@
+﻿@using StitchMaster.Components.RazorComponents
+@inject NavigationManager Navigation
+@using StitchMaster.DataLayer;
+@page "/store-inventory"
+<PageTitle>Dashboard</PageTitle>
+
+<h1>Inventory</h1>
+@* <div> *@
+
+@* <div class="btn secondary-bg"  >+ *@
+
+@* </div> *@
+@* </div> *@
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Search Input -->
+    <div class="input-group" style="max-width: 400px; margin-left:20px;">
+        <input  type="text" class="form-control" placeholder="Search products..." />
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+    </div>
+
+    <!-- Add Product Button -->
+    <a class="btn btn-primary" href="/store-inventory-add-product">
+        <i class="bi bi-plus-lg me-1"></i> Add Product
+    </a>
+</div>
+<div class="row fw-bold text-uppercase py-2 border-bottom mb-2" style="font-size: 0.9rem;">
+    <!-- Product (Image + Title + Description block) -->
+    <div class="col-md-6 ps-4">
+        Product
+    </div>
+
+    <!-- Stock -->
+    <div class="col-md-1 text-center">
+        Stock
+    </div>
+
+    <!-- Price -->
+    <div class="col-md-2 text-center">
+        Price
+    </div>
+
+    <!-- Rating -->
+    <div class="col-md-2 text-center">
+        Rating
+    </div>
+    <div class="col-md-1 text-center">
+        Actions
+    </div>
+</div>
+
+<div>
+    @foreach(var product in Products)
+    {
+        <InventoryProductCard Product=product OnDelete="DeleteProduct" OnEdit="EditProduct" ></InventoryProductCard>
+    }
+
+</div>
+
+@code {
+    List<FabricProduct> Products = FabricProductData.Instance.GetAllObjects();
+    private void EditProduct(int id)
+    {
+        Navigation.NavigateTo($"store-inventory-edit-product/{id}");
+    }
+
+    private void DeleteProduct(int id)
+    {
+        FabricProduct ProductToDel = Products.Find(FP => FP.FabricProductID == id);
+        FabricProductData.Instance.DeleteObject(ProductToDel);
+        Products = FabricProductData.Instance.GetAllObjects();
+        StateHasChanged(); // Re-render the page
+        
+    }
+}
