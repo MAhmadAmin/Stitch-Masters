@@ -1,4 +1,4 @@
-﻿@page "/tailor/my-orders/detail/{userId:int}"
+﻿@page "/tailor/my-orders/detail/{TailorOrderID:int}"
 <PageTitle>Details</PageTitle>
 
 @using StitchMaster.BusinessLogic;
@@ -7,91 +7,144 @@
 @inject NavigationManager Navigation
 @inject UserStateService UserState
 
-<h3 class="mb-4" style="text-align: center">Create New Gig</h3>
+<style>
+    .order-container {
+        max-width: 700px;
+        margin: 50px auto;
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+        border: 1px solid #e5e7eb;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-<div class="container" style="max-width: 1200;">
-    <div class="d-flex flex-row gap-4">
-        <!-- Left Panel - Form -->
-        <div class="flex-fill">
-            <EditForm Model="gigModel" OnValidSubmit="HandleSubmit">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
+    .order-header {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #1f2937;
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-                <div class="mb-3">
-                    <label class="form-label">Title</label>
-                    <InputText class="form-control" @bind-Value="gigModel.GigTitle" placeholder="Men's Shalwar Kameez" />
-                </div>
+    .order-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #f1f1f1;
+    }
 
-                <div class="mb-3">
-                    <label class="form-label">Description</label>
-                    <InputTextArea class="form-control" @bind-Value="gigModel.GigDescription" placeholder="Top-notch Pakistani cultures Gent's Shalwar kameez.....'" />
-                </div>
+        .order-info span {
+            font-size: 1rem;
+            color: #374151;
+        }
 
-                <div class="row mb-3">
-                    <!-- Price Input with Dollar Prefix -->
-                    <div class="col-md-6">
-                        <label class="form-label">Price</label>
-                        <div class="input-group">
-                            <span class="input-group-text">$</span>
-                            <InputNumber class="form-control" @bind-Value="gigModel.GigPrice" />
-                        </div>
-                        <small class="text-muted">Enter price in USD (minimum $5)</small>
-                    </div>
+        .order-info .label {
+            font-weight: 600;
+            color: #6b7280;
+        }
 
-                    <!-- Delivery Time Input with Increment/Decrement Buttons -->
-                    <div class="col-md-6">
-                        <label class="form-label">Delivery Time (in Days)</label>
-                        <div class="input-group">
-                            <button type="button" class="btn btn-outline-secondary" @onclick="DecrementDeliveryDays">-</button>
-                            <InputNumber class="form-control text-center" @bind-Value="gigModel.GigDeliveryDays" />
-                            <button type="button" class="btn btn-outline-secondary" @onclick="IncrementDeliveryDays">+</button>
-                        </div>
-                        <small class="text-muted">Minimum 1 day</small>
-                    </div>
-                </div>
+    .order-price {
+        color: #16a34a;
+        font-weight: 700;
+    }
 
-                <!-- Gig Category Dropdown -->
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Gig Category</label>
-                        <select class="form-select" @bind="SelectedCategoryId">
-                            <option disabled selected value="">Select a category</option>
-                            @foreach (var category in categories)
-                            {
-                                <option value="@category.CategoryID">@category.CategoryName</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                @if (success)
-                {
-                    <p style="text-align: center" class="success-message">Gig Created</p>
-                }
-                <!-- Buttons -->
-                <div class="d-flex gap-2">
+    .back-button {
+        margin-top: 40px;
+        display: inline-block;
+        background-color: #2563eb;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-                    <button type="submit" class="btn btn-success" @onclick="HandleSubmit" disabled="@isSubmitting">Create</button>
-                    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
-                </div>
-            </EditForm>
+        .back-button:hover {
+            background-color: #1e40af;
+        }
+
+    .loading {
+        text-align: center;
+        color: gray;
+        font-size: 1.2rem;
+        margin-top: 80px;
+    }
+
+    .complete-button {
+        margin-top: 20px;
+        margin-left: 10px;
+        background-color: #10b981; /* emerald-500 */
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+        .complete-button:hover {
+            background-color: #059669; /* emerald-600 */
+            transform: scale(1.02);
+        }
+
+        .complete-button:active {
+            background-color: #047857; /* emerald-700 */
+        }
+
+
+</style>
+
+@if (order == null)
+{
+    <div class="loading">Loading order details...</div>
+}
+else
+{
+    @Refresh;
+    <div class="order-container">
+        <h2 class="order-header">🧵 Order Details</h2>
+
+        <div class="order-info">
+            <span class="label">Customer Name:</span>
+            <span>@order.Customer.FullName</span>
         </div>
 
-        <!-- Right Panel - Image Preview -->
-        <div style="width: 350px;">
-            <label class="form-label">Image Preview</label>
-            <div class="border p-2 rounded bg-light d-flex align-items-center justify-content-center" style="height: 300px;">
-                @if (!string.IsNullOrWhiteSpace(gigModel.ImageURL))
-                {
-                    <img src="@gigModel.ImageURL" class="img-fluid" />
-                }
-                else
-                {
-                    <span class="text-muted">Image will appear here</span>
-                }
-            </div>
-            <div class="d-grid">
-                <InputFile OnChange="OnImageSelected" accept="image/*" class="form-control" />
-            </div>
+        <div class="order-info">
+            <span class="label">Description:</span>
+            <span>@order.Description</span>
+        </div>
+
+        <div class="order-info">
+            <span class="label">Fabric:</span>
+            <span>@order.FabricPurchased.FabricProduct.FabricProductTitle</span>
+        </div>
+
+        <div class="order-info">
+            <span class="label">Color:</span>
+            <span>@order.FabricPurchased.FabricProduct.FabricColor.ColorName</span>
+        </div>
+
+        <div class="order-info">
+            <span class="label">Price:</span>
+            <span class="order-price">Rs. @order.Price</span>
+        </div>
+
+        <div class="order-info">
+            <span class="label">Order Date:</span>
+            <span>@order.OrderDateTime.ToString("MMMM dd, yyyy")</span>
+        </div>
+
+        <div style="text-align:center;">
+            <button class="back-button" @onclick="GoBack">Back to Orders</button>
+        </div>
+        <div style="text-align:center;">
+            <button class="complete-button" @onclick="MarkComplete">Mark Complete</button>
         </div>
     </div>
-</div>
+}
