@@ -45,6 +45,14 @@
             TotalPrice = totalPrice;
             InHold = inHold;
         }
+
+        public FabricPurchased( FabricProduct fabricProduct, int length, int totalPrice, bool inHold)
+        {
+            FabricProduct = fabricProduct;
+            Length = length;
+            TotalPrice = totalPrice;
+            InHold = inHold;
+        }
         public FabricPurchased(FabricPurchased fP)
         {
             _fabricPurchasedID = fP.FabricPurchasedID;

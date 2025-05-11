@@ -40,6 +40,7 @@ namespace StitchMaster.DataLayer
 
             throw new InvalidOperationException("user not found or tailor_id is invalid.");
         }
+
         public int StoreTailor(Tailor tailor)
         {
             int userTuple, tailorTuple;

@@ -1,4 +1,6 @@
-﻿namespace StitchMaster.DataLayer
+﻿using StitchMaster.BusinessLogic;
+using StitchMaster.HelperClasses;
+namespace StitchMaster.DataLayer
 {
     public class FabricPurchasedData
     {
@@ -23,5 +25,13 @@
                 return _fabricPurchasedData;
             }
         }
+        public int StoreFabricPurchased(FabricPurchased fabricPurchasedData, int tailorid)
+        {
+            string query = $"INSERT INTO fabric_purchased (fabric_id, buyer_id, length, total_price) " +
+                           $"VALUES ('{fabricPurchasedData.FabricProduct.FabricProductID}', '{tailorid}', '{fabricPurchasedData.Length}', '{fabricPurchasedData.TotalPrice}')";
+            return DatabaseHelper.Instance.ExecuteQuery(query);
+        }
+
+
     }
 }
