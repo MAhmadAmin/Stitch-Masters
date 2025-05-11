@@ -10,7 +10,7 @@ namespace StitchMaster.Components.Pages
         private NavigationManager NavigationManager { get; set; }
 
         private string Username, FullName, Email, Password, ConfirmPassword, GenderString;
-        Customer.GenderType Gender;
+        Gender.GenderType GenderEnum;
         private DateOnly DOB = new DateOnly(2000, 1, 1);
 
         // Error messages  
@@ -55,15 +55,16 @@ namespace StitchMaster.Components.Pages
                 return;
             }
 
-            if (GenderString == "Male")
-                Gender = Customer.GenderType.M;
-            else if (GenderString == "Female")
-                Gender = Customer.GenderType.F;
-            else if (GenderString == "Other")
-                Gender = Customer.GenderType.O;
+            //if (GenderString == "Male")
+            //    GenderEnum = Gender.GenderType.M;
+            //else if (GenderString == "Female")
+            //    GenderEnum = Gender.GenderType.F;
+            //else if (GenderString == "Other")
+            //    GenderEnum = Gender.GenderType.O;
+            GenderEnum = Gender.StringToGenderType(GenderString);
 
             UserRole ur = UserRoleData.Instance.GetRoleByName("Customer"); 
-            Customer c = new Customer(Gender, DOB, Username, FullName, Email, Password, ur);
+            Customer c = new Customer(GenderEnum, DOB, Username, FullName, Email, Password, ur);
             int result = CustomerData.Instance.StoreCustomer(c);
 
             if (result == 1)

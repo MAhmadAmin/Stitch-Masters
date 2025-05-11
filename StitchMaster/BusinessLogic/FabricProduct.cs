@@ -13,7 +13,7 @@ namespace StitchMaster.BusinessLogic
         private string _fabricProductDescription;
         private FabricColor _fabricColor;
         private string _fabricMaterial;
-        private string _gender;
+        private Gender.GenderType _gender;
         private int _pricePerMeter;
         private int _stockQuantity;
         private int _minStockQuantity;
@@ -47,7 +47,7 @@ namespace StitchMaster.BusinessLogic
             set { _fabricMaterial = value; }
         }
 
-        public string Gender
+        public Gender.GenderType Gender
         {
             get { return _gender; }
             set { _gender = value; }
@@ -89,7 +89,7 @@ namespace StitchMaster.BusinessLogic
         #endregion Getter Setter End --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
-        public FabricProduct(int fabricProductID,string fabricProductTitle,string fabricProductDescription,FabricColor fabricColor,string fabricMaterial,string gender,int pricePerMeter,int stockQuantity,int minStockQuantity,string imageURl)
+        public FabricProduct(int fabricProductID,string fabricProductTitle,string fabricProductDescription,FabricColor fabricColor,string fabricMaterial, Gender.GenderType gender,int pricePerMeter,int stockQuantity,int minStockQuantity,string imageURl)
         {
             if(IsValid.DBID(fabricProductID))
             {
@@ -109,7 +109,7 @@ namespace StitchMaster.BusinessLogic
             MinStockQuantity = minStockQuantity;
             ImageURl = imageURl;   // A New Copy of imageURL List is Automatically made inside the Setter of This ImageURLs List to Encapsulate
         }
-        public FabricProduct(string fabricProductTitle, string fabricProductDescription, FabricColor fabricColor, string fabricMaterial, string gender, int pricePerMeter, int stockQuantity, int minStockQuantity, string imageURl)
+        public FabricProduct(string fabricProductTitle, string fabricProductDescription, FabricColor fabricColor, string fabricMaterial, Gender.GenderType gender, int pricePerMeter, int stockQuantity, int minStockQuantity, string imageURl)
         {
             FabricProductTitle = fabricProductTitle;
             FabricProductDescription = fabricProductDescription;
