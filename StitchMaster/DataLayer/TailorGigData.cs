@@ -1,19 +1,23 @@
+
 ﻿using System.Data;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Org.BouncyCastle.Crypto.Parameters;
 using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
+﻿using MySql.Data.MySqlClient;
+using StitchMaster.Interfaces;
+
 
 
 namespace StitchMaster.DataLayer
 {
-    public class TailorGigData
+    public class TailorGigData : ITailorGigData
     {
-        static private TailorGigData _tailorGigData;
+        static private ITailorGigData _tailorGigData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private TailorGigData() { }
 
-        static public TailorGigData Instance
+        static public ITailorGigData Instance
         {
             get
             {
@@ -31,25 +35,14 @@ namespace StitchMaster.DataLayer
             }
         }
 
-        public List<TailorGig> GetGigs(Tailor tailor)
+
+        public List<TailorGig> GetAllObjects(Tailor tailor)
         {
             string query = $"SELECT * FROM Gig WHERE tailor_id = {tailor.TailorID} AND title NOT LIKE '~%'";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             return FillGigList(dt);
         }
-        public int DeleteGig(int gigID)
-        {
-            string query = $"UPDATE Gig SET title = Concat('~',title) WHERE gig_id = {gigID};";
-            int result = DatabaseHelper.Instance.ExecuteQuery(query);
-            return result;
-        }
-
-        public int UpdateGig(TailorGig gig)
-        {
-            string query = $"UPDATE Gig SET title = '{gig.GigTitle}', description = '{gig.GigDescription}', price = {gig.GigPrice}, delivery_time = {gig.GigDeliveryDays}, image_url = '{gig.ImageURL}', category_id = {gig.GigCategory.CategoryID} WHERE gig_id = {gig.GigID};";
-            int result = DatabaseHelper.Instance.ExecuteQuery(query);
-            return result;
-        }
+       
         private List<TailorGig> FillGigList(DataTable dt)
         {
             List<TailorGig> gigs = new List<TailorGig>();
@@ -80,11 +73,113 @@ namespace StitchMaster.DataLayer
                 return null;
         }
 
-        public int StoreGig(TailorGig gig)
+     
+
+
+        public TailorGig? GetGigById(int gigId)
+        {
+            string query = $@"SELECT g.gig_id, g.title, g.description, g.price, g.delivery_time, g.image_url,
+                             c.category_id, c.category_name, c.gender
+                      FROM gig g
+                      INNER JOIN category c ON g.category_id = c.category_id
+                      WHERE g.gig_id = {gigId}";
+
+            MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+
+            if (reader.Read())
+            {
+                Category category = new Category(
+                    Convert.ToInt32(reader["category_id"]),
+                    reader["category_name"].ToString(),
+                    Gender.StringToGenderType(reader["gender"].ToString())
+                );
+
+                TailorGig gig = new TailorGig(
+                    Convert.ToInt32(reader["gig_id"]),
+                    reader["title"].ToString(),
+                    reader["description"].ToString(),
+                    category,
+                    Convert.ToInt32(reader["price"]),
+                    Convert.ToInt32(reader["delivery_time"]),
+                    reader["image_url"].ToString()
+                );
+
+                reader.Close();
+                return gig;
+            }
+
+            reader.Close();
+            return null;
+        }
+
+        public int GetGigOwner(int gigId)
+        {
+            string query = $"SELECT tailor_id FROM gig WHERE gig_id = {gigId}";
+
+            MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+            if (reader.Read())
+            {
+                return Convert.ToInt32(reader["tailor_id"]);
+            }
+
+                throw new InvalidOperationException("Gig not found or tailor_id is invalid.");
+        }
+
+
+        public bool StoreObject(Tailor tailor, TailorGig tailorGig)
         {
             string query = $"INSERT INTO Gig (tailor_id, title, description, price, delivery_time, image_url, category_id) VALUES ({gig.Tailor.TailorID}, '{gig.GigTitle}', '{gig.GigDescription}', {gig.GigPrice}, {gig.GigDeliveryDays}, '{gig.ImageURL}', {gig.GigCategory.CategoryID});";
-            int result = DatabaseHelper.Instance.ExecuteQuery(query);
+            bool result = DatabaseHelper.Instance.ExecuteQuery(query);
             return result;
         }
+        public bool DeleteObject(TailorGig tailorGig)
+        {
+            string query = $"UPDATE Gig SET title = Concat('~',title) WHERE gig_id = {gigID};";
+            bool result = DatabaseHelper.Instance.ExecuteQuery(query);
+            return result > 0;
+        }
+        public bool UpdateObject(TailorGig tailorGig)
+        {
+            string query = $"UPDATE Gig SET title = '{gig.GigTitle}', description = '{gig.GigDescription}', price = {gig.GigPrice}, delivery_time = {gig.GigDeliveryDays}, image_url = '{gig.ImageURL}', category_id = {gig.GigCategory.CategoryID} WHERE gig_id = {gig.GigID};";
+            bool result = DatabaseHelper.Instance.ExecuteQuery(query);
+            return result > 0;
+        }
+//         public List<TailorGig> GetAllObjects()
+//         {
+//             List<TailorGig> gigs = new List<TailorGig>();
+
+//             string query = @"SELECT g.gig_id, g.title, g.description, g.price, g.delivery_time, g.image_url,
+//                             c.category_id, c.category_name,c.gender
+//                      FROM gig g
+//                      INNER JOIN category c ON g.category_id = c.category_id";
+
+//             MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+
+//             while (reader.Read())
+//             {
+//                 Category category = new Category(
+//                     Convert.ToInt32(reader["category_id"]),
+//                     reader["category_name"].ToString(),
+//                     Gender.StringToGenderType(reader["gender"].ToString())
+//                 );
+
+//                 TailorGig gig = new TailorGig(
+//                     Convert.ToInt32(reader["gig_id"]),
+//                     reader["title"].ToString(),
+//                     reader["description"].ToString(),
+//                     category,
+//                     Convert.ToInt32(reader["price"]),
+//                     Convert.ToInt32(reader["delivery_time"]),
+//                     reader["image_url"].ToString()
+//                 );
+
+//                 gigs.Add(gig);
+//             }
+
+//             reader.Close();
+//             return gigs;
+//         }
+
+
     }
 }

@@ -1,0 +1,95 @@
+﻿@page "/tailors"
+@using StitchMaster.DataLayer
+@using StitchMaster.BusinessLogic
+@using StitchMaster.Components.RazorComponents;
+@using System.Linq
+
+<div class="container-lg m-auto d-flex align-items-center justify-content-start gap-5 flex-wrap gap-3 p-3">
+
+    <!-- Search Bar -->
+    <div class="input-group" style="max-width: 300px;">
+        <input type="text" class="form-control" placeholder="Search gigs..." @bind="searchQuery" />
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+    </div>
+
+    <!-- Category Select -->
+    <div class="form-group">
+        <select class="form-select" @bind="selectedCategory">
+            <option disabled selected value="">-- Select Category --</option>
+            @foreach (string category in categories)
+            {
+                <option value="@category">@category</option>
+            }
+        </select>
+    </div>
+
+    <!-- Skills Multi-select Dropdown -->
+    <div class="form-group position-relative">
+        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" @onclick="ToggleSkillDropdown">
+            @(selectedSkills.Count == 0 ? "Select skills" : string.Join(", ",selectedSkills))
+        </button>
+        @if (showSkillDropdown)
+        {
+            <div class="dropdown-menu show p-2" style="max-height: 200px; overflow-y: auto;">
+                @foreach (var skill in allSkills)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="@skill"
+                        checked="@selectedSkills.Contains(skill)"
+                        @onchange="() => ToggleSkill(skill)" />
+                        <label class="form-check-label" for="@skill">@skill</label>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<div class="d-flex flex-wrap gap-5 py-5">
+    @foreach (TailorGig gig in gigs)
+    {
+        <GigCard Name=@gig.GigTitle
+        GigId=@gig.GigID
+        Description=@gig.GigDescription
+        Rating="4.8"
+        GigImageUrl=@gig.ImageURLs
+        Icon="bi bi-scissors"
+        AvatarUrl="/Avatar.svg" />
+    }
+
+</div>
+
+@code {
+    private string searchQuery;
+    private string selectedCategory;
+    private bool showSkillDropdown = false;
+
+    private List<string> categories = new() { "Men's Wear", "Women's Wear", "Formal", "Casual", "Bridal" };
+
+    private List<string> allSkills = new() { "Embroidery", "Alteration", "Cutting", "Stitching", "Pattern Making", "Measuring", "Ironing", "Hand Sewing" };
+    private List<string> selectedSkills = new();
+
+    private void ToggleSkillDropdown()
+    {
+        showSkillDropdown = !showSkillDropdown;
+    }
+    List<TailorGig> gigs;
+    protected override void OnInitialized()
+    {
+        // Simulate loading the gigs from DB or service
+        gigs = LoadGigs();
+    }
+    private List<TailorGig> LoadGigs()
+    {
+        // You will fetch from DB/service — this is just demo data
+        return TailorGigData.Instance.GetAllObjects();
+    }
+
+    private void ToggleSkill(string skill)
+    {
+        if (selectedSkills.Contains(skill))
+            selectedSkills.Remove(skill);
+        else
+            selectedSkills.Add(skill);
+    }
+}

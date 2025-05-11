@@ -1,16 +1,18 @@
+
 ﻿using System.Data;
 using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
+using StitchMaster.Interfaces;
 
 namespace StitchMaster.DataLayer
 {
-    public class CategoryData
+    public class CategoryData : ICategoryData   
     {
-        static private CategoryData _categoryData;
+        static private ICategoryData _categoryData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private CategoryData() { }
 
-        static public CategoryData Instance
+        static public ICategoryData Instance
         {
             get
             {
@@ -28,12 +30,8 @@ namespace StitchMaster.DataLayer
             }
         }
 
-        public List<Category> GetAllCategories()
-        {
-            string query = "SELECT * FROM Category";
-            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
-            return FillCategoriesList(dt);
-        }
+
+        
         public Category GetCategoryByID(int ID)
         {
             string query = $"SELECT * FROM Category WHERE Category_id = {ID}";
@@ -73,6 +71,25 @@ namespace StitchMaster.DataLayer
             }
             else
                 return null;
+
+        public bool StoreObject(Category category)
+        {
+            return true;
+        }
+        public bool DeleteObject(Category category)
+        {
+            return true;
+        }
+        public bool UpdateObject(Category category)
+        {
+            return true;
+        }
+        public List<Category> GetAllObjects()
+        {
+            string query = "SELECT * FROM Category";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            return FillCategoriesList(dt);
+
         }
     }
 }

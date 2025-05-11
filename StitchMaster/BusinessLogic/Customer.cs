@@ -10,13 +10,8 @@ namespace StitchMaster.BusinessLogic
     public class Customer : User
     {
         private readonly int _customerID;
-        public enum GenderType
-        {
-            M,
-            F,
-            O
-        }
-        private GenderType _gender;
+        
+        private  Gender.GenderType _gender;
         private DateOnly _dOB;
         private int _userID;
         private List<Address> _myAddresses;
@@ -42,7 +37,7 @@ namespace StitchMaster.BusinessLogic
         {
             get { return _customerID; }
         }
-        public GenderType Gender
+        public Gender.GenderType Gender
         {
             get { return _gender; }
             set { _gender = value; }
@@ -85,8 +80,10 @@ namespace StitchMaster.BusinessLogic
 
         //        throw new InvalidOperationException("Invalid Customer ID");
         //}
+
         public Customer() : base() { }
-        public Customer(int customerID, GenderType gender, DateOnly dOB, List<Address> myAddresses, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base( userID,  username,  name,  email,  hashed_Password,  profile_Img_URL,  accountCreationDate,  userRole)
+        
+        public Customer(int customerID, Gender.GenderType gender, DateOnly dOB, List<Address> myAddresses, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole): base( userID,  username,  name,  email,  hashed_Password,  profile_Img_URL,  accountCreationDate,  userRole)
         {  // Full Param Constructor
             if(IsValid.DBID(customerID))
             {
@@ -102,7 +99,7 @@ namespace StitchMaster.BusinessLogic
 
         }
 
-        public Customer(GenderType gender, DateOnly dOB, string username, string name, string email, string hashed_Password, UserRole userRole) : base(username, name, email, hashed_Password, userRole)
+        public Customer(Gender.GenderType gender, DateOnly dOB, string username, string name, string email, string hashed_Password, UserRole userRole) : base(username, name, email, hashed_Password, userRole)
         {   
             this.Gender = gender;
             this.DOB = dOB;

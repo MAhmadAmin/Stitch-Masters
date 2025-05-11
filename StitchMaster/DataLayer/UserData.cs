@@ -2,17 +2,54 @@
 using Org.BouncyCastle.Security;
 using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
+using StitchMaster.Interfaces;
 
 namespace StitchMaster.DataLayer
 {
-    static public class UserData
+     public class UserData:IUserData
     {
-        static public int StoreUser(User user)
+        static private IUserData _userData;
+        static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
+        private UserData() { }
+
+        static public IUserData Instance
+        {
+            get
+            {
+                if (_userData == null) // 1st Check (Multiple Threads Can Execute)
+                {
+                    lock (_lock)
+                    {
+                        if (_userData == null) // 2nd Check  (Only Single Thread Can Execute)
+                        {
+                            _userData = new UserData();
+                        }
+                    }
+                }
+                return _userData;
+            }
+        }
+        public bool StoreObject(User user)
         {
             string query = $"INSERT INTO Users (username, name, email, hashed_password, profile_img_url, created_at, role_id) Values ('{user.Username}', '{user.FullName}', '{user.Email}', '{user.Password}', null, Now(), '{user.UserRole.RoleID}')";
-            return DatabaseHelper.Instance.ExecuteQuery(query);
+            return DatabaseHelper.Instance.ExecuteQuery(query) > 0;
         }
-        static public bool IsValidUser(string email, string password)
+        public bool DeleteObject(User user)
+        {
+            return true;
+        }
+        public bool UpdateObject(User user)
+        {
+            return true;
+        }
+        public List<User> GetAllObjects()
+        {
+            List<User> allUsers = new List<User>();
+            return allUsers;
+        }
+    
+       
+         public bool IsValidUser(string email, string password)
         {
             DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE email='{email}' AND hashed_password='{password}'");
             if (dt.Rows.Count == 1)
@@ -20,7 +57,7 @@ namespace StitchMaster.DataLayer
             else
                 return false;
         }
-        static public bool UsernameExists(string username)
+         public bool UsernameExists(string username)
         {
             DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE username='{username}'");
             if (dt.Rows.Count == 1)
@@ -28,7 +65,7 @@ namespace StitchMaster.DataLayer
             else
                 return false;
         }
-        static public bool EmailExists(string email)
+         public bool EmailExists(string email)
         {
             DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE email='{email}'");
             if (dt.Rows.Count == 1)
@@ -36,7 +73,7 @@ namespace StitchMaster.DataLayer
             else
                 return false;
         }
-        static public User GetUserByEmail(string email)
+         public User GetUserByEmail(string email)
         {
             DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE email='{email}'");
             if (dt.Rows.Count == 1)
@@ -49,7 +86,25 @@ namespace StitchMaster.DataLayer
             }
 
         }
-        static private User FillUser(DataTable dt)
+
+
+        public User GetUserById(int id)
+        {
+            DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE user_id='{id}'");
+            if (dt.Rows.Count == 1)
+            {
+                return FillUser(dt);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+
+         private User FillUser(DataTable dt)
+
         {
             if (dt.Rows.Count == 1)
             {

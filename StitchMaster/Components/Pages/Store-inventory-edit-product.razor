@@ -1,0 +1,161 @@
+﻿@page "/store-inventory-edit-product/{ProductID:int}"
+@using StitchMaster
+@using StitchMaster.DataLayer
+@* @inject FabricProduct _productService *@
+@inject NavigationManager Navigation 
+@using Microsoft.AspNetCore.Components.Forms
+@using System.IO
+@inject IWebHostEnvironment env
+
+<h3 class="mb-4">Add New Product</h3>
+
+<div class="d-flex flex-row gap-4">
+    <!-- Left Panel - Form -->
+    <div class="flex-fill">
+        <EditForm Model= "Product" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <InputText class="form-control" @bind-Value="Product.FabricProductTitle" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <InputTextArea class="form-control" @bind-Value="Product.FabricProductDescription" />
+            </div>
+            <div class="row mb-3">
+                <!-- Gender Dropdown -->
+                <div class="col-md-6">
+                    <label class="form-label">Gender</label>
+                    <InputSelect class="form-select" @bind-Value="Product.Gender">
+                        <option value="">-- Select Gender --</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </InputSelect>
+                </div>
+
+                <!-- Color Dropdown -->
+                <div class="col-md-6">
+                    <label class="form-label">Color</label>
+                    <InputSelect class="form-select" @bind-Value="SelectedColorId">
+                        <option value="">-- Select Color --</option>
+                        @foreach (var color in AvailableColors)
+                        {
+                            <option value="@color.ColorID">@color.ColorName</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Material</label>
+                    <InputText class="form-control" @bind-Value="Product.FabricMaterial" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Price</label>
+                    <InputNumber class="form-control" @bind-Value="Product.PricePerMeter" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Stock</label>
+                    <InputNumber class="form-control" @bind-Value="Product.StockQuantity" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Minimum Stock</label>
+                    <InputNumber class="form-control" @bind-Value="Product.MinStockQuantity" />
+                </div>
+
+            </div>
+
+            @* <div class="row mb-3"> *@
+            @* <div class="col-md-6"> *@
+            @*     <label class="form-label">Rating</label> *@
+            @*     <InputNumber class="form-control" @bind-Value="" /> *@
+            @* </div> *@
+            @* </div> *@
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-secondary">  Cancel</button>
+            </div>
+        </EditForm>
+    </div>
+
+    <!-- Right Panel - Image Preview -->
+    <div style="width: 350px;">
+        <label class="form-label">Image Preview</label>
+        <div class="border p-2 rounded bg-light d-flex align-items-center justify-content-center" style="height: 300px;">
+            @if (!string.IsNullOrWhiteSpace(Product.ImageURl))
+            {
+                <img src="@Product.ImageURl" class="img-fluid" />
+            }
+            else
+            {
+                <span class="text-muted">Image will appear here</span>
+            }
+        </div>
+
+        <div class="mt-3">
+            <label class="form-label">Upload Image</label>
+            <InputFile OnChange="HandleImageUpload" accept="image/*" />
+        </div>
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter] public int ProductId { get; set; }
+
+    int SelectedColorId;
+    private List<FabricColor> AvailableColors = new List<FabricColor>()
+    {
+        new FabricColor(1,"Red"),
+    };
+    private List<FabricProduct> allProduct = FabricProductData.Instance.GetAllObjects();
+
+    private FabricProduct Product;
+    private FabricStore Store = FabricStoreData.Instance.GetAllObjects().Find(f => f.FabricStoreID == 1);
+     protected override void OnInitialized()
+    {
+        Product = allProduct.Find(FP => FP.FabricProductID == ProductId);
+        if (Product == null)
+        {
+            Navigation.NavigateTo("/product-not-exist-error");
+        }
+    }
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/store-inventory");
+    }
+    private async Task HandleSubmit()
+    {
+        FabricProductData.Instance.UpdateObject( Product);
+        Navigation.NavigateTo("/store-inventory");
+    }
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        if (file != null)
+        {
+            var fileName = $"{Guid.NewGuid()}_{file.Name}";
+
+            var uploadFolder = Path.Combine(env.WebRootPath, "uploads");
+            Directory.CreateDirectory(uploadFolder);
+
+            var filePath = Path.Combine(uploadFolder, fileName);
+
+            await using var fs = new FileStream(filePath, FileMode.Create);
+            await file.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024).CopyToAsync(fs);
+
+            Product.ImageURl = "/uploads/" + fileName;
+            StateHasChanged(); // force re-render
+        }
+    }
+
+}

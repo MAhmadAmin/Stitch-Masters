@@ -18,7 +18,7 @@ namespace StitchMaster.Components.Pages
         {
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
-                bool isValidUser = UserData.IsValidUser(email, password);
+                bool isValidUser = UserData.Instance.IsValidUser(email, password);
                 if (isValidUser)
                 {
                     userRoleName = UserRoleData.Instance.GetUserRoleByEmail(email).RoleName;

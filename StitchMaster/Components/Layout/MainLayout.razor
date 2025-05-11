@@ -4,18 +4,20 @@
 @inject UserStateService UserState
 @inject NavigationManager Navigation
 
-<div class="container-fluid p-0 m-0">
+<div class="relative container-fluid p-0 m-0">
     <NavMenu />
 
     <div class="d-flex">
-
-        <div class="sidebar-wrapper" onmouseover="this.classList.add('expanded')" onmouseout="this.classList.remove('expanded')">
+        @if(UserState.Email != null)
+        {
+        <div class="sidebar-wrapper" onmouseover="this.classList.add('expanded')" onmouseout="this.classList.remove('expanded')" style="margin-top:80px;">
             <div class="sidebar">
                 @RenderSidebar()
             </div>
         </div>
+        }
 
-        <div class="content-area p-4 transition-all">
+        <div class="content-area p-4 transition-all" style="margin-top:80px;">
             @Body
         </div>
     </div>
@@ -55,7 +57,7 @@
         "Customer" => @<CustomerSideBar />,
         "Tailor" => @<TailorSideBar />,
         "FabricStore" => @<StoreSideBar />,
-        _ => @<p class="accent-text">No access</p>
+        _ => @<p class="accent-text"></p>
     };
 
     public void Dispose()

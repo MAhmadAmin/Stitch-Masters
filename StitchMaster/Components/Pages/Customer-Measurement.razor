@@ -1,8 +1,77 @@
-﻿@page "/customer-measurement"
-<div class="container-lg">
-	<h1>My Measurements</h1>
+﻿@page "/measurement"
 
-</div>
+@using StitchMaster.BusinessLogic
+@using StitchMaster.DataLayer
+@using StitchMaster.Components.RazorComponents
+
+<h3>Measurements</h3>
+
+<button class="btn btn-primary mb-3" @onclick="ShowForm">
+    <i class="bi bi-plus-circle me-1"></i> Add Measurement
+</button>
+
+@if (showForm)
+{
+    <MeasurementForm OnClose="HideForm" OnSave="SaveMeasurement" />
+}
+
+@if (measurements.Any())
+{
+    <div class="row">
+        @foreach (var m in measurements)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@m.MeasurementName</h5>
+                        <p class="card-text">
+                            Gender: @m.Gender <br />
+                            Chest: @m.Chest, Waist: @m.Waist
+                        </p>
+                        <button class="btn btn-outline-danger btn-sm" @onclick="() => DeleteMeasurement(m.MeasurementId)">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">No measurements available.</div>
+}
+
 @code {
+    private bool showForm = false;
+    private List<Measurement> measurements = new();
+
+    protected override void OnInitialized()
+    {
+        LoadMeasurements();
+    }
+
+    private void ShowForm() => showForm = true;
+    private void HideForm() => showForm = false;
+
+    private void SaveMeasurement(Measurement newMeasurement)
+    {
+        MeasurementData.Instance.StoreMeasurement(newMeasurement);
+        showForm = false;
+        LoadMeasurements();
+    }
+
+    private void LoadMeasurements()
+    {
+        // Replace with actual buyer ID source
+        int buyerId = 1;
+        measurements = MeasurementData.Instance.GetMeasurementsByBuyerId(buyerId);
+    }
+
+    private void DeleteMeasurement(int measurementId)
+    {
+        MeasurementData.Instance.DeleteMeasurement(measurementId);
+        LoadMeasurements();
+    }
 
 }

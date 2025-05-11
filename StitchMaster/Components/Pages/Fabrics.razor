@@ -1,0 +1,71 @@
+﻿@page "/fabrics"
+@using StitchMaster.Components.RazorComponents;
+@using System.Linq
+@using StitchMaster.DataLayer
+
+<div class="container-lg m-auto d-flex align-items-center justify-content-start gap-5 flex-wrap gap-3 p-3">
+
+    <!-- Search Bar -->
+    <div class="input-group" style="max-width: 300px;">
+        <input type="text" class="form-control" placeholder="Search Products..." @bind="searchQuery" />
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+    </div>
+
+    <!-- Gender Select -->
+    <div class="form-group">
+        <select class="form-select" @bind="selectedGender">
+            <option disabled selected value="">-- Select Gender --</option>
+            @foreach (string gender in genders)
+            {
+                <option value="@gender">@gender</option>
+            }
+        </select>
+    </div>
+
+    <!-- Color Select -->
+    <div class="form-group">
+        <select class="form-select" @bind="selectedColor">
+            <option disabled selected value="">-- Select Color --</option>
+            @foreach (string color in colors)
+            {
+                <option value="@color">@color</option>
+            }
+        </select>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap gap-5 py-5 px-3">
+    @foreach (FabricProduct product in products)
+    {
+        <ProductCard ProductImageUrl=@product.ImageURl
+        ProductId=@product.FabricProductID
+        ProductName=@product.FabricProductTitle
+        Price=@product.PricePerMeter
+        Description=@product.FabricProductDescription
+        SellerAvatarUrl="/Avatar.svg"
+        material=@product.FabricMaterial
+        SellerName="Admin" />
+    }
+</div>
+
+@code {
+    private string searchQuery;
+    private string selectedGender;
+    private string selectedColor;
+
+    private List<string> genders = new() { "Men", "Women", "Other" };
+    private List<string> colors = new() { "Black", "White", "Red" };
+
+    List<FabricProduct> products;
+    protected override void OnInitialized()
+    {
+        // Simulate loading the gigs from DB or service
+        products = LoadProducts();
+    }
+    private List<FabricProduct> LoadProducts()
+    {
+        // You will fetch from DB/service — this is just demo data
+        return FabricProductData.Instance.GetAllObjects();
+    }
+
+}
