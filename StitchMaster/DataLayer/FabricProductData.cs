@@ -32,94 +32,79 @@ namespace StitchMaster.DataLayer
         }
 
 
-        //         public List<FabricProduct> GetAllProduts()
-        //         {
-        //             List<FabricProduct> products = new List<FabricProduct>();
+//         public List<FabricProduct> GetAllProduts()
+//         {
+//             List<FabricProduct> products = new List<FabricProduct>();
 
-        //             string query = @"select f.fabric_id,f.title,f.description,f.material,f.gender,f.price_per_meter,f.in_stock_qty,f.image_url
-        //                             ,c.color_id,c.color_name
-        //                             from fabric_product f 
-        //                             inner join color c on f.color_id = c.color_id;";
+//             string query = @"select f.fabric_id,f.title,f.description,f.material,f.gender,f.price_per_meter,f.in_stock_qty,f.image_url
+//                             ,c.color_id,c.color_name
+//                             from fabric_product f 
+//                             inner join color c on f.color_id = c.color_id;";
 
-        //             MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+//             MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
 
-        //             while (reader.Read())
-        //             {
-        //                 FabricColor color = new FabricColor(
-        //                     Convert.ToInt32(reader["color_id"]),
-        //                     reader["color_name"].ToString()
-        //                 );
+//             while (reader.Read())
+//             {
+//                 FabricColor color = new FabricColor(
+//                     Convert.ToInt32(reader["color_id"]),
+//                     reader["color_name"].ToString()
+//                 );
 
-        //                 FabricProduct product = new FabricProduct(
-        //                     Convert.ToInt32(reader["fabric_id"]),
-        //                     reader["title"].ToString(),
-        //                     reader["description"].ToString(),
-        //                     color,
-        //                     reader["material"].ToString(),
-        //                     reader["gender"].ToString(),
-        //                     Convert.ToInt32(reader["price_per_meter"]),
-        //                     Convert.ToInt32(reader["in_stock_qty"]),
-        //                     reader["image_url"].ToString()
-        //                 );
+//                 FabricProduct product = new FabricProduct(
+//                     Convert.ToInt32(reader["fabric_id"]),
+//                     reader["title"].ToString(),
+//                     reader["description"].ToString(),
+//                     color,
+//                     reader["material"].ToString(),
+//                     reader["gender"].ToString(),
+//                     Convert.ToInt32(reader["price_per_meter"]),
+//                     Convert.ToInt32(reader["in_stock_qty"]),
+//                     reader["image_url"].ToString()
+//                 );
 
-        //                 products.Add(product);
-        //             }
+//                 products.Add(product);
+//             }
 
-        //             reader.Close();
-        //             return products;
-        //         }
+//             reader.Close();
+//             return products;
+//         }
 
-        public FabricProduct? GetProductById(int ProductID)
+        public FabricProduct? GetProductById(int productId)
         {
-            FabricProduct product = null;
-            string sql = $"Select * from fabric_product where fabric_id = {ProductID};";
-            DataTable dt = DatabaseHelper.Instance.GetDataTable(sql);
-            List<FabricColor> allColors = FabricColorData.Instance.GetAllObjects();
-            if(dt.Rows.Count == 1)
+            string query = $@"select f.fabric_id,f.title,f.description,f.material,f.gender,f.price_per_meter,f.in_stock_qty,f.min_stock_qty,f.image_url
+                            ,c.color_id,c.color_name
+                            from fabric_product f 
+                            inner join color c on f.color_id = c.color_id where fabric_id = {productId}";
+
+            MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+
+            if (reader.Read()) 
             {
-                DataRow dr = dt.Rows[0];
-                FabricColor CuurentColor = allColors.Find(FP => FP.ColorID == int.Parse(dr["color_id"].ToString()));
-                 product = new FabricProduct(int.Parse(dr["fabric_id"].ToString()), dr["title"].ToString(), dr["description"].ToString(), CuurentColor, dr["material"].ToString(), Gender.StringToGenderType(dr["gender"].ToString()), int.Parse(dr["price_per_meter"].ToString()), int.Parse(dr["in_stock_qty"].ToString()), 0, dr["image_url"].ToString());
+                FabricColor color = new FabricColor(
+                    Convert.ToInt32(reader["color_id"]),
+                    reader["color_name"].ToString()
+                );
 
+                FabricProduct product = new FabricProduct(
+                    Convert.ToInt32(reader["fabric_id"]),
+                    reader["title"].ToString(),
+                    reader["description"].ToString(),
+                    color,
+                    reader["material"].ToString(),
+                    Gender.StringToGenderType(reader["gender"].ToString()),
+                    Convert.ToInt32(reader["price_per_meter"]),
+                    Convert.ToInt32(reader["min_stock_qty"]),
+                    Convert.ToInt32(reader["in_stock_qty"]),
+                    reader["image_url"].ToString()
+                );
+
+                reader.Close();
+                return product;
             }
-            return product;
+
+            reader.Close();
+            return null;
         }
-        //public FabricProduct? GetProductById(int productId)
-        //{
-        //    string query = $@"select f.fabric_id,f.title,f.description,f.material,f.gender,f.price_per_meter,f.in_stock_qty,f.min_stock_qty,f.image_url
-        //                    ,c.color_id,c.color_name
-        //                    from fabric_product f 
-        //                    inner join color c on f.color_id = c.color_id where fabric_id = {productId}";
-
-        //    MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
-
-        //    if (reader.Read())
-        //    {
-        //        FabricColor color = new FabricColor(
-        //            Convert.ToInt32(reader["color_id"]),
-        //            reader["color_name"].ToString()
-        //        );
-
-        //        FabricProduct product = new FabricProduct(
-        //            Convert.ToInt32(reader["fabric_id"]),
-        //            reader["title"].ToString(),
-        //            reader["description"].ToString(),
-        //            color,
-        //            reader["material"].ToString(),
-        //            Gender.StringToGenderType(reader["gender"].ToString()),
-        //            Convert.ToInt32(reader["price_per_meter"]),
-        //            Convert.ToInt32(reader["min_stock_qty"]),
-        //            Convert.ToInt32(reader["in_stock_qty"]),
-        //            reader["image_url"].ToString()
-        //        );
-
-        //        reader.Close();
-        //        return product;
-        //    }
-
-        //    reader.Close();
-        //    return null;
-        //}
 
         public int GetProductOwnerId(int productId)
         {
