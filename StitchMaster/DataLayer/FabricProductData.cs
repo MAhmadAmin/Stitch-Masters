@@ -71,7 +71,7 @@ namespace StitchMaster.DataLayer
 
         public FabricProduct? GetProductById(int productId)
         {
-            string query = $@"select f.fabric_id,f.title,f.description,f.material,f.gender,f.price_per_meter,f.in_stock_qty,f.image_url
+            string query = $@"select f.fabric_id,f.title,f.description,f.material,f.gender,f.price_per_meter,f.in_stock_qty,f.min_stock_qty,f.image_url
                             ,c.color_id,c.color_name
                             from fabric_product f 
                             inner join color c on f.color_id = c.color_id where fabric_id = {productId}";
