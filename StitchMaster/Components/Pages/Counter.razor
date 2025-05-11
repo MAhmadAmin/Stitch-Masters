@@ -1,4 +1,5 @@
-﻿@page "/counter"
+﻿@using StitchMaster.DataLayer
+@page "/counter"
 
 <PageTitle>Counter</PageTitle>
 
@@ -8,11 +9,17 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+@* @foreach(var store in stores) *@
+@* { *@
+@*     <P>@store.FabricStoreID , @store.FabricStoreDescription,@store.Email, @store.UserID,</P> *@
+@* } *@
+
 @code {
     private int currentCount = 0;
-    
+    // List<FabricStore> stores =  FabricStoreData.Instance.GetAllObjects();
     private void IncrementCount()
     {
+        // FabricProductData.Instance.AddObject(stores[0], new FabricProduct("Cotton","ABc",new FabricColor(1,"Red"),"matre","M",100,20,5,"") );
         currentCount++;
     }
 }

@@ -68,28 +68,39 @@ namespace StitchMaster.BusinessLogic
             Country = country;
             ZipCode = zipCode;
         }
+        public Address(string addressName, string houseNumber, string streetNumber, string city, string country, int zipCode)
+        {   // Full Oaram Constructor
+            AddressName = addressName;
+            HouseNumber = houseNumber;
+            StreetNumber = streetNumber;
+            City = city;
+            Country = country;
+            ZipCode = zipCode;
+        }
         public Address(Address other)
         {  // Copy Constructor
             if (other is null)
             {
-                throw new ArgumentNullException("Invalid Request");
+                //throw new ArgumentNullException("Invalid Request");
                 //throw new ArgumentNullException(nameof(other));
-            }
-
-            if (IsValid.DBID(other.AddressID))
-            {
-                _addressID = other.AddressID; // must use backing field as it's readonly
             }
             else
             {
-                throw new InvalidOperationException("Invalid Address ID");
+                if (IsValid.DBID(other.AddressID))
+                {
+                    _addressID = other.AddressID; // must use backing field as it's readonly
+                }
+                else
+                {
+                    throw new InvalidOperationException("Invalid Address ID");
+                }
+                AddressName = other.AddressName;
+                HouseNumber = other.HouseNumber;
+                StreetNumber = other.StreetNumber;
+                City = other.City;
+                Country = other.Country;
+                ZipCode = other.ZipCode;
             }
-            AddressName = other.AddressName;
-            HouseNumber = other.HouseNumber;
-            StreetNumber = other.StreetNumber;
-            City = other.City;
-            Country = other.Country;
-            ZipCode = other.ZipCode;
         }
         #endregion Constructors End ----------------------------------------------
     }

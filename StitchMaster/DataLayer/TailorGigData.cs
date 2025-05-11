@@ -1,16 +1,21 @@
+
 ﻿using MySql.Data.MySqlClient;
 using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
 
+﻿using StitchMaster.BusinessLogic;
+using StitchMaster.Interfaces;
+
+
 namespace StitchMaster.DataLayer
 {
-    public class TailorGigData
+    public class TailorGigData : ITailorGigData
     {
-        static private TailorGigData _tailorGigData;
+        static private ITailorGigData _tailorGigData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private TailorGigData() { }
 
-        static public TailorGigData Instance
+        static public ITailorGigData Instance
         {
             get
             {
@@ -27,6 +32,7 @@ namespace StitchMaster.DataLayer
                 return _tailorGigData;
             }
         }
+
 
         public List<TailorGig> GetAllGigs()
         {
@@ -110,6 +116,25 @@ namespace StitchMaster.DataLayer
             }
 
                 throw new InvalidOperationException("Gig not found or tailor_id is invalid.");
+        }
+
+
+        public bool StoreObject(Tailor tailor, TailorGig tailorGig)
+        {
+            return true;
+        }
+        public bool DeleteObject(TailorGig tailorGig)
+        {
+            return true;
+        }
+        public bool UpdateObject(TailorGig tailorGig)
+        {
+            return true;
+        }
+        public List<TailorGig> GetAllObjects()
+        {
+            List<TailorGig> allTailorGigs = new List<TailorGig>();
+            return allTailorGigs;
         }
 
     }

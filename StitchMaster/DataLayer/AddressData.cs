@@ -1,14 +1,15 @@
 ﻿using StitchMaster.BusinessLogic;
+using StitchMaster.Interfaces;
 
 namespace StitchMaster.DataLayer
 {
-    public class AddressData
+    public class AddressData :IAddressData
     {
-        static private AddressData _addressData;
+        static private IAddressData _addressData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private AddressData() { }
 
-        static public AddressData Instance
+        static public IAddressData Instance
         {
             get
             {
@@ -24,6 +25,25 @@ namespace StitchMaster.DataLayer
                 }
                 return _addressData;
             }
+        }
+        public bool StoreObject(Address address)
+        {
+            return true;
+        }
+        public bool DeleteObject(Address address)
+        {
+            return true;
+        }
+        public bool UpdateObject(Address address)
+        {
+            return true;
+        }
+        public List<Address> GetAllObjects()
+        {
+            List<Address> allAddress = new List<Address>();
+
+            //Db Code
+            return allAddress;
         }
     }
 }

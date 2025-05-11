@@ -1,0 +1,49 @@
+﻿@using StitchMaster;
+@using System.Text.RegularExpressions
+
+<div class="card mb-3 shadow-sm" style="max-width: 100%; border-radius: 15px;">
+    <div class="row g-0 align-items-center p-2" style="margin-right:10px;">
+        <!-- Image Section -->
+        <div class="col-md-2 text-center">
+            <img src="@Product.ImageURl" class="img-fluid rounded-start" style="max-height: 100px;" alt="@Product.FabricProductTitle" />
+        </div>
+
+        <!-- Title and Description -->
+        <div class="col-md-4 d-flex flex-column justify-content-center" style="min-width: 300px;">
+            <h5 class="card-title mb-1">@Product.FabricProductTitle</h5>
+            <p class="card-text text-muted mb-0">@ShortenDescription(Product.FabricProductDescription)</p>
+        </div>
+
+        <!-- Stock -->
+        <div class="col-md-1 text-center">
+            <span class="badge bg-primary">Stock: @Product.StockQuantity</span>
+        </div>
+
+        <!-- Price -->
+        <div class="col-md-2 text-center">
+            <h6 class="text-success">$@Product.PricePerMeter</h6>
+        </div>
+
+        <!-- Action Icons -->
+        <div class="col-md-3 text-end">
+            <button class="btn btn-sm btn-outline-secondary me-2" @onclick="() => OnEdit.InvokeAsync(Product.FabricProductID)">
+                <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" @onclick="() => OnDelete.InvokeAsync(Product.FabricProductID)">
+                <i class="bi bi-trash-fill"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public FabricProduct Product { get; set; }
+    [Parameter] public EventCallback<int> OnEdit { get; set; }
+    [Parameter] public EventCallback<int> OnDelete { get; set; }
+
+    private string ShortenDescription(string description)
+    {
+        var words = Regex.Split(description ?? "", @"\s+").Take(20);
+        return string.Join(" ", words) + (words.Count() == 20 ? "..." : "");
+    }
+}

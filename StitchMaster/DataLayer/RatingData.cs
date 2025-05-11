@@ -1,12 +1,14 @@
-﻿namespace StitchMaster.BusinessLogic
+﻿using StitchMaster.Interfaces;
+
+namespace StitchMaster.BusinessLogic
 {
-    public class RatingData
+    public class RatingData : IRatingData
     {
-        static private RatingData _ratingData;
+        static private IRatingData _ratingData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private RatingData() { }
 
-        static public RatingData Instance
+        static public IRatingData Instance
         {
             get
             {
@@ -22,6 +24,23 @@
                 }
                 return _ratingData;
             }
+        }
+        public bool StoreObject(Rating rating)
+        {
+            return true;   
+        }
+        public bool DeleteObject(Rating rating)
+        {
+            return true;
+        }
+        public bool UpdateObject(Rating rating)
+        {
+            return true;
+        }
+        public List<Rating> GetAllObjects()
+        {
+            List<Rating> allRatings = new List<Rating>();
+            return allRatings;
         }
     }
 }

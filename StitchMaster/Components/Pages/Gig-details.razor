@@ -1,5 +1,6 @@
 ﻿@page "/gig-details/{GigId:int}"
 @using StitchMaster
+
 @using StitchMaster.BusinessLogic
 @using StitchMaster.DataLayer
 @inject NavigationManager Navigation
@@ -8,6 +9,7 @@
     <div class="row">
         <!-- Left Column: Gig Image and Description -->
         <div class="col-md-8">
+
             <img src=@gig.ImageURLs alt="Gig Imag" class="img-fluid rounded mb-3 shadow"  style="width:700px; height:400px;"/>
 
             <h2>@gig.GigTitle</h2>
@@ -19,20 +21,24 @@
             </div>
 
 
+
         </div>
 
         <!-- Right Column: Seller Info and Order Box -->
         <div class="col-md-4">
             <div class="card p-3 shadow">
                 <div class="d-flex align-items-center mb-3">
+
                     <img src=@owner.Profile_Img_URL alt="Seller" class="rounded-circle me-2" style="width: 50px; height: 50px;" />
                     <div>
                         <strong>@owner.FullName</strong><br />
+
                         <small>Top Rated Seller</small>
                     </div>
                 </div>
 
                 <div class="mb-2">
+
                     <strong>Delivery:</strong> @gig.GigDeliveryDays Days
                 </div>
                 <div class="mb-3">
@@ -40,6 +46,7 @@
                 </div>
 
                 <a href="/customer-place-order/@gig.GigID" class="btn btn-success w-100">Continue $@(gig.GigPrice)</a>
+
             </div>
         </div>
     </div>
