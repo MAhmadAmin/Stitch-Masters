@@ -1,4 +1,6 @@
 ﻿using StitchMaster.BusinessLogic;
+using StitchMaster.DataLayer;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.Components.Pages
 {
@@ -11,6 +13,7 @@ namespace StitchMaster.Components.Pages
         
         static TailorOrder order = new TailorOrder(1, tailor, customer, fabric, "Make Shalwar", new DateTime(2020, 1, 1), new Status(1, "In Progress"), new Rating(1, 5, "Good"));
 
+        static List<TailorOrder> orders = TailorOrderData.Instance.GetAllObjects();
         public void ViewOrder()
         {
 

@@ -9,5 +9,7 @@ namespace StitchMaster.Interfaces
         public bool UpdateObject(Customer customer);
         public List<Customer> GetAllObjects();
         public Customer GetCustomerByUserId(int userId);
+
+        public Customer GetCustomerByID(int ID);
     }
 }

@@ -120,8 +120,43 @@ namespace StitchMaster.DataLayer
         }
 
 
-        
-        
+        public FabricProduct GetFabricProductByID(int ID)
+        {
+            string query = $@"SELECT f.fabric_id, f.title, f.description, f.material, f.gender, f.price_per_meter, f.in_stock_qty, f.min_stock_qty, f.image_url,  
+                             c.color_id, c.color_name  
+                             FROM fabric_product f  
+                             INNER JOIN color c ON f.color_id = c.color_id  
+                             WHERE f.fabric_id = {ID};";
+
+            MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+
+            if (reader.Read())
+            {
+                FabricColor color = new FabricColor(
+                    Convert.ToInt32(reader["color_id"]),
+                    reader["color_name"].ToString()
+                );
+
+                FabricProduct product = new FabricProduct(
+                    Convert.ToInt32(reader["fabric_id"]),
+                    reader["title"].ToString(),
+                    reader["description"].ToString(),
+                    color,
+                    reader["material"].ToString(),
+                    Gender.StringToGenderType(reader["gender"].ToString()),
+                    Convert.ToInt32(reader["price_per_meter"]),
+                    Convert.ToInt32(reader["in_stock_qty"]),
+                    Convert.ToInt32(reader["min_stock_qty"]),
+                    reader["image_url"].ToString()
+                );
+
+                reader.Close();
+                return product;
+            }
+
+            reader.Close();
+            throw new InvalidOperationException("Fabric product");
+        }    
         
         
         public bool StoreObject(FabricStore Store,FabricProduct Product)
