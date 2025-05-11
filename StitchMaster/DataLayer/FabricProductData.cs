@@ -85,19 +85,19 @@ namespace StitchMaster.DataLayer
                     reader["color_name"].ToString()
                 );
 
-                FabricProduct product = new FabricProduct(
-                    Convert.ToInt32(reader["fabric_id"]),
-                    reader["title"].ToString(),
-                    reader["description"].ToString(),
-                    color,
-                    reader["material"].ToString(),
-                    Gender.StringToGenderType(reader["gender"].ToString()),
-                    Convert.ToInt32(reader["price_per_meter"]),
-                    Convert.ToInt32(reader["min_stock_qty"]),
-                    Convert.ToInt32(reader["in_stock_qty"]),
-                    reader["image_url"].ToString()
-                );
-
+                //FabricProduct product = new FabricProduct(
+                //    Convert.ToInt32(reader["fabric_id"]),
+                //    reader["title"].ToString(),
+                //    reader["description"].ToString(),
+                //    color,
+                //    reader["material"].ToString(),
+                //    Gender.StringToGenderType(reader["gender"].ToString()),
+                //    Convert.ToInt32(reader["price_per_meter"]),
+                //    Convert.ToInt32(reader["min_stock_qty"]),
+                //    Convert.ToInt32(reader["in_stock_qty"]),
+                //    reader["image_url"].ToString()
+                //);
+                FabricProduct product = new FabricProduct(int.Parse(reader["fabric_id"].ToString()), reader["title"].ToString(), reader["description"].ToString(), color, reader["material"].ToString(), Gender.StringToGenderType(reader["gender"].ToString()), int.Parse(reader["price_per_meter"].ToString()), int.Parse(reader["in_stock_qty"].ToString()), 0, reader["image_url"].ToString());
                 reader.Close();
                 return product;
             }
