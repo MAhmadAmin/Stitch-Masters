@@ -1,4 +1,6 @@
 ﻿@page "/tailors"
+@using StitchMaster.DataLayer
+@using StitchMaster.BusinessLogic
 @using StitchMaster.Components.RazorComponents;
 @using System.Linq
 
@@ -44,28 +46,16 @@
 </div>
 
 <div class="d-flex flex-wrap gap-5 py-5">
-            <GigCard
-                Name="Sarah Tailor"
-                GigId="1232"
-                Description="I will professionally stitch bridal and formal dresses with custom measurements."
-                AvatarUrl="./gigPhoto.jpg"
-                GigImageUrl="./gigPhoto.jpg"
-                Rating="4.0"
-                Icon="bi bi-scissors" />
-            <GigCard Name="Sarah Tailor"
-                     GigId="152"
-                     Description="I will professionally stitch bridal and formal dresses with custom measurements."
-                     AvatarUrl="./gigPhoto2.jpg"
-                     GigImageUrl="./gigPhoto2.jpg"
-                     Rating="4.0"
-                     Icon="bi bi-scissors" />
-            <GigCard Name="Sarah Tailor"
-                     GigId="102"
-                     Description="I will professionally stitch bridal and formal dresses with custom measurements."
-                     AvatarUrl="./gigPhoto3.jpg"
-                     GigImageUrl="./gigPhoto3.jpg"
-                     Rating="4.0"
-                     Icon="bi bi-scissors" />
+    @foreach (TailorGig gig in gigs)
+    {
+        <GigCard Name=@gig.GigTitle
+                 GigId=@gig.GigID
+                 Description=@gig.GigDescription
+                 Rating="4.8"
+                 GigImageUrl=@gig.ImageURLs
+                 Icon="bi bi-scissors"
+                 AvatarUrl="/Avatar.svg" />
+    }
 
         </div>
 
@@ -82,6 +72,17 @@
     private void ToggleSkillDropdown()
     {
         showSkillDropdown = !showSkillDropdown;
+    }
+    List<TailorGig> gigs;
+    protected override void OnInitialized()
+    {
+        // Simulate loading the gigs from DB or service
+        gigs = LoadGigs();
+    }
+    private List<TailorGig> LoadGigs()
+    {
+        // You will fetch from DB/service — this is just demo data
+        return TailorGigData.Instance.GetAllGigs();
     }
 
     private void ToggleSkill(string skill)

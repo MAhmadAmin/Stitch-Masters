@@ -1,11 +1,12 @@
 ﻿@using StitchMaster;
+@using System.Text.RegularExpressions
 <a class="gig-card shadow-sm" href="/gig-details/@GigId" style="text-decoration:none;">
     <img src="@GigImageUrl" alt="Gig Image" class="gig-image" />
 
     <div class="p-3 d-flex">
-        <img src="@AvatarUrl" alt="Avatar" class="gig-avatar me-2" />
+        <img src="@AvatarUrl" alt="Avatar" class="rounded-circle me-2" style="width: 50px; height: 50px;" />
         <div class="gig-user-info">
-            <h6 class="gig-title mb-1">@Name</h6>
+            <h6 class="gig-title mb-1">@ShortenTitle(@Name)</h6>
             <div class="gig-rating text-warning d-flex align-items-center">
                 @RenderStars()
                 <span class="text-muted ms-1">(@Rating.ToString("0.0"))</span>
@@ -18,7 +19,7 @@
     </div>
 
     <div class="px-3 pb-3">
-        <p class="gig-description mb-0">@Description</p>
+        <p class="gig-description mb-0">@ShortenDescription(@Description)</p>
     </div>
 </a>
 
@@ -30,6 +31,18 @@
     [Parameter] public string AvatarUrl { get; set; } = "https://via.placeholder.com/50";
     [Parameter] public string GigImageUrl { get; set; } = "https://via.placeholder.com/330x200";
     [Parameter] public double Rating { get; set; } = 4.5;
+
+    private string ShortenDescription(string description)
+    {
+        var words = Regex.Split(description ?? "", @"\s+").Take(20);
+        return string.Join(" ", words) + (words.Count() == 20 ? "..." : "");
+    }
+
+    private string ShortenTitle(string title)
+    {
+        var words = Regex.Split(title ?? "", @"\s+").Take(4);
+        return string.Join(" ", words) + (words.Count() == 4 ? "..." : "");
+    }
 
     private RenderFragment RenderStars() => builder =>
     {

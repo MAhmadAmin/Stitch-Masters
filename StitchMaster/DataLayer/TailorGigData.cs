@@ -66,7 +66,7 @@ namespace StitchMaster.DataLayer
         public TailorGig? GetGigById(int gigId)
         {
             string query = $@"SELECT g.gig_id, g.title, g.description, g.price, g.delivery_time, g.image_url,
-                             c.category_id, c.category_name
+                             c.category_id, c.category_name, c.gender
                       FROM gig g
                       INNER JOIN category c ON g.category_id = c.category_id
                       WHERE g.gig_id = {gigId}";

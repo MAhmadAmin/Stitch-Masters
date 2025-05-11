@@ -21,7 +21,7 @@
         </div>
 
         <div class="d-flex flex-wrap gap-5">
-            @foreach(TailorGig gig in gigs)
+            @foreach(TailorGig gig in gigs.Take(3))
             {
                 <GigCard
                 Name=@gig.GigTitle
@@ -30,7 +30,7 @@
                 Rating="4.8"
                 GigImageUrl=@gig.ImageURLs
                 Icon="bi bi-scissors"
-                AvatarUrl =@(gig.GigCategory.Gender == "M" ? "Avatar1.jpg" : "Avatar2.svg")
+                AvatarUrl ="/Avatar.svg"
                   />
             }
 

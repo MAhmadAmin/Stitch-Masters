@@ -49,6 +49,20 @@ namespace StitchMaster.DataLayer
             }
 
         }
+
+        static public User GetUserById(int id)
+        {
+            DataTable dt = DatabaseHelper.Instance.GetDataTable($"SELECT * FROM users WHERE user_id='{id}'");
+            if (dt.Rows.Count == 1)
+            {
+                return FillUser(dt);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
         static private User FillUser(DataTable dt)
         {
             if (dt.Rows.Count == 1)
