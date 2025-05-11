@@ -4,11 +4,11 @@ namespace StitchMaster.BusinessLogic
 {
     public class RatingData : IRatingData
     {
-        static private RatingData _ratingData;
+        static private IRatingData _ratingData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private RatingData() { }
 
-        static public RatingData Instance
+        static public IRatingData Instance
         {
             get
             {

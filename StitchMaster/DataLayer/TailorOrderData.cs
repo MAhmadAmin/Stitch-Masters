@@ -1,14 +1,15 @@
 ﻿using StitchMaster.BusinessLogic;
+using StitchMaster.Interfaces;
 
 namespace StitchMaster.DataLayer
 {
-    public class TailorOrderData
+    public class TailorOrderData:ITailorOrderData
     {
-        static private TailorOrderData _tailorOrderData;
+        static private ITailorOrderData _tailorOrderData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private TailorOrderData() { }
 
-        static public TailorOrderData Instance
+        static public ITailorOrderData Instance
         {
             get
             {

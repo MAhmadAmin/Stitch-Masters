@@ -5,11 +5,11 @@ namespace StitchMaster.DataLayer
 {
     public class FabricPurchasedData : IFabricPurchasedData
     {
-        static private FabricPurchasedData _fabricPurchasedData;
+        static private IFabricPurchasedData _fabricPurchasedData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private FabricPurchasedData() { }
 
-        static public FabricPurchasedData Instance
+        static public IFabricPurchasedData Instance
         {
             get
             {

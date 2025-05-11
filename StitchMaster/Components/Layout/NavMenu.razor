@@ -17,7 +17,7 @@
         {
 
             <button class="logBtn accent-text btn bg-secondary link-opacity-70" @onclick="Logout">
-            Logout (@UserData.GetUserByEmail(UserState.Email).FullName)
+            Logout (@UserData.Instance.GetUserByEmail(UserState.Email).FullName)
             </button>
         }
         else

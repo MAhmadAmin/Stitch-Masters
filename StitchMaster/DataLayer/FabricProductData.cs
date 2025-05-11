@@ -7,11 +7,11 @@ namespace StitchMaster.DataLayer
 {
     public class FabricProductData : IFabricProductData
     {
-        static private FabricProductData _fabricProductData;
+        static private IFabricProductData _fabricProductData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private FabricProductData() { }
 
-        static public FabricProductData Instance
+        static public IFabricProductData Instance
         {
             get
             {

@@ -6,11 +6,11 @@ namespace StitchMaster.DataLayer
 {
     public class CustomerData : ICustomerData
     {
-        static private CustomerData _customerData;
+        static private ICustomerData _customerData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private CustomerData() { }
 
-        static public CustomerData Instance
+        static public ICustomerData Instance
         {
             get
             {

@@ -5,11 +5,11 @@ namespace StitchMaster.DataLayer
 {
     public class SkillData : ISkillData
     {
-        static private SkillData _skillData;
+        static private ISkillData _skillData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private SkillData() { }
 
-        static public SkillData Instance
+        static public ISkillData Instance
         {
             get
             {

@@ -5,11 +5,11 @@ namespace StitchMaster.DataLayer
 {
     public class AddressData :IAddressData
     {
-        static private AddressData _addressData;
+        static private IAddressData _addressData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private AddressData() { }
 
-        static public AddressData Instance
+        static public IAddressData Instance
         {
             get
             {

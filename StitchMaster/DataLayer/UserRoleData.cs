@@ -7,11 +7,11 @@ namespace StitchMaster.DataLayer
 {
     public class UserRoleData : IUserRoleData
     {
-        static private UserRoleData _userRoleData;
+        static private IUserRoleData _userRoleData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private UserRoleData() { }
 
-        static public UserRoleData Instance
+        static public IUserRoleData Instance
         {
             get
             {

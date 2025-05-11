@@ -6,9 +6,9 @@ namespace StitchMaster.DataLayer
 {
     public class FabricColorData : IFabricColorData
     {
-        static private FabricColorData _fabricColorData;
+        static private IFabricColorData _fabricColorData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
-        private FabricColorData() { }
+        private IFabricColorData() { }
 
         static public FabricColorData Instance
         {
