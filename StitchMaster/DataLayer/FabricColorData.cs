@@ -1,4 +1,8 @@
-﻿namespace StitchMaster.DataLayer
+﻿using System.Data;
+using StitchMaster.BusinessLogic;
+using StitchMaster.HelperClasses;
+
+namespace StitchMaster.DataLayer
 {
     public class FabricColorData
     {
@@ -22,6 +26,23 @@
                 }
                 return _fabricColorData;
             }
+        }
+
+        private List<FabricColor> GetAllObjects()
+        {
+            List<FabricColor> colors = new List<FabricColor>();
+            string sql = "SELECT * FROM FabricColor";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(sql);
+            foreach (DataRow row in dt.Rows)
+            {
+                FabricColor color = new FabricColor(
+                    Convert.ToInt32(row["Color_iD"]),
+                    Convert.ToString(row["Color_name"])
+                );
+                colors.Add(color);
+            }
+
+            return colors;
         }
     }
 }
