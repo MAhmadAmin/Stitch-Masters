@@ -1,4 +1,7 @@
-﻿using StitchMaster.BusinessLogic;
+
+﻿using System.Data;
+using StitchMaster.BusinessLogic;
+using StitchMaster.HelperClasses;
 using StitchMaster.Interfaces;
 
 namespace StitchMaster.DataLayer
@@ -26,6 +29,49 @@ namespace StitchMaster.DataLayer
                 return _categoryData;
             }
         }
+
+
+        
+        public Category GetCategoryByID(int ID)
+        {
+            string query = $"SELECT * FROM Category WHERE Category_id = {ID}";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            return FillCategory(dt);
+        }
+
+        private Category FillCategory(DataTable dt)
+        {
+            if (dt.Rows.Count != 0)
+            {
+                DataRow dr = dt.Rows[0];
+                int categoryID = Convert.ToInt32(dr["category_id"]);
+                string categoryName = dr["category_name"].ToString();
+                string gender = dr["gender"].ToString();
+                return new Category(categoryID, categoryName, gender);
+            }
+            else
+                return null;
+        }
+
+        private List<Category> FillCategoriesList(DataTable dt)
+        {
+            List<Category> categories = new List<Category>();
+
+            if (dt.Rows.Count != 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    int categoryID = Convert.ToInt32(row["category_id"]);
+                    string categoryName = row["category_name"].ToString();
+                    string gender = row["gender"].ToString();                 
+                    Category category = new Category(categoryID, categoryName, gender);
+                    categories.Add(category);
+                }
+                return categories;
+            }
+            else
+                return null;
+
         public bool StoreObject(Category category)
         {
             return true;
@@ -40,8 +86,10 @@ namespace StitchMaster.DataLayer
         }
         public List<Category> GetAllObjects()
         {
-            List<Category> allCategories = new List<Category>();
-            return allCategories;
+            string query = "SELECT * FROM Category";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            return FillCategoriesList(dt);
+
         }
     }
 }

@@ -1,3 +1,6 @@
+
+﻿using System.Data;
+
 ﻿using MySql.Data.MySqlClient;
 using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
@@ -73,6 +76,36 @@ namespace StitchMaster.DataLayer
         {
             List<Tailor> allTailors = new List<Tailor>();
             return allTailors;
+        }
+
+        public Tailor GetTailorByEmail(string email)
+        {
+            string query = $"SELECT * FROM Users U INNER JOIN Tailor T ON U.user_id = T.user_id WHERE email = '{email}';";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            return FillTailor(dt);
+        }
+
+        public Tailor GetTailorByID(int ID)
+        {
+            string query = $"SELECT * FROM Users U INNER JOIN Tailor T ON U.user_id = T.user_id WHERE tailor_id = '{ID}'";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            return FillTailor(dt);
+        }
+
+        private Tailor FillTailor(DataTable dt)
+        {
+            if (dt.Rows.Count == 1)
+            {
+
+                DataRow dr = dt.Rows[0];
+                int tailorID = Convert.ToInt32(dr["tailor_id"]);
+                string description = dr["description"].ToString();
+                UserRole ur = UserRoleData.Instance.GetUserRoleByEmail(dr["email"].ToString());
+                Tailor tailor = new Tailor(tailorID, description, Convert.ToInt32(dr["user_id"]), dr["username"].ToString(), dr["name"].ToString(), dr["email"].ToString(), dr["hashed_password"].ToString(), dr["profile_img_url"].ToString(), Convert.ToDateTime(dr["created_at"]), ur);
+                return tailor;
+            }
+            else
+                return null;
         }
     }
 }
