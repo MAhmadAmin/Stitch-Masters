@@ -1,6 +1,7 @@
 ﻿@page "/fabrics"
 @using StitchMaster.Components.RazorComponents;
 @using System.Linq
+@using StitchMaster.DataLayer
 
 <div class="container-lg m-auto d-flex align-items-center justify-content-start gap-5 flex-wrap gap-3 p-3">
 
@@ -34,23 +35,17 @@
 </div>
 
 <div class="d-flex flex-wrap gap-5 py-5 px-3">
-    <ProductCard ProductImageUrl="./product1.jpg"
-                 ProductId="12"
-                 ProductName="Embroidered Lawn Suit"
-                 Description="High-quality lawn with intricate embroidery. 3-piece."
-                 Price="49"
-                 Category="Women"
-                 SellerName="Sarah Tailor"
-                 SellerAvatarUrl="./product1.jpg" />
-
-    <ProductCard ProductImageUrl="./product2.jpg"
-                 ProductName="Men's Cotton Kurta"
-                 ProductId="34"
-                 Description="Premium stitched kurta for summer."
-                 Price="29"
-                 Category="Men"
-                 SellerName="Ali Stitchers"
-                 SellerAvatarUrl="./product2.jpg" />
+    @foreach (FabricProduct product in products)
+    {
+        <ProductCard ProductImageUrl=@product.ImageURls
+                     ProductId=@product.FabricProductID
+                     ProductName=@product.FabricProductTitle
+                     Price=@product.PricePerMeter
+                     Description=@product.FabricProductDescription
+                     SellerAvatarUrl="/Avatar.svg"
+                     material=@product.FabricMaterial
+                     SellerName="Admin" />
+    }
 </div>
 
 @code {
@@ -60,5 +55,17 @@
 
     private List<string> genders = new() { "Men", "Women", "Other" };
     private List<string> colors = new() { "Black", "White", "Red" };
+
+    List<FabricProduct> products;
+    protected override void OnInitialized()
+    {
+        // Simulate loading the gigs from DB or service
+        products = LoadProducts();
+    }
+    private List<FabricProduct> LoadProducts()
+    {
+        // You will fetch from DB/service — this is just demo data
+        return FabricProductData.Instance.GetAllProduts();
+    }
 
 }

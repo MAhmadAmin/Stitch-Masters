@@ -16,7 +16,6 @@ namespace StitchMaster.BusinessLogic
         private string _gender;
         private int _pricePerMeter;
         private int _stockQuantity;
-        private int _minStockQuantity;
         private string _imageURls;
 
         #region Getter Setter Start --------------------------------------------
@@ -65,11 +64,6 @@ namespace StitchMaster.BusinessLogic
             set { _stockQuantity = value; }
         }
 
-        public int MinStockQuantity
-        {
-            get { return _minStockQuantity; }
-            set { _minStockQuantity = value; }
-        }
         public string ImageURls
         {
             get { return _imageURls; }
@@ -89,7 +83,7 @@ namespace StitchMaster.BusinessLogic
         #endregion Getter Setter End --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
-        public FabricProduct(int fabricProductID,string fabricProductTitle,string fabricProductDescription,FabricColor fabricColor,string fabricMaterial,string gender,int pricePerMeter,int stockQuantity,int minStockQuantity,string imageURls)
+        public FabricProduct(int fabricProductID,string fabricProductTitle,string fabricProductDescription,FabricColor fabricColor,string fabricMaterial,string gender,int pricePerMeter,int stockQuantity,string imageURls)
         {
             if(IsValid.DBID(fabricProductID))
             {
@@ -106,7 +100,6 @@ namespace StitchMaster.BusinessLogic
             Gender = gender;
             PricePerMeter = pricePerMeter;
             StockQuantity = stockQuantity;
-            MinStockQuantity = minStockQuantity;
             ImageURls = imageURls;   // A New Copy of imageURL List is Automatically made inside the Setter of This ImageURLs List to Encapsulate
         }
         public FabricProduct(FabricProduct fP)
@@ -126,7 +119,6 @@ namespace StitchMaster.BusinessLogic
             Gender = fP.Gender;
             PricePerMeter = fP.PricePerMeter;
             StockQuantity = fP.StockQuantity;
-            MinStockQuantity = fP.MinStockQuantity;
             ImageURls = fP.ImageURls;   // A New Copy of imageURL List is Automatically made inside the Setter of This ImageURLs List to Encapsulate
         }
         #endregion Constructors End ----------------------------------------------
