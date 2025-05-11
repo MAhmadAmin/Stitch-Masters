@@ -78,6 +78,20 @@ namespace StitchMaster.BusinessLogic
             this.MySkills = mySkills;
         }
 
+        public Tailor(int tailorID, string tailorDescription, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole) : base(userID, username, name, email, hashed_Password, profile_Img_URL, accountCreationDate, userRole)
+        {   // Full Param Constructor
+            // Backing Fields are Never Assigned the Values Directly (except Readonly Backing Fields) .. Always use the Properties to Assign the Values so that Setter Function is Automatically Called
+            if (IsValid.DBID(tailorID))
+            {
+                _tailorID = tailorID;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Tailor ID");
+            }
+            this.TailorDescription = tailorDescription;
+        }
+
         public Tailor(string username, string name, string email, string hashed_Password, UserRole userRole) : base(username, name, email, hashed_Password, userRole)
         {
             TailorDescription = null;

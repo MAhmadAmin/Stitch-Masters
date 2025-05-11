@@ -1,6 +1,7 @@
 ﻿
 using StitchMaster.BusinessLogic;
 using StitchMaster.DataLayer;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.Components.Layout
 {
@@ -19,6 +20,7 @@ namespace StitchMaster.Components.Layout
         private void Logout()
         {
             UserState.Logout();
+            CurrentUser.ClearCurrentUser();
             Navigation.NavigateTo("/");
         }
     }

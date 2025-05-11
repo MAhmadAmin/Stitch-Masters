@@ -2,23 +2,51 @@
 using StitchMaster.BusinessLogic;
 using StitchMaster.DataLayer;
 
+
 namespace StitchMaster.Components.Pages
 {
     public partial class My_Gigs_Create_Gig
     {
-        private string title;
-        private string description;
-        private Category category;
-        private int price = 10;
-        private int deliveryDays = 1;
-        private string savedImagePath = null;
-        private string imagePreviewUrl = null;
-
         private List<Category> categories = CategoryData.Instance.GetAllCategories();
-        private TailorGig gig = new TailorGig(null, "descrption", new Category(1, "ctrio","male"), 1, 1, null);
+        private TailorGig gigModel = new TailorGig() { GigDeliveryDays = 1, GigPrice = 10 };
+        private bool success = false;
 
         private IBrowserFile selectedFile;
         int SelectedCategoryId;
+        private async void HandleSubmit()
+        {
+
+            if (!string.IsNullOrEmpty(gigModel.GigTitle) && !string.IsNullOrEmpty(gigModel.GigDescription) && !string.IsNullOrEmpty(gigModel.ImageURL) && gigModel.GigPrice > 5 && SelectedCategoryId > 0)
+            {                
+                Tailor tailor = TailorData.Instance.GetTailorByEmail(UserState.Email);
+                Category category = CategoryData.Instance.GetCategoryByID(SelectedCategoryId);
+
+                TailorGig gig = new TailorGig(tailor, gigModel.GigTitle, gigModel.GigDescription, category, gigModel.GigPrice, gigModel.GigDeliveryDays, gigModel.ImageURL);
+
+                int result = TailorGigData.Instance.StoreGig(gig);
+
+                if(result == 1)
+                {
+                    await Task.Delay(2000);
+                    Navigation.NavigateTo("/my-gigs");
+                }
+            }
+        }
+
+        private void Cancel()
+        {
+            Navigation.NavigateTo("/my-gigs");
+        }
+        void IncrementDeliveryDays()
+        {
+            gigModel.GigDeliveryDays++;
+        }
+
+        void DecrementDeliveryDays()
+        {
+            if (gigModel.GigDeliveryDays > 1)
+                gigModel.GigDeliveryDays--;
+        }
 
         private async Task OnImageSelected(InputFileChangeEventArgs e)
         {
@@ -41,9 +69,13 @@ namespace StitchMaster.Components.Pages
                     Directory.CreateDirectory(uploadsFolder);
                 }
 
-                // Generate a unique file name to avoid conflicts
-                var uniqueFileName = $"{Guid.NewGuid()}_{selectedFile.Name}";
+                var random = new Random();
+                var shortRandom = random.Next(10000, 99999); // 5-digit random number
+                var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss"); // Compact timestamp
+                var extension = Path.GetExtension(selectedFile.Name); // Keep the original file extension
+                var uniqueFileName = $"{timestamp}_{shortRandom}{extension}";
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
 
                 // Save the file to wwwroot/uploads/
                 using var stream = selectedFile.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024); // 5MB max
@@ -51,29 +83,8 @@ namespace StitchMaster.Components.Pages
                 await stream.CopyToAsync(fileStream);
 
                 // Generate relative URL for image display
-                savedImagePath = $"/uploads/{uniqueFileName}";
-                imagePreviewUrl = savedImagePath;
+                gigModel.ImageURL = $"/uploads/{uniqueFileName}";
             }
-        }
-
-        private void Cancel()
-        {
-            Navigation.NavigateTo("/my-gigs");
-        }
-        private async Task HandleSubmit()
-        {
-            // await _productService.AddProductAsync(Product);
-            Navigation.NavigateTo("/my-gigs");
-        }
-        void IncrementDeliveryDays()
-        {
-            deliveryDays++;
-        }
-
-        void DecrementDeliveryDays()
-        {
-            if (deliveryDays > 1)
-                deliveryDays--;
         }
     }
 }

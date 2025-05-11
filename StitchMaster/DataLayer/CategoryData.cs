@@ -32,10 +32,30 @@ namespace StitchMaster.DataLayer
         {
             string query = "SELECT * FROM Category";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
-            return GetCategoriesList(dt);
+            return FillCategoriesList(dt);
+        }
+        public Category GetCategoryByID(int ID)
+        {
+            string query = $"SELECT * FROM Category WHERE Category_id = {ID}";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            return FillCategory(dt);
         }
 
-        private List<Category> GetCategoriesList(DataTable dt)
+        private Category FillCategory(DataTable dt)
+        {
+            if (dt.Rows.Count != 0)
+            {
+                DataRow dr = dt.Rows[0];
+                int categoryID = Convert.ToInt32(dr["category_id"]);
+                string categoryName = dr["category_name"].ToString();
+                string gender = dr["gender"].ToString();
+                return new Category(categoryID, categoryName, gender);
+            }
+            else
+                return null;
+        }
+
+        private List<Category> FillCategoriesList(DataTable dt)
         {
             List<Category> categories = new List<Category>();
 
@@ -52,9 +72,7 @@ namespace StitchMaster.DataLayer
                 return categories;
             }
             else
-            {
                 return null;
-            }
         }
     }
 }

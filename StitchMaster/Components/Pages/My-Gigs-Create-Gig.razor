@@ -1,28 +1,30 @@
-﻿@page "/my-gigs/create-gig"
-<PageTitle>Create New Gig</PageTitle>
-@using StitchMaster.BusinessLogic;
+﻿@using StitchMaster.BusinessLogic;
 @using StitchMaster.DataLayer;
+
 @inject NavigationManager Navigation
+@inject UserStateService UserState
+
+@page "/my-gigs/create-gig"
+<PageTitle>Create New Gig</PageTitle>
 
 <h3 class="mb-4" style="text-align: center">Create New Gig</h3>
-<h3 class="mb-4" style="text-align: center">Selected @SelectedCategoryId</h3>
 
 <div class="container" style="max-width: 1200;">
     <div class="d-flex flex-row gap-4">
         <!-- Left Panel - Form -->
         <div class="flex-fill">
-            <EditForm Model="gig" OnValidSubmit="HandleSubmit">
+            <EditForm Model="gigModel" OnValidSubmit="HandleSubmit">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
                 <div class="mb-3">
                     <label class="form-label">Title</label>
-                    <InputText class="form-control" @bind-Value="gig.GigTitle" placeholder = "Men's Shalwar Kameez"/>
+                    <InputText class="form-control" @bind-Value="gigModel.GigTitle" placeholder = "Men's Shalwar Kameez"/>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <InputTextArea class="form-control" @bind-Value="description" placeholder="Top-notch Pakistani cultures Gent's Shalwar kameez.....'" />
+                    <InputTextArea class="form-control" @bind-Value="gigModel.GigDescription" placeholder="Top-notch Pakistani cultures Gent's Shalwar kameez.....'" />
                 </div>
 
                 <div class="row mb-3">
@@ -31,9 +33,9 @@
                         <label class="form-label">Price</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <InputNumber class="form-control" @bind-Value="price"/>
+                            <InputNumber class="form-control" @bind-Value="gigModel.GigPrice"/>
                         </div>
-                        <small class="text-muted">Enter price in USD</small>
+                        <small class="text-muted">Enter price in USD (minimum $5)</small>
                     </div>
 
                     <!-- Delivery Time Input with Increment/Decrement Buttons -->
@@ -41,7 +43,7 @@
                         <label class="form-label">Delivery Time (in Days)</label>
                         <div class="input-group">
                             <button type="button" class="btn btn-outline-secondary" @onclick="DecrementDeliveryDays">-</button>
-                            <InputNumber class="form-control text-center" @bind-Value="deliveryDays" />
+                            <InputNumber class="form-control text-center" @bind-Value="gigModel.GigDeliveryDays" />
                             <button type="button" class="btn btn-outline-secondary" @onclick="IncrementDeliveryDays">+</button>
                         </div>
                         <small class="text-muted">Minimum 1 day</small>
@@ -61,11 +63,15 @@
                         </select>
                     </div>
                 </div>
-
+                @if(success)
+                {
+                    <p style="text-align: center" class="success-message">Gig Created</p>
+                }
                 <!-- Buttons -->
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success">Create</button>
-                    <button type="button" class="btn btn-secondary">Cancel</button>
+
+                    <button type="submit" class="btn btn-success" @onclick="HandleSubmit">Create</button>
+                    <button type="button" class="btn btn-secondary" @onclick = "Cancel">Cancel</button>
                 </div>
             </EditForm>
         </div>
@@ -74,9 +80,9 @@
         <div style="width: 350px;">
             <label class="form-label">Image Preview</label>
             <div class="border p-2 rounded bg-light d-flex align-items-center justify-content-center" style="height: 300px;">
-                @if (!string.IsNullOrWhiteSpace(imagePreviewUrl))
+                @if (!string.IsNullOrWhiteSpace(gigModel.ImageURL))
                 {
-                    <img src="@imagePreviewUrl" class="img-fluid" />
+                    <img src="@gigModel.ImageURL" class="img-fluid" />
                 }
                 else
                 {

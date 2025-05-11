@@ -1,5 +1,6 @@
 ﻿using StitchMaster.BusinessLogic;
 using StitchMaster.DataLayer;
+using StitchMaster.HelperClasses;
 using StitchMaster;
 using Microsoft.AspNetCore.Components;
 
@@ -23,6 +24,7 @@ namespace StitchMaster.Components.Pages
                     userRoleName = UserRoleData.Instance.GetUserRoleByEmail(email).RoleName;
                     loginStatus = LoginStatus.Success;
                     UserState.SetEmail(email, userRoleName);
+                    CurrentUser.SetCurrentUser(email, userRoleName);
                     if(userRoleName == "Customer")
                     {
                     Navigation.NavigateTo("/customer-dashboard");
