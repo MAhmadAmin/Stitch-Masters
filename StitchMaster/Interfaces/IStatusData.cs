@@ -8,5 +8,7 @@ namespace StitchMaster.Interfaces
         public bool DeleteObject(Status status);
         public bool UpdateObject(Status status);
         public List<Status> GetAllObjects();
+
+        public Status GetStatusByID(int ID);
     }
 }

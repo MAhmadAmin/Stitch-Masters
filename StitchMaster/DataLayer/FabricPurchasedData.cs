@@ -58,6 +58,26 @@ namespace StitchMaster.DataLayer
         }
 
 
+        public FabricPurchased GetFabricPurchasedByID(int ID)
+        {
+            string query = $"SELECT * FROM fabric_purchased WHERE fabric_purchased_id = {ID}";
+            var reader = DatabaseHelper.Instance.getDataReader(query);
+            if (reader.Read())
+            {
+                int fabricPurchasedID = Convert.ToInt32(reader["fabric_purchased_id"]);
+                int fabricProductID = Convert.ToInt32(reader["fabric_id"]);
+                int buyerID = Convert.ToInt32(reader["buyer_id"]);
+                int length = Convert.ToInt32(reader["length"]);
+                int totalPrice = Convert.ToInt32(reader["total_price"]);
+                FabricProduct fabricProduct = FabricProductData.Instance.GetProductById(fabricProductID);
+                FabricPurchased fabricPurchased = new FabricPurchased(fabricPurchasedID, fabricProduct, length, totalPrice, false);
+                return fabricPurchased;
+            }
+            return null;
+        }
+
+
+
         public bool StoreObject(Customer customer, FabricPurchased fabricPurchased)
         {
             return true;

@@ -1,4 +1,6 @@
-﻿using StitchMaster.BusinessLogic;
+﻿using System.Data;
+using StitchMaster.BusinessLogic;
+using StitchMaster.HelperClasses;
 using StitchMaster.Interfaces;
 
 namespace StitchMaster.DataLayer
@@ -42,6 +44,25 @@ namespace StitchMaster.DataLayer
         {
             List<Status> allStatus = new List<Status>();
             return allStatus;
+        }
+
+        public Status GetStatusByID(int ID)
+        {
+            string query = $"SELECT * FROM Lookup WHERE lookup_id = {ID}";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                Status status = new Status(
+                    Convert.ToInt32(dr["lookup_id"]),
+                    dr["value"].ToString()
+                );
+                return status;
+            }
+            else
+            {
+                throw new InvalidOperationException("Status not found");
+            }
         }
     }
 }

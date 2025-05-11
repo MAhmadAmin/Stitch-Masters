@@ -1,5 +1,7 @@
-﻿using StitchMaster.BusinessLogic;
+﻿using System.Data;
+using StitchMaster.BusinessLogic;
 using StitchMaster.Interfaces;
+using StitchMaster.HelperClasses;
 
 namespace StitchMaster.DataLayer
 {
@@ -41,6 +43,19 @@ namespace StitchMaster.DataLayer
         public List<TailorOrder> GetAllObjects()
         {
             List<TailorOrder> allTailorOrders = new List<TailorOrder>();
+            string query = "SELECT * FROM orders";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            foreach (DataRow dr in dt.Rows)
+            {
+                Tailor tailor = TailorData.Instance.GetTailorByID(Convert.ToInt32(dr["tailor_id"]));
+                Customer customer = CustomerData.Instance.GetCustomerByID(Convert.ToInt32(dr["buyer_id"]));
+                FabricPurchased fabricPurchased = FabricPurchasedData.Instance.GetFabricPurchasedByID(Convert.ToInt32(dr["fabric_purchased_id"]));
+                Status status = StatusData.Instance.GetStatusByID(Convert.ToInt32(dr["status_id"]));
+                TailorOrder tailorOrder = new TailorOrder(Convert.ToInt32(dr["order_id"]), tailor, customer, fabricPurchased, dr["description"].ToString(), Convert.ToDateTime(dr["order_date"]), status, new Rating(1, 5, "Very Good"));
+                
+                allTailorOrders.Add(tailorOrder);
+            }
+
             return allTailorOrders;
         }
 
