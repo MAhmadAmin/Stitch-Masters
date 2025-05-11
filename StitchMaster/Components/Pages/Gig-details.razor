@@ -69,7 +69,7 @@
 
     private User LoadGigOwner(int gigid)
     {
-        return UserData.GetUserById(TailorData.Instance.GetTailorUserId(TailorGigData.Instance.GetGigOwner(gigid)));
+        return UserData.Instance.GetUserById(TailorData.Instance.GetTailorUserId(TailorGigData.Instance.GetGigOwner(gigid)));
     }
     private TailorGig LoadGigById(int id)
     {

@@ -8,5 +8,6 @@ namespace StitchMaster.Interfaces
         public bool DeleteObject(FabricStore fabricStore);
         public bool UpdateObject(FabricStore fabricStore);
         public List<FabricStore> GetAllObjects();
+        public int GetStoreUserId(int storeid);
     }
 }

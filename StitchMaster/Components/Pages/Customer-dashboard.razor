@@ -10,7 +10,7 @@
     <h3 class="mb-4">Welcome
         @if(UserState.Email != null)
         {
-            @UserData.GetUserByEmail(UserState.Email).FullName
+            @UserData.Instance.GetUserByEmail(UserState.Email).FullName
         }
     </h3>
 
@@ -47,15 +47,15 @@
             @foreach(FabricProduct product in products.Take(3))
             {
                 <ProductCard
-                    ProductImageUrl=@product.ImageURls
-                    ProductId=@product.FabricProductID
-                    ProductName=@product.FabricProductTitle
-                    Price=@product.PricePerMeter
-                    Description=@product.FabricProductDescription
-                    SellerAvatarUrl="/Avatar.svg"
-                    material=@product.FabricMaterial
-                    SellerName="Admin"
-                    />
+                ProductImageUrl=@product.ImageURl
+                ProductId=@product.FabricProductID
+                ProductName=@product.FabricProductTitle
+                Price=@product.PricePerMeter
+                Description=@product.FabricProductDescription
+                SellerAvatarUrl="/Avatar.svg"
+                material=@product.FabricMaterial
+                SellerName="Admin"
+                />
             }
 
         </div>
@@ -74,14 +74,14 @@
         gigs = LoadGigs();
         products = LoadProducts();
     }
-	private List<TailorGig> LoadGigs()
-	{
-		// You will fetch from DB/service — this is just demo data
-		return TailorGigData.Instance.GetAllGigs();
-	}
+    private List<TailorGig> LoadGigs()
+    {
+        // You will fetch from DB/service — this is just demo data
+        return TailorGigData.Instance.GetAllObjects();
+    }
     private List<FabricProduct> LoadProducts()
     {
         // You will fetch from DB/service — this is just demo data
-        return FabricProductData.Instance.GetAllProduts();
+        return FabricProductData.Instance.GetAllObjects();
     }
 }

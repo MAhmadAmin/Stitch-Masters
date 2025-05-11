@@ -74,7 +74,7 @@
 
     protected override void OnInitialized()
     {
-        BuyerId = CustomerData.Instance.GetCustomerByUserId(UserData.GetUserByEmail(UserState.Email).UserID).CustomerID;
+        BuyerId = CustomerData.Instance.GetCustomerByUserId(UserData.Instance.GetUserByEmail(UserState.Email).UserID).CustomerID;
         measurement = new Measurement("", BuyerId, "", null, null, null, null, null, null, null, null, null);
     }
 

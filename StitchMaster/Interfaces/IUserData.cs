@@ -13,5 +13,6 @@ namespace StitchMaster.Interfaces
         public bool UsernameExists(string username);
         public bool EmailExists(string email);
         public User GetUserByEmail(string email);
+        public User GetUserById(int id);
     }
 }

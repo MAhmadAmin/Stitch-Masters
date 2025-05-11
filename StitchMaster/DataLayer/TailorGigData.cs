@@ -34,41 +34,6 @@ namespace StitchMaster.DataLayer
         }
 
 
-        public List<TailorGig> GetAllGigs()
-        {
-            List<TailorGig> gigs = new List<TailorGig>();
-
-            string query = @"SELECT g.gig_id, g.title, g.description, g.price, g.delivery_time, g.image_url,
-                            c.category_id, c.category_name,c.gender
-                     FROM gig g
-                     INNER JOIN category c ON g.category_id = c.category_id";
-
-            MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
-
-            while (reader.Read())
-            {
-                Category category = new Category(
-                    Convert.ToInt32(reader["category_id"]),
-                    reader["category_name"].ToString(),
-                    reader["gender"].ToString()
-                );
-
-                TailorGig gig = new TailorGig(
-                    Convert.ToInt32(reader["gig_id"]),
-                    reader["title"].ToString(),
-                    reader["description"].ToString(),
-                    category,
-                    Convert.ToInt32(reader["price"]),
-                    Convert.ToInt32(reader["delivery_time"]),
-                    reader["image_url"].ToString()
-                );
-
-                gigs.Add(gig);
-            }
-
-            reader.Close();
-            return gigs;
-        }
         public TailorGig? GetGigById(int gigId)
         {
             string query = $@"SELECT g.gig_id, g.title, g.description, g.price, g.delivery_time, g.image_url,
@@ -84,7 +49,7 @@ namespace StitchMaster.DataLayer
                 Category category = new Category(
                     Convert.ToInt32(reader["category_id"]),
                     reader["category_name"].ToString(),
-                    reader["gender"].ToString()
+                    Gender.StringToGenderType(reader["gender"].ToString())
                 );
 
                 TailorGig gig = new TailorGig(
@@ -133,8 +98,38 @@ namespace StitchMaster.DataLayer
         }
         public List<TailorGig> GetAllObjects()
         {
-            List<TailorGig> allTailorGigs = new List<TailorGig>();
-            return allTailorGigs;
+            List<TailorGig> gigs = new List<TailorGig>();
+
+            string query = @"SELECT g.gig_id, g.title, g.description, g.price, g.delivery_time, g.image_url,
+                            c.category_id, c.category_name,c.gender
+                     FROM gig g
+                     INNER JOIN category c ON g.category_id = c.category_id";
+
+            MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+
+            while (reader.Read())
+            {
+                Category category = new Category(
+                    Convert.ToInt32(reader["category_id"]),
+                    reader["category_name"].ToString(),
+                    Gender.StringToGenderType(reader["gender"].ToString())
+                );
+
+                TailorGig gig = new TailorGig(
+                    Convert.ToInt32(reader["gig_id"]),
+                    reader["title"].ToString(),
+                    reader["description"].ToString(),
+                    category,
+                    Convert.ToInt32(reader["price"]),
+                    Convert.ToInt32(reader["delivery_time"]),
+                    reader["image_url"].ToString()
+                );
+
+                gigs.Add(gig);
+            }
+
+            reader.Close();
+            return gigs;
         }
 
     }

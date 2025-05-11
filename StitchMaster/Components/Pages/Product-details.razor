@@ -8,7 +8,7 @@
 
 <div class="p-2 d-flex gap-3">
 	<div class="w-50 h-50 overflow-hidden">
-		<img src=@product.ImageURls alt="Alternate Text" class="container-fluid" />
+		<img src=@product.ImageURl alt="Alternate Text" class="container-fluid" />
 	</div>
 	<div class="d-flex flex-column gap-2">
 		<h1 class="h1">@product.FabricProductTitle</h1>
@@ -72,7 +72,7 @@
 
 	private User LoadProductOwner(int productid)
 	{
-		return UserData.GetUserById(FabricStoreData.Instance.GetStoreUserId(FabricProductData.Instance.GetProductOwnerId(productid)));
+		return UserData.Instance.GetUserById(FabricStoreData.Instance.GetStoreUserId(FabricProductData.Instance.GetProductOwnerId(productid)));
 	}
 
 	private async void ConfirmPurchase()
@@ -86,7 +86,7 @@
 
 		FabricPurchasedData.Instance.StoreFabricPurchased(purchase,
 			CustomerData.Instance.GetCustomerByUserId(
-				UserData.GetUserByEmail(UserState.Email).UserID
+				UserData.Instance.GetUserByEmail(UserState.Email).UserID
 			).CustomerID
 		);
 

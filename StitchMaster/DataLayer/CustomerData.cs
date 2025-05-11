@@ -63,7 +63,7 @@ namespace StitchMaster.DataLayer
                 UserRole role = new UserRole(roleId, "");
 
                 // Convert gender string to enum
-                if (!Enum.TryParse(genderStr, out Customer.GenderType gender))
+                if (!Enum.TryParse(genderStr, out Gender.GenderType gender))
                     throw new InvalidOperationException("Invalid gender value from database");
 
                 // Optional: You can fetch addresses here if needed

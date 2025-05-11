@@ -91,8 +91,9 @@ namespace StitchMaster.DataLayer
                     reader["description"].ToString(),
                     color,
                     reader["material"].ToString(),
-                    reader["gender"].ToString(),
+                    Gender.StringToGenderType(reader["gender"].ToString()),
                     Convert.ToInt32(reader["price_per_meter"]),
+                    Convert.ToInt32(reader["min_stock_qty"]),
                     Convert.ToInt32(reader["in_stock_qty"]),
                     reader["image_url"].ToString()
                 );

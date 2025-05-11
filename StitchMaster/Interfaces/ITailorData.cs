@@ -8,5 +8,6 @@ namespace StitchMaster.Interfaces
         public bool DeleteObject(Tailor tailor);
         public bool UpdateObject(Tailor tailor);
         public List<Tailor> GetAllObjects();
+        public int GetTailorUserId(int tailorid);
     }
 }

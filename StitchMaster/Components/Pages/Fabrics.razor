@@ -37,14 +37,14 @@
 <div class="d-flex flex-wrap gap-5 py-5 px-3">
     @foreach (FabricProduct product in products)
     {
-        <ProductCard ProductImageUrl=@product.ImageURls
-                     ProductId=@product.FabricProductID
-                     ProductName=@product.FabricProductTitle
-                     Price=@product.PricePerMeter
-                     Description=@product.FabricProductDescription
-                     SellerAvatarUrl="/Avatar.svg"
-                     material=@product.FabricMaterial
-                     SellerName="Admin" />
+        <ProductCard ProductImageUrl=@product.ImageURl
+        ProductId=@product.FabricProductID
+        ProductName=@product.FabricProductTitle
+        Price=@product.PricePerMeter
+        Description=@product.FabricProductDescription
+        SellerAvatarUrl="/Avatar.svg"
+        material=@product.FabricMaterial
+        SellerName="Admin" />
     }
 </div>
 
@@ -65,7 +65,7 @@
     private List<FabricProduct> LoadProducts()
     {
         // You will fetch from DB/service — this is just demo data
-        return FabricProductData.Instance.GetAllProduts();
+        return FabricProductData.Instance.GetAllObjects();
     }
 
 }
