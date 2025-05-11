@@ -49,7 +49,7 @@ namespace StitchMaster.DataLayer
             string query = @"SELECT g.gig_id, g.title, g.description, g.price, g.delivery_time, g.image_url,
                                          c.category_id, c.category_name,c.gender
                                   FROM gig g
-                                  INNER JOIN category c ON g.category_id = c.category_id";
+                                  INNER JOIN category c ON g.category_id = c.category_id WHERE title NOT LIKE '~%'";
 
             MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
 
