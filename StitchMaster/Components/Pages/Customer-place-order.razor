@@ -1,32 +1,167 @@
 ﻿@page "/customer-place-order/{GigId:int}"
-@using StitchMaster.DataLayer;
-@using StitchMaster.BusinessLogic;
+@inject IWebHostEnvironment env
+@inject UserStateService UserState
+@using StitchMaster.DataLayer
+@using StitchMaster.BusinessLogic
 
-<div>
-    Place Order on gig @gig.GigTitle by Owner @owner.FullName
+<h3 class="mb-4 text-primary">Place Order on gig <strong>@gig?.GigTitle</strong> by <strong>@owner?.FullName</strong></h3>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Description</label>
+    <InputTextArea class="form-control" @bind-Value="description" placeholder="Describe your order..." />
 </div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Select Measurement</label>
+    <select class="form-select" @onchange="OnMeasurementSelected">
+        <option disabled selected value="">-- Select Measurement --</option>
+        @foreach (var m in measurements)
+        {
+            <option value="@m.MeasurementId">@m.MeasurementName</option>
+        }
+    </select>
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Select Fabric (InHold = true)</label>
+    <select class="form-select" @onchange="OnFabricSelected">
+        <option disabled selected value="">-- Select Fabric --</option>
+        @foreach (var f in fabrics)
+        {
+            <option value="@f.FabricPurchasedId">@f.FabricName</option>
+        }
+    </select>
+</div>
+
+<div class="mb-4">
+    <label class="form-label fw-bold">Image Upload</label>
+    <div class="border rounded bg-light d-flex align-items-center justify-content-center mb-2" style="height: 300px;">
+        @if (!string.IsNullOrWhiteSpace(imageUrl))
+        {
+            <img src="@imageUrl" class="img-fluid" />
+        }
+        else
+        {
+            <span class="text-muted">Image will appear here</span>
+        }
+    </div>
+    <InputFile OnChange="HandleImageUpload" accept="image/*" />
+</div>
+
+<button class="btn btn-success" @onclick="SubmitOrder">Submit Order</button>
 
 @code {
     [Parameter] public int GigId { get; set; }
 
     private TailorGig gig;
-
     private User owner;
+
+    private List<Measurement> measurements = new();
+    private List<FabricPurchased> fabrics = new();
+    private Measurement selectedMeasurement;
+    private FabricPurchased selectedFabric;
+    private string description;
+    private string imageUrl;
+
+    private string successMessage;
+    private string errorMessage;
+
+    private int currentUserId = UserData.Instance.GetUserByEmail(UserState.Email).UserID;
 
     protected override void OnInitialized()
     {
-        // Simulate loading the gig from DB or service
-        gig = LoadGigById(GigId);
-        owner = LoadGigOwner(GigId);
+        gig = TailorGigData.Instance.GetGigById(GigId);
+        owner = UserData.Instance.GetUserById(TailorData.Instance.GetTailorUserId(TailorGigData.Instance.GetGigOwner(GigId)));
+
+        measurements = MeasurementData.Instance.GetMeasurementsByBuyerId(TailorGigData.Instance.GetGigOwner(GigId));
+        fabrics = FabricPurchasedData.Instance.GetInHoldFabrics(buyerid);
     }
 
-    private User LoadGigOwner(int gigid)
+    private void OnMeasurementSelected(ChangeEventArgs e)
     {
-        return UserData.Instance.GetUserById(TailorData.Instance.GetTailorUserId(TailorGigData.Instance.GetGigOwner(gigid)));
+        int selectedId = int.Parse(e.Value.ToString());
+        selectedMeasurement = measurements.FirstOrDefault(m => m.MeasurementId == selectedId);
     }
-    private TailorGig LoadGigById(int id)
+
+    private void OnFabricSelected(ChangeEventArgs e)
     {
-        // You will fetch from DB/service — this is just demo data
-        return TailorGigData.Instance.GetGigById(id);
+        int selectedId = int.Parse(e.Value.ToString());
+        selectedFabric = fabrics.FirstOrDefault(f => f.FabricPurchasedID == selectedId);
+    }
+
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            var fileName = $"{Guid.NewGuid()}_{file.Name}";
+            var uploadFolder = Path.Combine(env.WebRootPath, "uploads");
+            Directory.CreateDirectory(uploadFolder);
+            var filePath = Path.Combine(uploadFolder, fileName);
+
+            await using var fs = new FileStream(filePath, FileMode.Create);
+            await file.OpenReadStream(5 * 1024 * 1024).CopyToAsync(fs);
+
+            imageUrl = "/uploads/" + fileName;
+            StateHasChanged();
+        }
+    }
+
+    private void SubmitOrder()
+    {
+        errorMessage = successMessage = "";
+
+        // Validation
+        if (string.IsNullOrWhiteSpace(description) || selectedMeasurement == null || selectedFabric == null || string.IsNullOrWhiteSpace(imageUrl))
+        {
+            errorMessage = "Please fill all fields before submitting the order.";
+            return;
+        }
+
+        var account = AccountData.Instance.GetAccountByUserId(UserData.Instance.GetUserByEmail(UserState.Email).UserID); // Implement this in your DataLayer
+        if (account == null || account.Balance < gig.GigPrice)
+        {
+            errorMessage = "Insufficient balance. Please add funds to your account.";
+            return;
+        }
+
+        // Deduct balance
+        account.Balance -= gig.GigPrice;
+        AccountData.Instance.UpdateObject(account); // Implement this method
+
+        // Mark Fabric as not InHold
+        selectedFabric.InHold = false;
+        FabricPurchasedData.Instance.UpdateFabric(selectedFabric);
+
+        // Create Order
+        var newOrder = new Order
+            {
+                GigId = gig.GigId,
+                BuyerId = currentUserId,
+                MeasurementId = selectedMeasurement.MeasurementId,
+                FabricPurchasedId = selectedFabric.FabricPurchasedId,
+                Description = description,
+                ImageUrl = imageUrl,
+                Status = "Pending",
+                OrderDate = DateTime.Now
+            };
+
+        OrderData.Instance.CreateOrder(newOrder); // Add this logic to save the order
+
+        successMessage = "Order placed successfully!";
+        // Optional: reset fields
+        description = "";
+        imageUrl = "";
+        selectedFabric = null;
+        selectedMeasurement = null;
     }
 }

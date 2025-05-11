@@ -7,6 +7,8 @@ namespace StitchMaster.Interfaces
         public bool StoreObject(Account account);
         public bool DeleteObject(Account account);
         public bool UpdateObject(Account account);
+
+        public Account GetAccountByUserId(int userid);
         public List<Account> GetAllObjects();
 
     }

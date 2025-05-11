@@ -9,7 +9,7 @@ namespace StitchMaster.BusinessLogic
         private Tailor _tailor;
         private Customer _customer;
         private FabricPurchased _fabricPurchased;
-        //private CustomerMeasurement _customerMeasurement;
+        private Measurement _customerMeasurement;
         private string _description;
         private DateTime _orderDateTime;
         private Status _orderStatus;
@@ -43,10 +43,11 @@ namespace StitchMaster.BusinessLogic
             set { _price = value; }
 
         }
-        //public CustomerMeasurement
-        //{
-
-        //}
+        public Measurement CustomerMeasurement
+        {
+            get { return new Measurement(_customerMeasurement); }
+            set { _customerMeasurement = new Measurement(value); }
+        }
         public string Description
         {
             get { return _description; }
@@ -70,7 +71,7 @@ namespace StitchMaster.BusinessLogic
         #endregion Getter Setter Start --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
-        public TailorOrder(int tailorOrderID, Tailor tailor, Customer customer, FabricPurchased fabricPurchased, string description  , DateTime orderDateTime, Status orderStatus, Rating orderRating)
+        public TailorOrder(int tailorOrderID, Tailor tailor, Customer customer, FabricPurchased fabricPurchased,Measurement customerMeasurement, string description  , DateTime orderDateTime, Status orderStatus, Rating orderRating)
         {
             if(IsValid.DBID(tailorOrderID))
             {
@@ -83,6 +84,18 @@ namespace StitchMaster.BusinessLogic
             this.Tailor = tailor;
             this.Customer = customer;
             this.FabricPurchased = fabricPurchased;
+            this.CustomerMeasurement = customerMeasurement;
+            this.Description = description;
+            this.OrderDateTime = orderDateTime;
+            this.OrderStatus = orderStatus;
+            this.OrderRating = orderRating;
+        }
+        public TailorOrder( Tailor tailor, Customer customer, FabricPurchased fabricPurchased, Measurement customerMeasurement, string description, DateTime orderDateTime, Status orderStatus, Rating orderRating)
+        {
+            this.Tailor = tailor;
+            this.Customer = customer;
+            this.FabricPurchased = fabricPurchased;
+            this.CustomerMeasurement = customerMeasurement;
             this.Description = description;
             this.OrderDateTime = orderDateTime;
             this.OrderStatus = orderStatus;

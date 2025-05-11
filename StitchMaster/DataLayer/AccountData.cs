@@ -1,5 +1,9 @@
 ﻿using StitchMaster.Interfaces;
 using StitchMaster.BusinessLogic;
+using System.Reflection.PortableExecutable;
+using System.Security.Principal;
+using MySql.Data.MySqlClient;
+using StitchMaster.HelperClasses;
 namespace StitchMaster.DataLayer
 {
     public class AccountData : IAccountData
@@ -35,8 +39,32 @@ namespace StitchMaster.DataLayer
         }
         public bool UpdateObject(Account account)
         {
+            string query = $"UPDATE account SET balance = {account.Balance} WHERE account_id = {account.AccountID}";
+
+            int result = DatabaseHelper.Instance.ExecuteQuery(query);
             return true;
         }
+
+        public Account? GetAccountByUserId(int userId)
+        {
+            string query = $"SELECT * FROM account WHERE user_id = {userId}";
+
+            MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+            Account account = null;
+
+            if (reader.Read())
+            {
+                account = new Account
+                (
+                    reader.GetInt32(reader.GetOrdinal("account_id")),
+                    reader.GetInt32(reader.GetOrdinal("balance"))
+                );
+            }
+
+            reader.Close();
+            return account;
+        }
+
         public List<Account> GetAllObjects()
         {
             List<Account> allAccounts = new List<Account>();
