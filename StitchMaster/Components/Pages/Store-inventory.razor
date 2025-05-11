@@ -1,12 +1,14 @@
-﻿@page "/store-inventory"
-@using StitchMaster.Components.RazorComponents
+﻿@using StitchMaster.Components.RazorComponents
+@inject NavigationManager Navigation
+@using StitchMaster.DataLayer;
+@page "/store-inventory"
 <PageTitle>Dashboard</PageTitle>
 
 <h1>Inventory</h1>
 @* <div> *@
-    
+
 @* <div class="btn secondary-bg"  >+ *@
-    
+
 @* </div> *@
 @* </div> *@
 
@@ -48,20 +50,26 @@
 </div>
 
 <div>
-    <InventoryProductCard Product=FP OnDelete="DeleteProduct" OnEdit="EditProduct"></InventoryProductCard>
-    <InventoryProductCard Product=FP OnDelete="DeleteProduct" OnEdit="EditProduct"></InventoryProductCard>
-    <InventoryProductCard Product=FP OnDelete="DeleteProduct" OnEdit="EditProduct"></InventoryProductCard>
+    @foreach(var product in Products)
+    {
+        <InventoryProductCard Product=product OnDelete="DeleteProduct" OnEdit="EditProduct" ></InventoryProductCard>
+    }
+
 </div>
 
 @code {
-	private FabricProduct FP = new FabricProduct(1,"Cotton Fabric","ABc",new FabricColor(1,"Red"),"","",2,20,1,"/product2.jpg");
+    List<FabricProduct> Products = FabricProductData.Instance.GetAllObjects();
     private void EditProduct(int id)
     {
-        // Navigate or open edit modal
+        Navigation.NavigateTo($"store-inventory-edit-product/{id}");
     }
 
     private void DeleteProduct(int id)
     {
-        // Confirm and delete
+        FabricProduct ProductToDel = Products.Find(FP => FP.FabricProductID == id);
+        FabricProductData.Instance.DeleteObject(ProductToDel);
+        Products = FabricProductData.Instance.GetAllObjects();
+        StateHasChanged(); // Re-render the page
+        
     }
 }

@@ -3,7 +3,6 @@ using StitchMaster.HelperClasses;
 using StitchMaster;
 using System.Data;
 
-namespace StitchMaster
 using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
 
@@ -35,11 +34,11 @@ namespace StitchMaster.DataLayer
         public List<FabricStore> GetAllObjects()
         {
             List<FabricStore> allStores = new List<FabricStore>();
-            string sql = $"Select * from fabric_store as f natural join users as u inner join lookup as l on u.role_id = l.lookup_id";
+            string sql = $"Select * from fabric_store as f natural join users as u inner join lookup as l on u.role_id = l.lookup_id left join address as a on f.user_id = a.user_id;";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(sql);
             foreach(DataRow dr in dt.Rows)
             {
-                FabricStore store = new FabricStore(int.Parse(dr["store_id"].ToString()), dr["description"].ToString(),null,int.Parse( dr["user_id"].ToString()), dr["username"].ToString(), dr["name"].ToString(), dr["email"].ToString(), dr["hashed_password"].ToString(), dr["profile_img_url"].ToString(),DateTime.Parse(dr["created_at"].ToString()), new UserRole(int.Parse(dr["lookup_id"].ToString()), dr["value"].ToString())  );
+                FabricStore store = new FabricStore(int.Parse(dr["store_id"].ToString()), dr["description"].ToString(),new Address(1,"","","","","",0),int.Parse( dr["user_id"].ToString()), dr["username"].ToString(), dr["name"].ToString(), dr["email"].ToString(), dr["hashed_password"].ToString(), dr["profile_img_url"].ToString(),DateTime.Parse(dr["created_at"].ToString()), new UserRole(int.Parse(dr["lookup_id"].ToString()), dr["value"].ToString())  );
                 allStores.Add(store);
             }
             return allStores;
