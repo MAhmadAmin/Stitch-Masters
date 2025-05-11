@@ -1,10 +1,11 @@
 ﻿using System.Data;
 using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
+using StitchMaster.Interfaces;
 
 namespace StitchMaster.DataLayer
 {
-    public class UserRoleData
+    public class UserRoleData : IUserRoleData
     {
         static private UserRoleData _userRoleData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
@@ -28,6 +29,23 @@ namespace StitchMaster.DataLayer
             }
         }
 
+        public bool StoreObject(UserRole userRole)
+        {
+            return true;
+        }
+        public bool DeleteObject(UserRole userRole)
+        {
+            return true;
+        }
+        public bool UpdateObject(UserRole userRole)
+        {
+            return true;
+        }
+        public List<UserRole> GetAllObjects()
+        {
+            List<UserRole> allUserRoles = new List<UserRole>();
+            return allUserRoles;
+        }
         public UserRole GetUserRoleByEmail(string email)
         {
             string query = $"SELECT L.lookup_id, L.value FROM Users U INNER JOIN Lookup L ON U.role_id = L.lookup_id WHERE email = '{email}';";

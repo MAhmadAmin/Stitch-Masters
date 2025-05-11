@@ -1,4 +1,6 @@
-﻿namespace StitchMaster.DataLayer
+﻿using StitchMaster.BusinessLogic;
+
+namespace StitchMaster.DataLayer
 {
     public class TailorOrderData
     {
@@ -23,5 +25,23 @@
                 return _tailorOrderData;
             }
         }
+        public bool StoreObject(Tailor tailor, TailorOrder tailorOrder)
+        {
+            return true;
+        }
+        public bool DeleteObject(TailorOrder tailorOrder)
+        {
+            return true;
+        }
+        public bool UpdateObject(TailorOrder tailorOrder)
+        {
+            return true;
+        }
+        public List<TailorOrder> GetAllObjects()
+        {
+            List<TailorOrder> allTailorOrders = new List<TailorOrder>();
+            return allTailorOrders;
+        }
+
     }
 }

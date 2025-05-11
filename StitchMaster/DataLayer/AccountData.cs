@@ -1,6 +1,8 @@
-﻿namespace StitchMaster.DataLayer
+﻿using StitchMaster.Interfaces;
+using StitchMaster.BusinessLogic;
+namespace StitchMaster.DataLayer
 {
-    public class AccountData
+    public class AccountData : IAccountData
     {
         static private AccountData _accountData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
@@ -22,6 +24,24 @@
                 }
                 return _accountData;
             }
+        }
+        public bool StoreObject(Account account)
+        {
+            return true;
+        }
+        public bool DeleteObject(Account account)
+        {
+            return true;
+        }
+        public bool UpdateObject(Account account)
+        {
+            return true;
+        }
+        public List<Account> GetAllObjects()
+        {
+            List<Account> allAccounts = new List<Account>();
+            // DB Code
+            return allAccounts;
         }
 
 
