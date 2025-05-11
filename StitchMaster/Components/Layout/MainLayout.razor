@@ -8,12 +8,14 @@
     <NavMenu />
 
     <div class="d-flex">
-
+        @if(UserState.Email != null)
+        {
         <div class="sidebar-wrapper" onmouseover="this.classList.add('expanded')" onmouseout="this.classList.remove('expanded')" style="margin-top:80px;">
             <div class="sidebar">
                 @RenderSidebar()
             </div>
         </div>
+        }
 
         <div class="content-area p-4 transition-all" style="margin-top:80px;">
             @Body
@@ -55,7 +57,7 @@
         "Customer" => @<CustomerSideBar />,
         "Tailor" => @<TailorSideBar />,
         "FabricStore" => @<StoreSideBar />,
-        _ => @<p class="accent-text">No access</p>
+        _ => @<p class="accent-text"></p>
     };
 
     public void Dispose()
