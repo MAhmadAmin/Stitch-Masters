@@ -46,7 +46,7 @@ namespace StitchMaster.DataLayer
                 DataRow dr = dt.Rows[0];
                 int categoryID = Convert.ToInt32(dr["category_id"]);
                 string categoryName = dr["category_name"].ToString();
-                string gender = dr["gender"].ToString();
+                Gender.GenderType gender = Gender.StringToGenderType(dr["gender"].ToString());
                 return new Category(categoryID, categoryName, gender);
             }
             else
@@ -63,7 +63,7 @@ namespace StitchMaster.DataLayer
                 {
                     int categoryID = Convert.ToInt32(row["category_id"]);
                     string categoryName = row["category_name"].ToString();
-                    string gender = row["gender"].ToString();                 
+                    Gender.GenderType gender = Gender.StringToGenderType(row["gender"].ToString());
                     Category category = new Category(categoryID, categoryName, gender);
                     categories.Add(category);
                 }
@@ -71,6 +71,7 @@ namespace StitchMaster.DataLayer
             }
             else
                 return null;
+        }
 
         public bool StoreObject(Category category)
         {

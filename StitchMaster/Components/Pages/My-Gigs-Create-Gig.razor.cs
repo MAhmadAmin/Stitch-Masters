@@ -7,7 +7,7 @@ namespace StitchMaster.Components.Pages
 {
     public partial class My_Gigs_Create_Gig
     {
-        private List<Category> categories = CategoryData.Instance.GetAllCategories();
+        private List<Category> categories = CategoryData.Instance.GetAllObjects();
         private TailorGig gigModel = new TailorGig() { GigDeliveryDays = 1, GigPrice = 10 };
         private bool success = false;
         private bool isSubmitting = false;
@@ -27,11 +27,11 @@ namespace StitchMaster.Components.Pages
                 Tailor tailor = TailorData.Instance.GetTailorByEmail(UserState.Email);
                 Category category = CategoryData.Instance.GetCategoryByID(SelectedCategoryId);
 
-                TailorGig gig = new TailorGig(tailor, gigModel.GigTitle, gigModel.GigDescription, category, gigModel.GigPrice, gigModel.GigDeliveryDays, gigModel.ImageURL);
+                TailorGig gig = new TailorGig( gigModel.GigTitle, gigModel.GigDescription, category, gigModel.GigPrice, gigModel.GigDeliveryDays, gigModel.ImageURL);
 
-                int result = TailorGigData.Instance.StoreGig(gig);
+                bool result = TailorGigData.Instance.StoreObject(tailor, gig);
 
-                if(result == 1)
+                if(result)
                 {
                     await Task.Delay(2000);
                     Navigation.NavigateTo("/my-gigs");

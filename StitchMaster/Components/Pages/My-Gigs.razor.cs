@@ -10,7 +10,7 @@ namespace StitchMaster.Components.Pages
     {
 
         static Tailor tailor = TailorData.Instance.GetTailorByEmail(CurrentUser.Email);
-        static List<TailorGig> gigs = TailorGigData.Instance.GetGigs(tailor);
+        static List<TailorGig> gigs = TailorGigData.Instance.GetAllTailorGigs(tailor);
 
         static public string email = CurrentUser.Email;
         public  My_Gigs()
@@ -30,7 +30,7 @@ namespace StitchMaster.Components.Pages
         {
 
             tailor = TailorData.Instance.GetTailorByEmail(CurrentUser.Email);
-            gigs = TailorGigData.Instance.GetGigs(tailor);
+            gigs = TailorGigData.Instance.GetAllTailorGigs(tailor);
         }
         private void EditGig(int id)
         {
@@ -39,7 +39,9 @@ namespace StitchMaster.Components.Pages
 
         private void DeleteGig(int id)
         {
-            TailorGigData.Instance.DeleteGig(id); // <- call your data layer to delete it
+            gigs = TailorGigData.Instance.GetAllTailorGigs(tailor);
+            var GigToDEl = gigs.Find(G => G.GigID == id);
+            TailorGigData.Instance.DeleteObject(GigToDEl); // <- call your data layer to delete it
             Refresh(); // <- reload the gigs list
             StateHasChanged(); // <- update the UI
         }

@@ -6,7 +6,6 @@ namespace StitchMaster.BusinessLogic
     public class TailorGig
     {
         private readonly int _gigID;
-        private Tailor _tailor;
         private string _gigTitle;
         private string _gigDescription;
         private Category _gigCategory;
@@ -47,11 +46,6 @@ namespace StitchMaster.BusinessLogic
             get { return _gigPrice; }
             set { _gigPrice = value; }
         }
-        public Tailor Tailor
-        {
-            get { return _tailor; }
-            set { _tailor = value; }
-        }
         public double GigRating
         {
             get { return _gigRating; }
@@ -67,7 +61,7 @@ namespace StitchMaster.BusinessLogic
         #region Constructors Start ----------------------------------------------
 
         public TailorGig() { }
-        public TailorGig(int gigID, Tailor tailor, string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, double gigRating, string imageURLs)
+        public TailorGig(int gigID,  string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, double gigRating, string imageURLs)
         {
             if (IsValid.DBID(gigID))
             {
@@ -77,7 +71,6 @@ namespace StitchMaster.BusinessLogic
             {
                 throw new InvalidOperationException("Invalid Gig ID");
             }
-            Tailor = tailor;
             GigTitle = gigTitle;
             GigDescription = gigDescription;
             GigCategory = gigCategory;
@@ -88,9 +81,8 @@ namespace StitchMaster.BusinessLogic
             
         }
 
-        public TailorGig(Tailor tailor, string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, string imageURL)
+        public TailorGig( string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, string imageURL)
         {
-            Tailor = tailor;
             GigTitle = gigTitle;
             GigDescription = gigDescription;
             GigCategory = gigCategory;

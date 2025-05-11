@@ -36,13 +36,18 @@ namespace StitchMaster.DataLayer
         }
 
 
-        public List<TailorGig> GetAllObjects(Tailor tailor)
+        public List<TailorGig> GetAllTailorGigs(Tailor tailor)
         {
             string query = $"SELECT * FROM Gig WHERE tailor_id = {tailor.TailorID} AND title NOT LIKE '~%'";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             return FillGigList(dt);
         }
-       
+        public List<TailorGig> GetAllObjects()
+        {
+            List<TailorGig> allGigs = new List<TailorGig>();
+            return allGigs;
+        }
+
         private List<TailorGig> FillGigList(DataTable dt)
         {
             List<TailorGig> gigs = new List<TailorGig>();
@@ -63,7 +68,7 @@ namespace StitchMaster.DataLayer
                     Tailor tailor = TailorData.Instance.GetTailorByID(tailorID);
                     Category category = CategoryData.Instance.GetCategoryByID(categoryID);
 
-                    TailorGig gig = new TailorGig(gigID, tailor, title, description, category, price, deliveryTime, 5, imageURL);
+                    TailorGig gig = new TailorGig(gigID, title, description, category, price, deliveryTime, 5, imageURL);
                     
                     gigs.Add(gig);
                 }
@@ -101,6 +106,7 @@ namespace StitchMaster.DataLayer
                     category,
                     Convert.ToInt32(reader["price"]),
                     Convert.ToInt32(reader["delivery_time"]),
+                    0,  // Here we have to add Rating 
                     reader["image_url"].ToString()
                 );
 
@@ -128,23 +134,23 @@ namespace StitchMaster.DataLayer
 
         public bool StoreObject(Tailor tailor, TailorGig tailorGig)
         {
-            string query = $"INSERT INTO Gig (tailor_id, title, description, price, delivery_time, image_url, category_id) VALUES ({gig.Tailor.TailorID}, '{gig.GigTitle}', '{gig.GigDescription}', {gig.GigPrice}, {gig.GigDeliveryDays}, '{gig.ImageURL}', {gig.GigCategory.CategoryID});";
-            bool result = DatabaseHelper.Instance.ExecuteQuery(query);
-            return result;
+            string query = $"INSERT INTO Gig (tailor_id, title, description, price, delivery_time, image_url, category_id) VALUES ({tailor.TailorID}, '{tailorGig.GigTitle}', '{tailorGig.GigDescription}', {tailorGig.GigPrice}, {tailorGig.GigDeliveryDays}, '{tailorGig.ImageURL}', {tailorGig.GigCategory.CategoryID});";
+            int result = DatabaseHelper.Instance.ExecuteQuery(query);
+            return result > 0;
         }
         public bool DeleteObject(TailorGig tailorGig)
         {
-            string query = $"UPDATE Gig SET title = Concat('~',title) WHERE gig_id = {gigID};";
-            bool result = DatabaseHelper.Instance.ExecuteQuery(query);
+            string query = $"UPDATE Gig SET title = Concat('~',title) WHERE gig_id = {tailorGig.GigID};";
+            int result = DatabaseHelper.Instance.ExecuteQuery(query);
             return result > 0;
         }
         public bool UpdateObject(TailorGig tailorGig)
         {
-            string query = $"UPDATE Gig SET title = '{gig.GigTitle}', description = '{gig.GigDescription}', price = {gig.GigPrice}, delivery_time = {gig.GigDeliveryDays}, image_url = '{gig.ImageURL}', category_id = {gig.GigCategory.CategoryID} WHERE gig_id = {gig.GigID};";
-            bool result = DatabaseHelper.Instance.ExecuteQuery(query);
+            string query = $"UPDATE Gig SET title = '{tailorGig.GigTitle}', description = '{tailorGig.GigDescription}', price = {tailorGig.GigPrice}, delivery_time = {tailorGig.GigDeliveryDays}, image_url = '{tailorGig.ImageURL}', category_id = {tailorGig.GigCategory.CategoryID} WHERE gig_id = {tailorGig.GigID};";
+            int result = DatabaseHelper.Instance.ExecuteQuery(query);
             return result > 0;
         }
-//         public List<TailorGig> GetAllObjects()
+//         public List<TailorGig> GetAllObjects() --------------Already Made
 //         {
 //             List<TailorGig> gigs = new List<TailorGig>();
 

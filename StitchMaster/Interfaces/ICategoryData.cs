@@ -8,5 +8,6 @@ namespace StitchMaster.Interfaces
         public bool DeleteObject(Category category);
         public bool UpdateObject(Category category);
         public List<Category> GetAllObjects();
+        public Category GetCategoryByID(int ID);
     }
 }
