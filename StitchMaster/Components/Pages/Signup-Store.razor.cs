@@ -23,13 +23,13 @@ namespace StitchMaster.Components.Pages
             ClearErrors();
             bool hasError = false;
 
-            if (UserData.UsernameExists(Username))
+            if (UserData.Instance.UsernameExists(Username))
             {
                 UsernameError = "Username already exists.";
                 hasError = true;
             }
 
-            if (UserData.EmailExists(Email))
+            if (UserData.Instance.EmailExists(Email))
             {
                 EmailError = "Email already in use.";
                 hasError = true;
@@ -59,9 +59,9 @@ namespace StitchMaster.Components.Pages
 
             UserRole ur = UserRoleData.Instance.GetRoleByName("FabricStore");
             FabricStore s = new FabricStore(Username, FullName, Email, Password, ur);
-            int result = FabricStoreData.Instance.StoreFabricStore(s);
+            bool result = FabricStoreData.Instance.StoreObject(s);
 
-            if (result == 1)
+            if (result)
             {
                 SignUpSuccess = true;
                 ClearFields();

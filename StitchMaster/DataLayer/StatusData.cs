@@ -1,12 +1,15 @@
-﻿namespace StitchMaster.DataLayer
+﻿using StitchMaster.BusinessLogic;
+using StitchMaster.Interfaces;
+
+namespace StitchMaster.DataLayer
 {
-    public class StatusData
+    public class StatusData : IStatusData
     {
-        static private StatusData _statusData;
+        static private IStatusData _statusData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private StatusData() { }
 
-        static public StatusData Instance
+        static public IStatusData Instance
         {
             get
             {
@@ -22,6 +25,23 @@
                 }
                 return _statusData;
             }
+        }
+        public bool StoreObject(Status status)
+        {
+            return true;
+        }
+        public bool DeleteObject(Status status)
+        {
+            return true;
+        }
+        public bool UpdateObject(Status status)
+        {
+            return true;
+        }
+        public List<Status> GetAllObjects()
+        {
+            List<Status> allStatus = new List<Status>();
+            return allStatus;
         }
     }
 }

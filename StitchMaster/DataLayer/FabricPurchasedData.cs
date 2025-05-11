@@ -1,12 +1,15 @@
-﻿namespace StitchMaster.DataLayer
+﻿using StitchMaster.BusinessLogic;
+using StitchMaster.Interfaces;
+
+namespace StitchMaster.DataLayer
 {
-    public class FabricPurchasedData
+    public class FabricPurchasedData : IFabricPurchasedData
     {
-        static private FabricPurchasedData _fabricPurchasedData;
+        static private IFabricPurchasedData _fabricPurchasedData;
         static readonly private object _lock = new object();  // i make this to Avoid Lazy Laoding
         private FabricPurchasedData() { }
 
-        static public FabricPurchasedData Instance
+        static public IFabricPurchasedData Instance
         {
             get
             {
@@ -22,6 +25,23 @@
                 }
                 return _fabricPurchasedData;
             }
+        }
+        public bool StoreObject(Customer customer, FabricPurchased fabricPurchased)
+        {
+            return true;
+        }
+        public bool DeleteObject(FabricPurchased fabricPurchased)
+        {
+            return true;
+        }
+        public bool UpdateObject(FabricPurchased fabricPurchased)
+        {
+            return true;
+        }
+        public List<FabricPurchased> GetAllObjects()
+        {
+            List<FabricPurchased> allFabricPurchasedItems = new List<FabricPurchased>();
+            return allFabricPurchasedItems;
         }
     }
 }

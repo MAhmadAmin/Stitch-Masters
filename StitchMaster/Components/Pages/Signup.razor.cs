@@ -25,13 +25,13 @@ namespace StitchMaster.Components.Pages
             ClearErrors();
             bool hasError = false;
 
-            if (UserData.UsernameExists(Username))
+            if (UserData.Instance.UsernameExists(Username))
             {
                 UsernameError = "Username already exists.";
                 hasError = true;
             }
 
-            if (UserData.EmailExists(Email))
+            if (UserData.Instance.EmailExists(Email))
             {
                 EmailError = "Email already in use.";
                 hasError = true;
@@ -65,9 +65,9 @@ namespace StitchMaster.Components.Pages
 
             UserRole ur = UserRoleData.Instance.GetRoleByName("Customer"); 
             Customer c = new Customer(GenderEnum, DOB, Username, FullName, Email, Password, ur);
-            int result = CustomerData.Instance.StoreCustomer(c);
+            bool result = CustomerData.Instance.StoreObject(c);
 
-            if (result == 1)
+            if (result)
             {
                 SignUpSuccess = true;
                 ClearFields();

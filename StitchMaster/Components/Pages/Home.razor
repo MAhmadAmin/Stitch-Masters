@@ -12,7 +12,7 @@ Welcome to your new app. @message
 	private string message = "Welcome to the StitchMaster application!";
 	protected override async Task OnInitializedAsync()
 	{
-			User u = UserData.GetUserByEmail("ahmad@gmail.com");
+		User u = UserData.Instance.GetUserByEmail("ahmad@gmail.com");
 
 	}
 }
