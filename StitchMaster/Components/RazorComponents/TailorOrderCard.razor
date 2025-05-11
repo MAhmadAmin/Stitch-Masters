@@ -1,0 +1,55 @@
+﻿@using StitchMaster;
+@using System.Text.RegularExpressions
+
+<div class="card mb-3 shadow-sm" style="max-width: 100%; border-radius: 15px;">
+    <div class="row g-0 align-items-center p-2" style="margin-right:10px;">
+        <!-- Image Section
+        <div class="col-md-2 text-center">
+            <img src="--" class="img-fluid rounded-start" style="max-height: 100px;" alt="@Order.Customer.FullName" />
+        </div>
+         -->
+
+        <!-- Title and Description -->
+        <div class="col-md-4 d-flex flex-column justify-content-center" style="min-width: 300px;">
+            <h5 class="card-title mb-1">@Order.Customer.FullName</h5>
+            <p class="card-text text-muted mb-0">@ShortenDescription(Order.Description)</p>
+        </div>
+
+        <!-- Stock -->
+        <div class="col-md-1 text-center">
+            <span class="d-inline-flex align-items-center">
+                <span class="ms-1 text-dark fw-semibold">@Order.OrderDateTime.ToShortDateString()</span>
+            </span>
+        </div>
+
+        <!-- Price -->
+        <div class="col-md-2 text-center">
+            <h6 class="text-success">$@Order.Price</h6>
+        </div>
+
+        <!-- Price -->
+        <div class="col-md-2 text-center">
+            <span class="badge bg-secondary">@Order.OrderStatus.StatusValue
+            </span>
+        </div>
+
+        <!-- Action Icons -->
+        <div class="col-md-1 text-end">
+            <button class="btn btn-sm btn-outline-secondary me-2" @onclick="() => OnView.InvokeAsync(Order.TailorOrderID)">
+                <!-- <i class="bi bi-pencil-square"></i>-->
+                View
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public TailorOrder Order { get; set; }
+    [Parameter] public EventCallback<int> OnView { get; set; }
+
+    private string ShortenDescription(string description)
+    {
+        var words = Regex.Split(description ?? "", @"\s+").Take(20);
+        return string.Join(" ", words) + (words.Count() == 20 ? "..." : "");
+    }
+}

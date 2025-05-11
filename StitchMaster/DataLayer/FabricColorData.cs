@@ -2,6 +2,7 @@
 using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
 using StitchMaster.Interfaces;
+
 namespace StitchMaster.DataLayer
 {
     public class FabricColorData : IFabricColorData
@@ -27,6 +28,7 @@ namespace StitchMaster.DataLayer
                 return _fabricColorData;
             }
         }
+
         public bool StoreObject(FabricColor fabricColor)
         {
             return true;

@@ -6,12 +6,14 @@ namespace StitchMaster.BusinessLogic
     public class TailorGig
     {
         private readonly int _gigID;
+        private Tailor _tailor;
         private string _gigTitle;
         private string _gigDescription;
         private Category _gigCategory;
         private int _gigPrice;
         private int _gigDeliveryDays;
-        private string _imageURLs;
+        private double _gigRating;
+        private string _imageURL;
 
         #region Getter Setter Start --------------------------------------------
        
@@ -45,15 +47,27 @@ namespace StitchMaster.BusinessLogic
             get { return _gigPrice; }
             set { _gigPrice = value; }
         }
-        public string ImageURLs
+        public Tailor Tailor
         {
-            get { return _imageURLs; }
-            set { _imageURLs = value; }
+            get { return _tailor; }
+            set { _tailor = value; }
+        }
+        public double GigRating
+        {
+            get { return _gigRating; }
+            set { _gigRating = value; }
+        }
+        public string ImageURL
+        {
+            get { return _imageURL; }
+            set { _imageURL = value; }
         }
         #endregion Getter Setter Start --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
-        public TailorGig(int gigID, string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, string imageURLs)
+
+        public TailorGig() { }
+        public TailorGig(int gigID, Tailor tailor, string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, double gigRating, string imageURLs)
         {
             if (IsValid.DBID(gigID))
             {
@@ -63,14 +77,27 @@ namespace StitchMaster.BusinessLogic
             {
                 throw new InvalidOperationException("Invalid Gig ID");
             }
+            Tailor = tailor;
             GigTitle = gigTitle;
             GigDescription = gigDescription;
             GigCategory = gigCategory;
             GigPrice = gigPrice;
             GigDeliveryDays = gigDeliveryDays;
-            ImageURLs = imageURLs;
+            GigRating = gigRating;
+            ImageURL = imageURLs;    
             
-            
+        }
+
+        public TailorGig(Tailor tailor, string gigTitle, string gigDescription, Category gigCategory, int gigPrice, int gigDeliveryDays, string imageURL)
+        {
+            Tailor = tailor;
+            GigTitle = gigTitle;
+            GigDescription = gigDescription;
+            GigCategory = gigCategory;
+            GigPrice = gigPrice;
+            GigDeliveryDays = gigDeliveryDays;
+            ImageURL = imageURL;
+
         }
         #endregion Constructors Start ----------------------------------------------
     }

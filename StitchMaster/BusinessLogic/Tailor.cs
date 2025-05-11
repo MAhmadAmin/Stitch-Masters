@@ -19,8 +19,8 @@ namespace StitchMaster.BusinessLogic
 
         public List<Skill> MySkills
         {
-            get { return new List<Skill>(MySkills); }   // a New Copy List is Return to Add Encapsulation
-            set { MySkills = new List<Skill>(value); } // A New Copy of List is Set to Add Encapsulation
+            get { return new List<Skill>(_mySkills); }   // a New Copy List is Return to Add Encapsulation
+            set { _mySkills = new List<Skill>(value); } // A New Copy of List is Set to Add Encapsulation
         }
         public void AddSkill(Skill skill)
         {
@@ -76,6 +76,20 @@ namespace StitchMaster.BusinessLogic
             this.TailorAddress = tailorAddress;
             this.TailorRank = tailorRank;
             this.MySkills = mySkills;
+        }
+
+        public Tailor(int tailorID, string tailorDescription, int userID, string username, string name, string email, string hashed_Password, string profile_Img_URL, DateTime accountCreationDate, UserRole userRole) : base(userID, username, name, email, hashed_Password, profile_Img_URL, accountCreationDate, userRole)
+        {   // Full Param Constructor
+            // Backing Fields are Never Assigned the Values Directly (except Readonly Backing Fields) .. Always use the Properties to Assign the Values so that Setter Function is Automatically Called
+            if (IsValid.DBID(tailorID))
+            {
+                _tailorID = tailorID;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Tailor ID");
+            }
+            this.TailorDescription = tailorDescription;
         }
 
         public Tailor(string username, string name, string email, string hashed_Password, UserRole userRole) : base(username, name, email, hashed_Password, userRole)
