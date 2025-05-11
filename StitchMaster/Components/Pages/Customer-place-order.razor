@@ -1,0 +1,32 @@
+﻿@page "/customer-place-order/{GigId:int}"
+@using StitchMaster.DataLayer;
+@using StitchMaster.BusinessLogic;
+
+<div>
+    Place Order on gig @gig.GigTitle by Owner @owner.FullName
+</div>
+
+@code {
+    [Parameter] public int GigId { get; set; }
+
+    private TailorGig gig;
+
+    private User owner;
+
+    protected override void OnInitialized()
+    {
+        // Simulate loading the gig from DB or service
+        gig = LoadGigById(GigId);
+        owner = LoadGigOwner(GigId);
+    }
+
+    private User LoadGigOwner(int gigid)
+    {
+        return UserData.GetUserById(TailorData.Instance.GetTailorUserId(TailorGigData.Instance.GetGigOwner(gigid)));
+    }
+    private TailorGig LoadGigById(int id)
+    {
+        // You will fetch from DB/service — this is just demo data
+        return TailorGigData.Instance.GetGigById(id);
+    }
+}

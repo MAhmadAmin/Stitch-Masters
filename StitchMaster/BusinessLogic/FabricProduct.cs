@@ -16,8 +16,10 @@ namespace StitchMaster.BusinessLogic
         private Gender.GenderType _gender;
         private int _pricePerMeter;
         private int _stockQuantity;
+
         private int _minStockQuantity;
         private string _imageURl;
+
 
         #region Getter Setter Start --------------------------------------------
         public int FabricProductID
@@ -65,12 +67,16 @@ namespace StitchMaster.BusinessLogic
             set { _stockQuantity = value; }
         }
 
+
+
+
         public int MinStockQuantity
         {
             get { return _minStockQuantity; }
             set { _minStockQuantity = value; }
         }
         public string ImageURl
+
         {
             get { return _imageURl; }
             set
@@ -89,6 +95,9 @@ namespace StitchMaster.BusinessLogic
         #endregion Getter Setter End --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
+
+
+
         public FabricProduct(int fabricProductID,string fabricProductTitle,string fabricProductDescription,FabricColor fabricColor,string fabricMaterial, Gender.GenderType gender,int pricePerMeter,int stockQuantity,int minStockQuantity,string imageURl)
         {
             if(IsValid.DBID(fabricProductID))
@@ -120,6 +129,7 @@ namespace StitchMaster.BusinessLogic
             StockQuantity = stockQuantity;
             MinStockQuantity = minStockQuantity;
             ImageURl = imageURl;   // A New Copy of imageURL List is Automatically made inside the Setter of This ImageURLs List to Encapsulate
+
         }
         public FabricProduct(FabricProduct fP)
         {
@@ -138,6 +148,7 @@ namespace StitchMaster.BusinessLogic
             Gender = fP.Gender;
             PricePerMeter = fP.PricePerMeter;
             StockQuantity = fP.StockQuantity;
+
             MinStockQuantity = fP.MinStockQuantity;
             ImageURl = fP.ImageURl;   // A New Copy of imageURL List is Automatically made inside the Setter of This ImageURLs List to Encapsulate
         }

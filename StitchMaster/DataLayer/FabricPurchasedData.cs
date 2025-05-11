@@ -1,5 +1,9 @@
 ﻿using StitchMaster.BusinessLogic;
+
+using StitchMaster.HelperClasses;
+
 using StitchMaster.Interfaces;
+
 
 namespace StitchMaster.DataLayer
 {
@@ -26,6 +30,16 @@ namespace StitchMaster.DataLayer
                 return _fabricPurchasedData;
             }
         }
+
+        public int StoreFabricPurchased(FabricPurchased fabricPurchasedData, int tailorid)
+        {
+            string query = $"INSERT INTO fabric_purchased (fabric_id, buyer_id, length, total_price) " +
+                           $"VALUES ('{fabricPurchasedData.FabricProduct.FabricProductID}', '{tailorid}', '{fabricPurchasedData.Length}', '{fabricPurchasedData.TotalPrice}')";
+            return DatabaseHelper.Instance.ExecuteQuery(query);
+        }
+
+
+
         public bool StoreObject(Customer customer, FabricPurchased fabricPurchased)
         {
             return true;
@@ -43,5 +57,6 @@ namespace StitchMaster.DataLayer
             List<FabricPurchased> allFabricPurchasedItems = new List<FabricPurchased>();
             return allFabricPurchasedItems;
         }
+
     }
 }

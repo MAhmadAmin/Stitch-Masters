@@ -1,4 +1,5 @@
-﻿using StitchMaster.BusinessLogic;
+﻿using MySql.Data.MySqlClient;
+using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
 using StitchMaster;
 using System.Data;
@@ -32,6 +33,21 @@ namespace StitchMaster.DataLayer
                 return _fabricStoreData;
             }
         }
+
+        public int GetStoreUserId(int storeid)
+        {
+            string query = $"SELECT user_id FROM fabric_store WHERE store_id = {storeid}";
+
+            MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+            if (reader.Read())
+            {
+                return Convert.ToInt32(reader["user_id"]);
+            }
+
+            throw new InvalidOperationException("user not found or store_id is invalid.");
+        }
+        
+
         public bool StoreObject(FabricStore fabricStore)
         {
             int userTuple, storeTuple;

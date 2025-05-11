@@ -4,7 +4,11 @@
 @inject UserStateService UserState
 @inject NavigationManager Navigation
 
-<nav class="container-fluid navbar d-flex justify-content-between align-items-center" style="background-color:#0a2363;">
+
+<nav class="position-fixed fixed-top container-fluid navbar d-flex justify-content-between align-items-center" style="background-color:#0a2363;">
+
+
+
     <div class="logoBox">
         <img class="img-fluid" src="./stitchLogo.png" alt="Alternate Text" />
     </div>
@@ -17,7 +21,8 @@
         {
 
             <button class="logBtn accent-text btn bg-secondary link-opacity-70" @onclick="Logout">
-            Logout (@UserData.Instance.GetUserByEmail(UserState.Email).FullName)
+
+            Logout
             </button>
         }
         else

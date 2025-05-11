@@ -1,4 +1,5 @@
-﻿using StitchMaster.BusinessLogic;
+﻿using MySql.Data.MySqlClient;
+using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
 using StitchMaster.Interfaces;
 
@@ -27,6 +28,22 @@ namespace StitchMaster.DataLayer
                 return _tailorData;
             }
         }
+
+
+        public int GetTailorUserId(int tailorid)
+        {
+            string query = $"SELECT user_id FROM tailor WHERE tailor_id = {tailorid}";
+
+            MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
+            if (reader.Read())
+            {
+                return Convert.ToInt32(reader["user_id"]);
+            }
+
+            throw new InvalidOperationException("user not found or tailor_id is invalid.");
+        }
+
+
         public bool StoreObject(Tailor tailor)
         {
             int userTuple, tailorTuple;
