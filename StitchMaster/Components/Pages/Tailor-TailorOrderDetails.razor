@@ -1,0 +1,97 @@
+﻿@page "/tailor/my-orders/detail/{userId:int}"
+<PageTitle>Details</PageTitle>
+
+@using StitchMaster.BusinessLogic;
+@using StitchMaster.DataLayer;
+
+@inject NavigationManager Navigation
+@inject UserStateService UserState
+
+<h3 class="mb-4" style="text-align: center">Create New Gig</h3>
+
+<div class="container" style="max-width: 1200;">
+    <div class="d-flex flex-row gap-4">
+        <!-- Left Panel - Form -->
+        <div class="flex-fill">
+            <EditForm Model="gigModel" OnValidSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <InputText class="form-control" @bind-Value="gigModel.GigTitle" placeholder="Men's Shalwar Kameez" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <InputTextArea class="form-control" @bind-Value="gigModel.GigDescription" placeholder="Top-notch Pakistani cultures Gent's Shalwar kameez.....'" />
+                </div>
+
+                <div class="row mb-3">
+                    <!-- Price Input with Dollar Prefix -->
+                    <div class="col-md-6">
+                        <label class="form-label">Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <InputNumber class="form-control" @bind-Value="gigModel.GigPrice" />
+                        </div>
+                        <small class="text-muted">Enter price in USD (minimum $5)</small>
+                    </div>
+
+                    <!-- Delivery Time Input with Increment/Decrement Buttons -->
+                    <div class="col-md-6">
+                        <label class="form-label">Delivery Time (in Days)</label>
+                        <div class="input-group">
+                            <button type="button" class="btn btn-outline-secondary" @onclick="DecrementDeliveryDays">-</button>
+                            <InputNumber class="form-control text-center" @bind-Value="gigModel.GigDeliveryDays" />
+                            <button type="button" class="btn btn-outline-secondary" @onclick="IncrementDeliveryDays">+</button>
+                        </div>
+                        <small class="text-muted">Minimum 1 day</small>
+                    </div>
+                </div>
+
+                <!-- Gig Category Dropdown -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Gig Category</label>
+                        <select class="form-select" @bind="SelectedCategoryId">
+                            <option disabled selected value="">Select a category</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryID">@category.CategoryName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                @if (success)
+                {
+                    <p style="text-align: center" class="success-message">Gig Created</p>
+                }
+                <!-- Buttons -->
+                <div class="d-flex gap-2">
+
+                    <button type="submit" class="btn btn-success" @onclick="HandleSubmit" disabled="@isSubmitting">Create</button>
+                    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+
+        <!-- Right Panel - Image Preview -->
+        <div style="width: 350px;">
+            <label class="form-label">Image Preview</label>
+            <div class="border p-2 rounded bg-light d-flex align-items-center justify-content-center" style="height: 300px;">
+                @if (!string.IsNullOrWhiteSpace(gigModel.ImageURL))
+                {
+                    <img src="@gigModel.ImageURL" class="img-fluid" />
+                }
+                else
+                {
+                    <span class="text-muted">Image will appear here</span>
+                }
+            </div>
+            <div class="d-grid">
+                <InputFile OnChange="OnImageSelected" accept="image/*" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
