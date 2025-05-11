@@ -29,7 +29,7 @@
                 <!-- Gender Dropdown -->
                 <div class="col-md-6">
                     <label class="form-label">Gender</label>
-                    <InputSelect class="form-select" @bind-Value="Product.Gender">
+                    <InputSelect class="form-select" @bind-Value="genderString">
                         <option value="">-- Select Gender --</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -109,10 +109,9 @@
 
 @code {
     int SelectedColorId;
-    private List<FabricColor> AvailableColors = new List<FabricColor>()
-    {
-        new FabricColor(1,"Red"),
-    };
+    string genderString = "";
+    private List<FabricColor> AvailableColors = FabricColorData.Instance.GetAllObjects();
+
     private FabricProduct Product = new FabricProduct("", "", new FabricColor(1, "Red"), "", Gender.GenderType.M, 0, 0, 0, "");
     private FabricStore Store = FabricStoreData.Instance.GetAllObjects().Find(f => f.FabricStoreID == 1);
     private void Cancel()
@@ -121,6 +120,7 @@
     }
     private async Task HandleSubmit()
     {
+        Product.Gender = Gender.StringToGenderType(genderString);
         FabricProductData.Instance.StoreObject(Store, Product);
         Navigation.NavigateTo("/store-inventory");
     }

@@ -1,18 +1,17 @@
 ﻿@page "/"
-@using DataLayer;
-@using BusinessLogic;
+@inject NavigationManager Navigation
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
-Welcome to your new app. @message
+<h1 style="text-align: center">Welcome to Stitch Master!</h1>
 
 @code
 {
-	private string message = "Welcome to the StitchMaster application!";
-	protected override async Task OnInitializedAsync()
-	{
-		User u = UserData.Instance.GetUserByEmail("ahmad@gmail.com");
-
-	}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Navigation.NavigateTo("/signin");
+        }
+    }
 }

@@ -49,6 +49,9 @@
 </div>
 
 <div>
-    <TailorOrderCard Order=order OnView="ViewOrder"></TailorOrderCard>
+	@foreach (TailorOrder order in orders)
+	{
+		<TailorOrderCard Order=order OnView="ViewOrder"></TailorOrderCard>
+	}
 </div>
 
