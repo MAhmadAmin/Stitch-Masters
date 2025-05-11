@@ -33,11 +33,23 @@ namespace StitchMaster.DataLayer
 
         public List<TailorGig> GetGigs(Tailor tailor)
         {
-            string query = $"SELECT * FROM Gig WHERE tailor_id = {tailor.TailorID}";
+            string query = $"SELECT * FROM Gig WHERE tailor_id = {tailor.TailorID} AND title NOT LIKE '~%'";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             return FillGigList(dt);
         }
+        public int DeleteGig(int gigID)
+        {
+            string query = $"UPDATE Gig SET title = Concat('~',title) WHERE gig_id = {gigID};";
+            int result = DatabaseHelper.Instance.ExecuteQuery(query);
+            return result;
+        }
 
+        public int UpdateGig(TailorGig gig)
+        {
+            string query = $"UPDATE Gig SET title = '{gig.GigTitle}', description = '{gig.GigDescription}', price = {gig.GigPrice}, delivery_time = {gig.GigDeliveryDays}, image_url = '{gig.ImageURL}', category_id = {gig.GigCategory.CategoryID} WHERE gig_id = {gig.GigID};";
+            int result = DatabaseHelper.Instance.ExecuteQuery(query);
+            return result;
+        }
         private List<TailorGig> FillGigList(DataTable dt)
         {
             List<TailorGig> gigs = new List<TailorGig>();

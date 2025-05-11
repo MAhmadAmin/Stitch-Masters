@@ -70,7 +70,7 @@
                 <!-- Buttons -->
                 <div class="d-flex gap-2">
 
-                    <button type="submit" class="btn btn-success" @onclick="HandleSubmit">Create</button>
+                    <button type="submit" class="btn btn-success" @onclick="HandleSubmit" disabled="@isSubmitting">Create</button>
                     <button type="button" class="btn btn-secondary" @onclick = "Cancel">Cancel</button>
                 </div>
             </EditForm>

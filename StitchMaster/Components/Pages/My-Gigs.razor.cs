@@ -8,6 +8,10 @@ namespace StitchMaster.Components.Pages
 {
     public partial class My_Gigs
     {
+
+        static Tailor tailor = TailorData.Instance.GetTailorByEmail(CurrentUser.Email);
+        static List<TailorGig> gigs = TailorGigData.Instance.GetGigs(tailor);
+
         static public string email = CurrentUser.Email;
         public  My_Gigs()
         {
@@ -16,9 +20,18 @@ namespace StitchMaster.Components.Pages
                 Navigation.NavigateTo("/signin");
             }
         }
-        static Tailor tailor = TailorData.Instance.GetTailorByEmail(CurrentUser.Email);
-        static List<TailorGig> gigs = TailorGigData.Instance.GetGigs(tailor);
 
+        protected override void OnInitialized()
+        {
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+
+            tailor = TailorData.Instance.GetTailorByEmail(CurrentUser.Email);
+            gigs = TailorGigData.Instance.GetGigs(tailor);
+        }
         private void EditGig(int id)
         {
             // Navigate or open edit modal
@@ -26,7 +39,9 @@ namespace StitchMaster.Components.Pages
 
         private void DeleteGig(int id)
         {
-            // Confirm and delete
+            TailorGigData.Instance.DeleteGig(id); // <- call your data layer to delete it
+            Refresh(); // <- reload the gigs list
+            StateHasChanged(); // <- update the UI
         }
     }
 }

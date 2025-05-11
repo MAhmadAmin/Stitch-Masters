@@ -10,6 +10,7 @@ namespace StitchMaster.Components.Pages
         private List<Category> categories = CategoryData.Instance.GetAllCategories();
         private TailorGig gigModel = new TailorGig() { GigDeliveryDays = 1, GigPrice = 10 };
         private bool success = false;
+        private bool isSubmitting = false;
 
         private IBrowserFile selectedFile;
         int SelectedCategoryId;
@@ -17,7 +18,12 @@ namespace StitchMaster.Components.Pages
         {
 
             if (!string.IsNullOrEmpty(gigModel.GigTitle) && !string.IsNullOrEmpty(gigModel.GigDescription) && !string.IsNullOrEmpty(gigModel.ImageURL) && gigModel.GigPrice > 5 && SelectedCategoryId > 0)
-            {                
+            {
+                if (isSubmitting)
+                    return;
+                isSubmitting = true;
+
+
                 Tailor tailor = TailorData.Instance.GetTailorByEmail(UserState.Email);
                 Category category = CategoryData.Instance.GetCategoryByID(SelectedCategoryId);
 
@@ -30,6 +36,8 @@ namespace StitchMaster.Components.Pages
                     await Task.Delay(2000);
                     Navigation.NavigateTo("/my-gigs");
                 }
+
+                isSubmitting = false;
             }
         }
 
