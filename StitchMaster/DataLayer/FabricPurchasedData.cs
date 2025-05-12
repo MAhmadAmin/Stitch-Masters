@@ -32,10 +32,12 @@ namespace StitchMaster.DataLayer
             }
         }
 
-        public int StoreFabricPurchased(FabricPurchased fabricPurchasedData, int tailorid)
+        public int StoreFabricPurchased(FabricPurchased fabricPurchased, int customerID)
         {
-            string query = $"INSERT INTO fabric_purchased (fabric_id, buyer_id, length, total_price) " +
-                           $"VALUES ('{fabricPurchasedData.FabricProduct.FabricProductID}', '{tailorid}', '{fabricPurchasedData.Length}', '{fabricPurchasedData.TotalPrice}')";
+            //string query = $"INSERT INTO fabric_purchased (fabric_id, buyer_id, length, total_price) " +
+            //               $"VALUES ('{fabricPurchasedData.FabricProduct.FabricProductID}', '{tailorid}', '{fabricPurchasedData.Length}', '{fabricPurchasedData.TotalPrice}')";
+
+            string query = $"call CreateFabricOrder({fabricPurchased.FabricProduct.FabricProductID},{customerID} , {fabricPurchased.Length});";
             return DatabaseHelper.Instance.ExecuteQuery(query);
         }
         public List<FabricPurchased> GetPurchasedFabricsByInHoldStatus(Customer customer, bool inHold)
