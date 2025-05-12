@@ -62,5 +62,34 @@ namespace StitchMaster.DataLayer
             return allTailorOrders;
         }
 
+        public TailorOrder GetOrderByID(int ID)
+        {
+            string query = $"SELECT * FROM orders WHERE order_id = {ID}";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+            DataRow dr = dt.Rows[0];
+
+            Tailor tailor = TailorData.Instance.GetTailorByID(Convert.ToInt32(dr["tailor_id"]));
+            Customer customer = CustomerData.Instance.GetCustomerByID(Convert.ToInt32(dr["buyer_id"]));
+            FabricPurchased fabricPurchased = FabricPurchasedData.Instance.GetFabricPurchasedByID(Convert.ToInt32(dr["fabric_purchased_id"]));
+            Status status = StatusData.Instance.GetStatusByID(Convert.ToInt32(dr["status_id"]));
+            TailorOrder tailorOrder = new TailorOrder(Convert.ToInt32(dr["order_id"]), tailor, customer, fabricPurchased, dr["description"].ToString(), Convert.ToDateTime(dr["order_date"]), status, new Rating(1, 5, "Very Good"));
+
+            return tailorOrder;
+        }
+
+        public bool MarkCompleted(int OrderID)
+        {
+            string query = $"UPDATE orders SET status_id = 7 WHERE order_id = {OrderID}";
+            int rowsAffected = DatabaseHelper.Instance.ExecuteQuery(query);
+            if (rowsAffected > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }
