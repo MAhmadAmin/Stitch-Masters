@@ -30,6 +30,8 @@ namespace StitchMaster.DataLayer
         }
         public bool StoreObject(Tailor tailor, TailorOrder tailorOrder)
         {
+            string query = $"INSERT INTO orders (tailor_id, buyer_id, fabric_purchased_id, description,image_url, order_date, status_id,price) VALUES ({tailor.TailorID}, {tailorOrder.Customer.CustomerID}, {tailorOrder.FabricPurchased.FabricPurchasedID}, '{tailorOrder.Description}','/product3.jpg' , '{tailorOrder.OrderDateTime.ToString("yyyy-MM-dd HH:mm:ss")}', {tailorOrder.OrderStatus.StatusID} ,'{tailorOrder.Price}')";
+            int result = DatabaseHelper.Instance.ExecuteQuery(query);
             return true;
         }
         public bool DeleteObject(TailorOrder tailorOrder)
@@ -49,9 +51,10 @@ namespace StitchMaster.DataLayer
             {
                 Tailor tailor = TailorData.Instance.GetTailorByID(Convert.ToInt32(dr["tailor_id"]));
                 Customer customer = CustomerData.Instance.GetCustomerByID(Convert.ToInt32(dr["buyer_id"]));
+                Measurement measurement = MeasurementData.Instance.GetMeasurementById(Convert.ToInt32(dr["measurement_id"]));
                 FabricPurchased fabricPurchased = FabricPurchasedData.Instance.GetFabricPurchasedByID(Convert.ToInt32(dr["fabric_purchased_id"]));
                 Status status = StatusData.Instance.GetStatusByID(Convert.ToInt32(dr["status_id"]));
-                TailorOrder tailorOrder = new TailorOrder(Convert.ToInt32(dr["order_id"]), tailor, customer, fabricPurchased, dr["description"].ToString(), Convert.ToDateTime(dr["order_date"]), status, new Rating(1, 5, "Very Good"));
+                TailorOrder tailorOrder = new TailorOrder(Convert.ToInt32(dr["order_id"]), tailor, customer, fabricPurchased, measurement, dr["description"].ToString(), Convert.ToDateTime(dr["order_date"]), status, new Rating(1, 5, "Very Good"));
                 
                 allTailorOrders.Add(tailorOrder);
             }

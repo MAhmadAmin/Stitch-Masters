@@ -90,8 +90,10 @@ namespace StitchMaster.BusinessLogic
             this.OrderStatus = orderStatus;
             this.OrderRating = orderRating;
         }
-        public TailorOrder( Tailor tailor, Customer customer, FabricPurchased fabricPurchased, Measurement customerMeasurement, string description, DateTime orderDateTime, Status orderStatus, Rating orderRating)
+
+        public TailorOrder(Tailor tailor, Customer customer, FabricPurchased fabricPurchased, Measurement customerMeasurement, string description, DateTime orderDateTime, Status orderStatus, Rating orderRating)
         {
+            
             this.Tailor = tailor;
             this.Customer = customer;
             this.FabricPurchased = fabricPurchased;
@@ -101,6 +103,19 @@ namespace StitchMaster.BusinessLogic
             this.OrderStatus = orderStatus;
             this.OrderRating = orderRating;
         }
+        public TailorOrder( Tailor tailor, Customer customer, FabricPurchased fabricPurchased, Measurement customerMeasurement, string description, DateTime orderDateTime, Status orderStatus, int price)
+        {
+            this.Tailor = tailor;
+            this.Customer = customer;
+            this.FabricPurchased = fabricPurchased;
+            this.Price = price;
+            this.CustomerMeasurement = customerMeasurement;
+            this.Description = description;
+            this.OrderDateTime = orderDateTime;
+            this.OrderStatus = orderStatus;
+        }
+
+
 
         #endregion Constructors End ----------------------------------------------
     }

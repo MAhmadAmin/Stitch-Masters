@@ -46,7 +46,36 @@ namespace StitchMaster.DataLayer
             string query = $"DELETE FROM buyer_measurement WHERE measurement_id = {measurementId}";
             return DatabaseHelper.Instance.ExecuteQuery(query);
         }
+        public Measurement GetMeasurementById(int measurementid)
+        {
+            Measurement measurement = null;
 
+            string query = $"SELECT * FROM buyer_measurement WHERE measurement_id = {measurementid}";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                Measurement m = new Measurement(
+                    Convert.ToInt32(row["measurement_id"]),
+                    row["measurement_name"].ToString(),
+                    Convert.ToInt32(row["buyer_id"]),
+                    row["gender"].ToString(),
+                    row["chest"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["chest"]),
+                    row["waist"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["waist"]),
+                    row["shoulder_width"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["shoulder_width"]),
+                    row["sleve_length"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["sleve_length"]),
+                    row["neck_size"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["neck_size"]),
+                    row["inseam"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["inseam"]),
+                    row["outseam"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["outseam"]),
+                    row["thigh"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["thigh"]),
+                    row["knee"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["knee"])
+                );
+
+                measurement = m;
+            }
+
+            return measurement;
+        }
         public List<Measurement> GetMeasurementsByBuyerId(int buyerId)
         {
             List<Measurement> measurements = new List<Measurement>();

@@ -3,6 +3,7 @@
 @inject UserStateService UserState
 @using StitchMaster.DataLayer
 @using StitchMaster.BusinessLogic
+@using System.Text.RegularExpressions
 
 <h3 class="mb-4 text-primary">Place Order on gig <strong>@gig?.GigTitle</strong> by <strong>@owner?.FullName</strong></h3>
 
@@ -37,7 +38,7 @@
         <option disabled selected value="">-- Select Fabric --</option>
         @foreach (var f in fabrics)
         {
-            <option value="@f.FabricPurchasedId">@f.FabricName</option>
+            <option value="@f.FabricPurchasedID">@ShortenTitle(f.FabricProduct.FabricProductTitle)</option>
         }
     </select>
 </div>
@@ -75,15 +76,15 @@
     private string successMessage;
     private string errorMessage;
 
-    private int currentUserId = UserData.Instance.GetUserByEmail(UserState.Email).UserID;
+    // private int currentUserId = UserData.Instance.GetUserByEmail(UserState.Email).UserID;
 
     protected override void OnInitialized()
     {
         gig = TailorGigData.Instance.GetGigById(GigId);
         owner = UserData.Instance.GetUserById(TailorData.Instance.GetTailorUserId(TailorGigData.Instance.GetGigOwner(GigId)));
 
-        measurements = MeasurementData.Instance.GetMeasurementsByBuyerId(TailorGigData.Instance.GetGigOwner(GigId));
-        fabrics = FabricPurchasedData.Instance.GetInHoldFabrics(buyerid);
+        measurements = MeasurementData.Instance.GetMeasurementsByBuyerId(CustomerData.Instance.GetCustomerByUserId(UserData.Instance.GetUserByEmail(UserState.Email).UserID).CustomerID);
+        fabrics = FabricPurchasedData.Instance.GetPurchasedFabricsByInHoldStatus(CustomerData.Instance.GetCustomerByUserId(UserData.Instance.GetUserByEmail(UserState.Email).UserID),true);
     }
 
     private void OnMeasurementSelected(ChangeEventArgs e)
@@ -140,22 +141,22 @@
 
         // Mark Fabric as not InHold
         selectedFabric.InHold = false;
-        FabricPurchasedData.Instance.UpdateFabric(selectedFabric);
+        FabricPurchasedData.Instance.UpdateObject(selectedFabric);
 
         // Create Order
-        var newOrder = new Order
-            {
-                GigId = gig.GigId,
-                BuyerId = currentUserId,
-                MeasurementId = selectedMeasurement.MeasurementId,
-                FabricPurchasedId = selectedFabric.FabricPurchasedId,
-                Description = description,
-                ImageUrl = imageUrl,
-                Status = "Pending",
-                OrderDate = DateTime.Now
-            };
+        TailorOrder newOrder = new TailorOrder
+            (
+                TailorData.Instance.GetTailorByEmail(UserState.Email),
+				CustomerData.Instance.GetCustomerByUserId(UserData.Instance.GetUserByEmail(UserState.Email).UserID),
+                selectedFabric,
+                selectedMeasurement,
+                description,
+                DateTime.Now,
+                new Status("pending"),
+                gig.GigPrice
+            );
 
-        OrderData.Instance.CreateOrder(newOrder); // Add this logic to save the order
+        TailorOrderData.Instance.StoreObject(TailorData.Instance.GetTailorByEmail(UserState.Email), newOrder); // Add this logic to save the order
 
         successMessage = "Order placed successfully!";
         // Optional: reset fields
@@ -163,5 +164,11 @@
         imageUrl = "";
         selectedFabric = null;
         selectedMeasurement = null;
+    }
+
+    private string ShortenTitle(string description)
+    {
+        var words = Regex.Split(description ?? "", @"\s+").Take(3);
+        return string.Join(" ", words) + (words.Count() == 3 ? "..." : "");
     }
 }

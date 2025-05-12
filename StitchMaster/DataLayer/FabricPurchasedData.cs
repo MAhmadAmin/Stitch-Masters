@@ -88,6 +88,8 @@ namespace StitchMaster.DataLayer
         }
         public bool UpdateObject(FabricPurchased fabricPurchased)
         {
+            string query = $"UPDATE fabric_purchased SET inhold = {fabricPurchased.InHold} WHERE fabric_purchased_id = {fabricPurchased.FabricPurchasedID}";
+            DatabaseHelper.Instance.ExecuteQuery(query);
             return true;
         }
         public List<FabricPurchased> GetAllObjects()

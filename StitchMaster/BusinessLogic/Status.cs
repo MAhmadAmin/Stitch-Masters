@@ -33,6 +33,11 @@ namespace StitchMaster.BusinessLogic
             }
             this.StatusValue = statusValue;
         }
+
+        public Status(string statusValue)
+        {
+            this.StatusValue = statusValue;
+        }
         public Status(Status s)
         {
             if (IsValid.DBID(s.StatusID))
