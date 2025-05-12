@@ -85,6 +85,17 @@ namespace StitchMaster.DataLayer
             }
             return allStores;
         }
-
+        public FabricStore GetStoreByID(int ID)
+        {
+            FabricStore fabricStore = null;
+            string sql = $"Select * from fabric_store as f natural join users as u inner join lookup as l on u.role_id = l.lookup_id left join address as a on f.user_id = a.user_id where store_id = {ID};";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(sql);
+            if(dt.Rows.Count == 1)
+            {
+                DataRow dr = dt.Rows[0];
+                fabricStore = new FabricStore(int.Parse(dr["store_id"].ToString()), dr["description"].ToString(), new Address(1, "", "", "", "", "", 0), int.Parse(dr["user_id"].ToString()), dr["username"].ToString(), dr["name"].ToString(), dr["email"].ToString(), dr["hashed_password"].ToString(), dr["profile_img_url"].ToString(), DateTime.Parse(dr["created_at"].ToString()), new UserRole(int.Parse(dr["lookup_id"].ToString()), dr["value"].ToString()));
+            }
+            return fabricStore;
+        }
     }
 }

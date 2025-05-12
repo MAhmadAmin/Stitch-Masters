@@ -1,0 +1,25 @@
+﻿@page "/store-orders"
+@using StitchMaster
+@using StitchMaster.DataLayer
+
+<h3 class="mb-4">Fabric Purchase History</h3>
+
+<!-- Table Header -->
+<div class="card bg-light mb-2" style="border-radius: 15px;">
+    <div class="row g-0 align-items-center p-2 fw-bold text-dark" style="margin-right:10px;">
+        <div class="col-md-6">Product</div>
+        <div class="col-md-2 text-center">Price</div>
+        <div class="col-md-2 text-center">Status</div>
+    </div>
+</div>
+
+<!-- Card List -->
+@foreach (var purchase in FabricPurchases)
+{
+    <FabricPurchaseCard Purchase="purchase" />
+}
+
+@code {
+    private List<FabricPurchased> FabricPurchases = FabricPurchasedData.Instance.GetFabricPurchasedByStore(FabricStoreData.Instance.GetStoreByID(1));
+    
+}

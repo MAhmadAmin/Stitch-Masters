@@ -1,0 +1,40 @@
+﻿@using StitchMaster
+@using System.Text.RegularExpressions
+
+<div class="card mb-3 shadow-sm" style="max-width: 100%; border-radius: 15px;">
+    <div class="row g-0 align-items-center p-2" style="margin-right:10px;">
+
+        <!-- Product: Image + Title + Description -->
+        <div class="col-md-6 d-flex align-items-center">
+            <img src="@Purchase.FabricProduct.ImageURl" class="img-fluid rounded-start me-3" style="max-height: 80px; width: 80px;" alt="@Purchase.FabricProduct.FabricProductTitle" />
+            <div>
+                <h5 class="card-title mb-1">@Purchase.FabricProduct.FabricProductTitle</h5>
+                <p class="card-text text-muted mb-0">@ShortenDescription(Purchase.FabricProduct.FabricProductDescription)</p>
+            </div>
+        </div>
+
+        
+
+        <!-- Price -->
+        <div class="col-md-2 text-center">
+            <h6 class="text-success">$@Purchase.TotalPrice</h6>
+        </div>
+
+        <!-- Status -->
+        <div class="col-md-2 text-center">
+            <span class="badge bg-secondary">Completed</span>
+        </div>
+
+        
+    </div>
+</div>
+
+@code {
+    [Parameter] public FabricPurchased Purchase { get; set; }
+
+    private string ShortenDescription(string description)
+    {
+        var words = Regex.Split(description ?? "", @"\s+").Take(20);
+        return string.Join(" ", words) + (words.Count() == 20 ? "..." : "");
+    }
+}

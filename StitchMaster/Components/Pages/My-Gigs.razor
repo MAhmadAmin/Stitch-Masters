@@ -47,8 +47,11 @@
 </div>
 
 <div>
-    @foreach(TailorGig gig in gigs)
+    @if (gigs != null)
     {
-        <MyGigCard Gig=gig OnDelete="DeleteGig" OnEdit="EditGig"></MyGigCard>
+        @foreach (TailorGig gig in gigs)
+        {
+            <MyGigCard Gig=gig OnDelete="DeleteGig" OnEdit="EditGig"></MyGigCard>
+        }
     }
 </div>
