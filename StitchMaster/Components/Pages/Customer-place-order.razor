@@ -26,7 +26,7 @@
 
     <div class="mb-3">
         <label class="form-label fw-bold">Select Measurement</label>
-        <select class="form-select" @onchange="OnMeasurementSelected">
+        <select class="form-select" @bind="selectedMeasurement">
             <option disabled selected value="">-- Select Measurement --</option>
             @foreach (var m in measurements)
             {
@@ -74,7 +74,7 @@
 
     private List<Measurement> measurements = new();
     private List<FabricPurchased> fabrics = new();
-    private Measurement selectedMeasurement;
+    private int selectedMeasurement;
     private FabricPurchased selectedFabric;
     private string description;
     private string imageUrl;
@@ -95,8 +95,7 @@
 
     private void OnMeasurementSelected(ChangeEventArgs e)
     {
-        int selectedId = int.Parse(e.Value.ToString());
-        selectedMeasurement = measurements.FirstOrDefault(m => m.MeasurementId == selectedId);
+        selectedMeasurement = int.Parse(e.Value.ToString());
     }
 
     private void OnFabricSelected(ChangeEventArgs e)
@@ -155,7 +154,7 @@
         TailorOrder newOrder = new TailorOrder
             (tailor, customer,
                 selectedFabric,
-                selectedMeasurement,
+                MeasurementData.Instance.GetMeasurementById(selectedMeasurement),
                 description,
                 DateTime.Now,
                 new Status(6, "In Progress"),
@@ -171,7 +170,7 @@
         description = "";
         imageUrl = "";
         selectedFabric = null;
-        selectedMeasurement = null;
+        selectedMeasurement = 0;
 
         Navigation.NavigateTo("customer-dashboard");
     }

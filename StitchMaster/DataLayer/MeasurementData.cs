@@ -108,5 +108,37 @@ namespace StitchMaster.DataLayer
             return measurements;
         }
 
-}
+        public Measurement GetMeasurementsById(int Id)
+        {
+
+            string query = $"SELECT * FROM buyer_measurement WHERE measurement_id = {Id} AND measurement_name NOT LIKE '~%'";
+            DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
+
+            if (dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[0];
+                Measurement m = new Measurement(
+                    Convert.ToInt32(row["measurement_id"]),
+                    row["measurement_name"].ToString(),
+                    Convert.ToInt32(row["buyer_id"]),
+                    row["gender"].ToString(),
+                    row["chest"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["chest"]),
+                    row["waist"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["waist"]),
+                    row["shoulder_width"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["shoulder_width"]),
+                    row["sleve_length"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["sleve_length"]),
+                    row["neck_size"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["neck_size"]),
+                    row["inseam"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["inseam"]),
+                    row["outseam"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["outseam"]),
+                    row["thigh"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["thigh"]),
+                    row["knee"] == DBNull.Value ? null : (decimal?)Convert.ToDecimal(row["knee"])
+                );
+
+                return m;
+            }
+
+            else
+                return null;
+
+        }
+    }
 }
