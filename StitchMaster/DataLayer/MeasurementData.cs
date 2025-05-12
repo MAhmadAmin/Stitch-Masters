@@ -43,7 +43,8 @@ namespace StitchMaster.DataLayer
         }
         public int DeleteMeasurement(int measurementId)
         {
-            string query = $"DELETE FROM buyer_measurement WHERE measurement_id = {measurementId}";
+            //string query = $"DELETE FROM buyer_measurement WHERE measurement_id = {measurementId}";
+            string query = $"UPDATE buyer_measurement SET measurement_name = CONCAT('~', measurement_name) WHERE measurement_id = {measurementId}";
             return DatabaseHelper.Instance.ExecuteQuery(query);
         }
         public Measurement GetMeasurementById(int measurementid)
@@ -80,7 +81,7 @@ namespace StitchMaster.DataLayer
         {
             List<Measurement> measurements = new List<Measurement>();
 
-            string query = $"SELECT * FROM buyer_measurement WHERE buyer_id = {buyerId}";
+            string query = $"SELECT * FROM buyer_measurement WHERE buyer_id = {buyerId} AND measurement_name NOT LIKE '~%'";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
 
             foreach (DataRow row in dt.Rows)

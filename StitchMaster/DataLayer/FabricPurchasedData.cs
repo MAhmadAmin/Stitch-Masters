@@ -51,7 +51,7 @@ namespace StitchMaster.DataLayer
             {
                 FabricColor CuurentColor = allColors.Find(FP => FP.ColorID == int.Parse(dr["color_id"].ToString()));
                 FabricProduct product = new FabricProduct(int.Parse(dr["fabric_id"].ToString()), dr["title"].ToString(), dr["description"].ToString(), CuurentColor, dr["material"].ToString(), Gender.StringToGenderType(dr["gender"].ToString()), int.Parse(dr["price_per_meter"].ToString()), int.Parse(dr["in_stock_qty"].ToString()),int.Parse( dr["min_stock_qty"].ToString()), dr["image_url"].ToString());
-                FabricPurchased fabricPurchased = new FabricPurchased(int.Parse(dr["fabric_purchased_id"].ToString()), product, int.Parse(dr["length"].ToString()), int.Parse(dr["totalprice"].ToString()), bool.Parse(dr["inhold"].ToString()));
+                FabricPurchased fabricPurchased = new FabricPurchased(int.Parse(dr["fabric_purchased_id"].ToString()), product, int.Parse(dr["length"].ToString()), int.Parse(dr["total_price"].ToString()), bool.Parse(dr["inhold"].ToString()));
                 allInHoldFabricsForCurrentCustomer.Add(fabricPurchased);
             }
             return allInHoldFabricsForCurrentCustomer;
