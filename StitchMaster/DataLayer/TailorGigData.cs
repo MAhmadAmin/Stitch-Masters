@@ -6,6 +6,7 @@ using StitchMaster.BusinessLogic;
 using StitchMaster.HelperClasses;
 ﻿using MySql.Data.MySqlClient;
 using StitchMaster.Interfaces;
+using StitchMaster.Components.Pages;
 
 
 
@@ -38,7 +39,8 @@ namespace StitchMaster.DataLayer
 
         public List<TailorGig> GetAllTailorGigs(Tailor tailor)
         {
-            string query = $"SELECT * FROM Gig WHERE tailor_id = {tailor.TailorID} AND title NOT LIKE '~%'";
+            //string query = $"SELECT * FROM Gig WHERE tailor_id = {tailor.TailorID} AND title NOT LIKE '~%'";
+            string query = $"SELECT * FROM view_gig_with_rating WHERE tailor_id = {tailor.TailorID} AND title NOT LIKE '~%'";
             DataTable dt = DatabaseHelper.Instance.GetDataTable(query);
             return FillGigList(dt);
         }
@@ -46,10 +48,13 @@ namespace StitchMaster.DataLayer
         {
             List<TailorGig> gigs = new List<TailorGig>();
 
-            string query = @"SELECT g.gig_id, g.title, g.description, g.price, g.delivery_time, g.image_url,
-                                         c.category_id, c.category_name,c.gender
-                                  FROM gig g
-                                  INNER JOIN category c ON g.category_id = c.category_id WHERE title NOT LIKE '~%'";
+            //string query = @"SELECT g.gig_id, g.title, g.description, g.price, g.delivery_time, g.image_url,
+            //                             c.category_id, c.category_name,c.gender
+            //                      FROM gig g
+            //                      INNER JOIN category c ON g.category_id = c.category_id WHERE title NOT LIKE '~%'";
+
+            string query = $"SELECT * FROM view_gig_with_rating g INNER JOIN category c ON g.category_id = c.category_id WHERE title NOT LIKE '~%'";
+
 
             MySqlDataReader reader = DatabaseHelper.Instance.getDataReader(query);
 
@@ -68,7 +73,7 @@ namespace StitchMaster.DataLayer
                     category,
                     Convert.ToInt32(reader["price"]),
                     Convert.ToInt32(reader["delivery_time"]),
-                    0,
+                    Convert.ToDouble(reader["rating"]),
                     reader["image_url"].ToString()
                 );
 
@@ -95,11 +100,12 @@ namespace StitchMaster.DataLayer
                     int deliveryTime = Convert.ToInt32(row["delivery_time"]);
                     string imageURL = Convert.ToString(row["image_url"]);
                     int categoryID = Convert.ToInt32(row["category_id"]);
+                    double rating = Convert.ToDouble(row["rating"]);
 
                     Tailor tailor = TailorData.Instance.GetTailorByID(tailorID);
                     Category category = CategoryData.Instance.GetCategoryByID(categoryID);
 
-                    TailorGig gig = new TailorGig(gigID, title, description, category, price, deliveryTime, 5, imageURL);
+                    TailorGig gig = new TailorGig(gigID, title, description, category, price, deliveryTime, rating, imageURL);
                     
                     gigs.Add(gig);
                 }
@@ -160,6 +166,11 @@ namespace StitchMaster.DataLayer
             }
 
                 throw new InvalidOperationException("Gig not found or tailor_id is invalid.");
+        }
+
+        public Tailor GetGigTailor(int gigId)
+        {
+            return TailorData.Instance.GetTailorByID(GetGigOwner(gigId));
         }
 
 

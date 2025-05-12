@@ -30,7 +30,7 @@ namespace StitchMaster.DataLayer
         }
         public bool StoreObject(Tailor tailor, TailorOrder tailorOrder)
         {
-            string query = $"INSERT INTO orders (tailor_id, buyer_id, fabric_purchased_id, description,image_url, order_date, status_id,price) VALUES ({tailor.TailorID}, {tailorOrder.Customer.CustomerID}, {tailorOrder.FabricPurchased.FabricPurchasedID}, '{tailorOrder.Description}','/product3.jpg' , '{tailorOrder.OrderDateTime.ToString("yyyy-MM-dd HH:mm:ss")}', {tailorOrder.OrderStatus.StatusID} ,'{tailorOrder.Price}')";
+            string query = $"INSERT INTO orders (tailor_id, buyer_id, fabric_purchased_id, description,image_url, order_date, status_id,price, gig_id) VALUES ({tailor.TailorID}, {tailorOrder.Customer.CustomerID}, {tailorOrder.FabricPurchased.FabricPurchasedID}, '{tailorOrder.Description}','/product3.jpg' , '{tailorOrder.OrderDateTime.ToString("yyyy-MM-dd HH:mm:ss")}', {tailorOrder.OrderStatus.StatusID} ,'{tailorOrder.Price}', {tailorOrder.GigID})";
             int result = DatabaseHelper.Instance.ExecuteQuery(query);
             return true;
         }

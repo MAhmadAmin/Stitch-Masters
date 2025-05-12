@@ -15,6 +15,7 @@ namespace StitchMaster.BusinessLogic
         private Status _orderStatus;
         private Rating _orderRating;
         private int _price;
+        private int _gigID;
 
         #region Getter Setter Start --------------------------------------------
         public int TailorOrderID
@@ -68,6 +69,12 @@ namespace StitchMaster.BusinessLogic
             get { return new Rating(_orderRating); }
             set { _orderRating = new Rating(value); }
         }
+
+        public int GigID
+        {
+            get { return _gigID; }
+            set { _gigID = value; }
+        }
         #endregion Getter Setter Start --------------------------------------------
 
         #region Constructors Start ----------------------------------------------
@@ -113,6 +120,20 @@ namespace StitchMaster.BusinessLogic
             this.Description = description;
             this.OrderDateTime = orderDateTime;
             this.OrderStatus = orderStatus;
+        }
+
+        //with GigID
+        public TailorOrder(Tailor tailor, Customer customer, FabricPurchased fabricPurchased, Measurement customerMeasurement, string description, DateTime orderDateTime, Status orderStatus, int price, int gigID)
+        {
+            this.Tailor = tailor;
+            this.Customer = customer;
+            this.FabricPurchased = fabricPurchased;
+            this.Price = price;
+            this.CustomerMeasurement = customerMeasurement;
+            this.Description = description;
+            this.OrderDateTime = orderDateTime;
+            this.OrderStatus = orderStatus;
+            this.GigID = gigID;
         }
 
 

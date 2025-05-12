@@ -11,5 +11,6 @@ namespace StitchMaster.Interfaces
         public List<TailorGig> GetAllTailorGigs(Tailor tailor);
         public TailorGig? GetGigById(int gigId);
         public int GetGigOwner(int gigId);
+        public Tailor GetGigTailor(int gigId);
     }
 }

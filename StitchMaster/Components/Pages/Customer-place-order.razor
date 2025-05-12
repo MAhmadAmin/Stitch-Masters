@@ -4,64 +4,70 @@
 @using StitchMaster.DataLayer
 @using StitchMaster.BusinessLogic
 @using System.Text.RegularExpressions
+@using StitchMaster.HelperClasses;
 
-<h3 class="mb-4 text-primary">Place Order on gig <strong>@gig?.GigTitle</strong> by <strong>@owner?.FullName</strong></h3>
+<div>
 
-@if (!string.IsNullOrEmpty(successMessage))
-{
-    <div class="alert alert-success">@successMessage</div>
-}
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-    <div class="alert alert-danger">@errorMessage</div>
-}
+    <h3 class="mb-4 text-primary">Place Order on gig <strong>@gig?.GigTitle</strong> by <strong>@owner?.FullName</strong></h3>
 
-<div class="mb-3">
-    <label class="form-label fw-bold">Description</label>
-    <InputTextArea class="form-control" @bind-Value="description" placeholder="Describe your order..." />
-</div>
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success">@successMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
 
-<div class="mb-3">
-    <label class="form-label fw-bold">Select Measurement</label>
-    <select class="form-select" @onchange="OnMeasurementSelected">
-        <option disabled selected value="">-- Select Measurement --</option>
-        @foreach (var m in measurements)
-        {
-            <option value="@m.MeasurementId">@m.MeasurementName</option>
-        }
-    </select>
-</div>
-
-<div class="mb-3">
-    <label class="form-label fw-bold">Select Fabric (InHold = true)</label>
-    <select class="form-select" @onchange="OnFabricSelected">
-        <option disabled selected value="">-- Select Fabric --</option>
-        @foreach (var f in fabrics)
-        {
-            <option value="@f.FabricPurchasedID">@ShortenTitle(f.FabricProduct.FabricProductTitle)</option>
-        }
-    </select>
-</div>
-
-<div class="mb-4">
-    <label class="form-label fw-bold">Image Upload</label>
-    <div class="border rounded bg-light d-flex align-items-center justify-content-center mb-2" style="height: 300px;">
-        @if (!string.IsNullOrWhiteSpace(imageUrl))
-        {
-            <img src="@imageUrl" class="img-fluid" />
-        }
-        else
-        {
-            <span class="text-muted">Image will appear here</span>
-        }
+    <div class="mb-3">
+        <label class="form-label fw-bold">Description</label>
+        <InputTextArea class="form-control" @bind-Value="description" placeholder="Describe your order..." />
     </div>
-    <InputFile OnChange="HandleImageUpload" accept="image/*" />
-</div>
 
-<button class="btn btn-success" @onclick="SubmitOrder">Submit Order</button>
+    <div class="mb-3">
+        <label class="form-label fw-bold">Select Measurement</label>
+        <select class="form-select" @onchange="OnMeasurementSelected">
+            <option disabled selected value="">-- Select Measurement --</option>
+            @foreach (var m in measurements)
+            {
+                <option value="@m.MeasurementId">@m.MeasurementName</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Select Fabric (InHold = true)</label>
+        <select class="form-select" @onchange="OnFabricSelected">
+            <option disabled selected value="">-- Select Fabric --</option>
+            @foreach (var f in fabrics)
+            {
+                <option value="@f.FabricPurchasedID">@ShortenTitle(f.FabricProduct.FabricProductTitle)</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-4">
+        <label class="form-label fw-bold">Image Upload</label>
+        <div class="border rounded bg-light d-flex align-items-center justify-content-center mb-2" style="height: 300px;">
+            @if (!string.IsNullOrWhiteSpace(imageUrl))
+            {
+                <img src="@imageUrl" class="img-fluid" />
+            }
+            else
+            {
+                <span class="text-muted">Image will appear here</span>
+            }
+        </div>
+        <InputFile OnChange="HandleImageUpload" accept="image/*" />
+    </div>
+
+    <button class="btn btn-success" @onclick="CreateOrder">Submit Order</button>
+</div>
 
 @code {
     [Parameter] public int GigId { get; set; }
+
+    [Inject] public NavigationManager Navigation { get; set; }
 
     private TailorGig gig;
     private User owner;
@@ -117,46 +123,48 @@
         }
     }
 
-    private void SubmitOrder()
+    private void CreateOrder()
     {
         errorMessage = successMessage = "";
 
         // Validation
-        if (string.IsNullOrWhiteSpace(description) || selectedMeasurement == null || selectedFabric == null || string.IsNullOrWhiteSpace(imageUrl))
+        if (string.IsNullOrWhiteSpace(description) || selectedMeasurement == null || selectedFabric == null)
         {
             errorMessage = "Please fill all fields before submitting the order.";
             return;
         }
 
-        var account = AccountData.Instance.GetAccountByUserId(UserData.Instance.GetUserByEmail(UserState.Email).UserID); // Implement this in your DataLayer
-        if (account == null || account.Balance < gig.GigPrice)
-        {
-            errorMessage = "Insufficient balance. Please add funds to your account.";
-            return;
-        }
+        // var account = AccountData.Instance.GetAccountByUserId(UserData.Instance.GetUserByEmail(UserState.Email).UserID); Implement this in your DataLayer
+        // if (account == null || account.Balance < gig.GigPrice)
+        // {
+        //     errorMessage = "Insufficient balance. Please add funds to your account.";
+        //     return;
+        // }
 
         // Deduct balance
-        account.Balance -= gig.GigPrice;
-        AccountData.Instance.UpdateObject(account); // Implement this method
+        // account.Balance -= gig.GigPrice;
+        // AccountData.Instance.UpdateObject(account); Implement this method
 
         // Mark Fabric as not InHold
         selectedFabric.InHold = false;
-        FabricPurchasedData.Instance.UpdateObject(selectedFabric);
+
+        Tailor tailor = TailorGigData.Instance.GetGigTailor(GigId);
+        Customer customer = CustomerData.Instance.GetCustomerByUserId(UserData.Instance.GetUserByEmail(UserState.Email).UserID);
 
         // Create Order
         TailorOrder newOrder = new TailorOrder
-            (
-                TailorData.Instance.GetTailorByEmail(UserState.Email),
-				CustomerData.Instance.GetCustomerByUserId(UserData.Instance.GetUserByEmail(UserState.Email).UserID),
+            (tailor, customer,
                 selectedFabric,
                 selectedMeasurement,
                 description,
                 DateTime.Now,
-                new Status("pending"),
-                gig.GigPrice
+                new Status(6, "In Progress"),
+                gig.GigPrice,
+                GigId
             );
 
-        TailorOrderData.Instance.StoreObject(TailorData.Instance.GetTailorByEmail(UserState.Email), newOrder); // Add this logic to save the order
+        if(TailorOrderData.Instance.StoreObject(tailor, newOrder)) // Add this logic to save the order
+            FabricPurchasedData.Instance.UpdateObject(selectedFabric);
 
         successMessage = "Order placed successfully!";
         // Optional: reset fields
@@ -164,6 +172,8 @@
         imageUrl = "";
         selectedFabric = null;
         selectedMeasurement = null;
+
+        Navigation.NavigateTo("customer-dashboard");
     }
 
     private string ShortenTitle(string description)
