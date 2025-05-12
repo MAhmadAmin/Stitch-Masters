@@ -70,9 +70,10 @@ namespace StitchMaster.DataLayer
 
             Tailor tailor = TailorData.Instance.GetTailorByID(Convert.ToInt32(dr["tailor_id"]));
             Customer customer = CustomerData.Instance.GetCustomerByID(Convert.ToInt32(dr["buyer_id"]));
+            Measurement measurement = MeasurementData.Instance.GetMeasurementById(Convert.ToInt32(dr["measurement_id"]));
             FabricPurchased fabricPurchased = FabricPurchasedData.Instance.GetFabricPurchasedByID(Convert.ToInt32(dr["fabric_purchased_id"]));
             Status status = StatusData.Instance.GetStatusByID(Convert.ToInt32(dr["status_id"]));
-            TailorOrder tailorOrder = new TailorOrder(Convert.ToInt32(dr["order_id"]), tailor, customer, fabricPurchased, dr["description"].ToString(), Convert.ToDateTime(dr["order_date"]), status, new Rating(1, 5, "Very Good"));
+            TailorOrder tailorOrder = new TailorOrder(Convert.ToInt32(dr["order_id"]), tailor, customer, fabricPurchased,measurement, dr["description"].ToString(), Convert.ToDateTime(dr["order_date"]), status, new Rating(1, 5, "Very Good"));
 
             return tailorOrder;
         }
