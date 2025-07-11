@@ -1,10 +1,10 @@
-# Stitch Masters – Final-Term Project
+# 👔 Stitch Masters – Final-Term Project
 
-This project is a final-term submission by **Muhammad Ahmad Amin**, **Qasim Hamid**, and **Umar Rana** for the **Database Systems** course, instructed by **Prof. Nazeef ul Haq** at **UET Lahore**.
+This group project is a final-term submission by [@Muhammad Ahmad Amin](https://github.com/MAhmadAmin), [@Qasim Hamid](https://github.com/MuhammadQasimHamid), and [@Umar Rana](https://github.com/UmarRana2005) for the **Database Systems** course, instructed by **Prof. Nazeef ul Haq** at **UET Lahore**.
 
 
 
-## Description
+## 📘 Description
 
 **Stitch Masters** is a web-based tailoring management system that connects customers, tailors, and fabric sellers on a single platform. It enables:
 
@@ -14,7 +14,6 @@ This project is a final-term submission by **Muhammad Ahmad Amin**, **Qasim Hami
 
 The system uses a **normalized relational database** to ensure smooth and reliable operations across modules.
 
----
 
 ## 💡 Motivation
 
@@ -24,7 +23,7 @@ Tailoring is often offline and unorganized. This platform brings the industry on
 - Tailors to grow and manage their business digitally  
 - Students to apply database concepts to real-world problems  
 
----
+
 
 ## 💼 Business Potential
 
@@ -34,7 +33,7 @@ With rising demand for online custom tailoring, **Stitch Masters** can evolve in
 - Customers order personalized stitching  
 - Fabric vendors promote their stock  
 
----
+
 
 ## ✨ Features
 
@@ -47,7 +46,7 @@ With rising demand for online custom tailoring, **Stitch Masters** can evolve in
 - Secure Payments  
 - Normalized Database Design  
 
----
+
 
 ## 🛠️ Technology Stack
 
