@@ -1,10 +1,31 @@
-# 👔 Stitch Masters – Final-Term Project
+# Stitch Masters – Final-Term Project
 
-This group project is a final-term submission by [@Muhammad Ahmad Amin](https://github.com/MAhmadAmin), [@Qasim Hamid](https://github.com/MuhammadQasimHamid), and [@Umar Rana](https://github.com/UmarRana2005) for the **Database Systems** course, instructed by **Prof. Nazeef ul Haq** at **UET Lahore**.
+This group project is a final-term **Business Application** submission by [@Muhammad Ahmad Amin](https://github.com/MAhmadAmin), [@Qasim Hamid](https://github.com/MuhammadQasimHamid), and [@Umar Rana](https://github.com/UmarRana2005) for the **Object Oriented Programming (OOP)** and **Database Systems (DB)** course, instructed by **Prof. Nazeef ul Haq** and **Prof. Dr. Awais Hassan** respectively at **UET (University of Engineering & Technology) Lahore**.
+
+The backend of this project is a practical implementation of pure OOP concepts, combined with a well-structured relational database — reflecting all key concepts learned throughout both courses.
+
+
+## Learning Objectives
+
+- Apply pure OOP concepts like the **four pillars OOP**, **Design Patterns** & **SOLID Principles** in a real system  
+- Design and implement a **normalized relational database** using MySQL 
+- Understand how **backend logic and database structure** work together in a business application  
+- Bridge academic learning with practical application through a complete working project  
 
 
 
-## 📘 Description
+## Tech Stack
+
+- **Platform:** Web  
+- **Framework:** Blazor  
+- **Frontend:** HTML, CSS  
+- **Backend:** C# (Pure OOP)  
+- **Database:** MySQL  
+
+
+
+
+## Application Overview
 
 **Stitch Masters** is a web-based tailoring management system that connects customers, tailors, and fabric sellers on a single platform. It enables:
 
@@ -15,7 +36,7 @@ This group project is a final-term submission by [@Muhammad Ahmad Amin](https://
 The system uses a **normalized relational database** to ensure smooth and reliable operations across modules.
 
 
-## 💡 Motivation
+## Motivation
 
 Tailoring is often offline and unorganized. This platform brings the industry online—making it easier for:
 
@@ -25,17 +46,17 @@ Tailoring is often offline and unorganized. This platform brings the industry on
 
 
 
-## 💼 Business Potential
+## Business Potential
 
 With rising demand for online custom tailoring, **Stitch Masters** can evolve into a scalable platform where:
 
-- Tailors list services  
+- Tailor's list of services  
 - Customers order personalized stitching  
 - Fabric vendors promote their stock  
 
 
 
-## ✨ Features
+## Features
 
 - Customer Registration & Login  
 - Online Fabric Store Integration  
@@ -45,13 +66,3 @@ With rising demand for online custom tailoring, **Stitch Masters** can evolve in
 - Rating & Review System  
 - Secure Payments  
 - Normalized Database Design  
-
-
-
-## 🛠️ Technology Stack
-
-- **Platform:** Web  
-- **Framework:** Blazor  
-- **Frontend:** HTML, CSS  
-- **Backend:** C#  
-- **Database:** MySQL  
