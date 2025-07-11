@@ -1,6 +1,6 @@
 # Stitch Masters – Final-Term Project
 
-This group project is a final-term **Business Application** submission by [@Muhammad Ahmad Amin](https://github.com/MAhmadAmin), [@Qasim Hamid](https://github.com/MuhammadQasimHamid), and [@Umar Rana](https://github.com/UmarRana2005) for the **Object Oriented Programming (OOP)** and **Database Systems (DB)** course, instructed by **Prof. Nazeef ul Haq** and **Prof. Dr. Awais Hassan** respectively at **UET (University of Engineering & Technology) Lahore**.
+This group project is a final-term **Business Application** submission by [@Muhammad Ahmad Amin](https://github.com/MAhmadAmin), [@Qasim Hamid](https://github.com/MuhammadQasimHamid), and [@Umar Rana](https://github.com/UmarRana2005) for the **Object Oriented Programming (OOP)** and **Database Systems (DB)** course *(2nd Semester, BS Computer Science)*, instructed by **Prof. Nazeef ul Haq** and **Prof. Dr. Awais Hassan** respectively at **UET (University of Engineering & Technology) Lahore**.
 
 The backend of this project is a practical implementation of pure OOP concepts, combined with a well-structured relational database — reflecting all key concepts learned throughout both courses.
 
